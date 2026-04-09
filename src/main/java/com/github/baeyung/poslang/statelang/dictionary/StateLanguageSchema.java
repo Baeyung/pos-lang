@@ -7,7 +7,6 @@ import java.util.List;
 
 public class StateLanguageSchema
 {
-
     public static final Map<String, TagDefinition> TAGS = Map.of(
             "statefile", new TagDefinition(
                     "statefile",
@@ -53,5 +52,4 @@ public class StateLanguageSchema
                     List.of()
             )
     );
-
 }
