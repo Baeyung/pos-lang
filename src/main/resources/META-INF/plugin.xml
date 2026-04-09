@@ -34,5 +34,9 @@
         implementationClass="com.github.baeyung.poslang.phtmlang.PhtmFileType"
         extensions="phtm"
     />
+
+    <xml.elementDescriptorProvider
+        implementation="com.github.baeyung.poslang.statelang.dictionary.StateTagDescriptorProvider"
+    />
   </extensions>
 </idea-plugin>
