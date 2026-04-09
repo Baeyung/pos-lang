@@ -1,0 +1,36 @@
+<idea-plugin>
+  <id>com.github.baeyung.pos-lang</id>
+
+  <name>Pos Lang</name>
+
+  <vendor url="https://github.com/Baeyung">Baeyung</vendor>
+
+  <description><![CDATA[
+        This plugin allows to add the support for .state and .phtm files. <br>
+        <em>
+          For any issues that are found please report them
+          <a href="https://github.com/Baeyung/openff-issues">here</a>
+        </em>
+    ]]></description>
+
+  <depends>com.intellij.java</depends>
+  <depends>com.intellij.modules.json</depends>
+  <depends>org.jetbrains.plugins.yaml</depends>
+  <depends>com.intellij.modules.xml</depends>
+  <depends>com.intellij.properties</depends>
+  <resource-bundle>messages.MyMessageBundle</resource-bundle>
+
+  <extensions defaultExtensionNs="com.intellij">
+    <fileType
+        name="State File"
+        implementationClass="com.github.baeyung.poslang.statelang.StateFileType"
+        extensions="state"
+    />
+
+    <fileType
+        name="Phtm File"
+        implementationClass="com.github.baeyung.poslang.phtmlang.PhtmFileType"
+        extensions="phtm"
+    />
+  </extensions>
+</idea-plugin>
