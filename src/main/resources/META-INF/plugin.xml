@@ -23,12 +23,14 @@
   <extensions defaultExtensionNs="com.intellij">
     <fileType
         name="State File"
+        language="StateLang"
         implementationClass="com.github.baeyung.poslang.statelang.StateFileType"
         extensions="state"
     />
 
     <fileType
         name="Phtm File"
+        language="PhtmLang"
         implementationClass="com.github.baeyung.poslang.phtmlang.PhtmFileType"
         extensions="phtm"
     />
