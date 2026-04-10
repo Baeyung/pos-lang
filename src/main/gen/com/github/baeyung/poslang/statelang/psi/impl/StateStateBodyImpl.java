@@ -39,4 +39,10 @@ public class StateStateBodyImpl extends ASTWrapperPsiElement implements StateSta
     return PsiTreeUtil.getChildrenOfTypeAsList(this, StateEventElement.class);
   }
 
+  @Override
+  @NotNull
+  public List<StateIncludeElement> getIncludeElementList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, StateIncludeElement.class);
+  }
+
 }

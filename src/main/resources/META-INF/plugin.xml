@@ -27,6 +27,10 @@
         extensions="state"
     />
 
+    <lang.parserDefinition
+        language="StateLang"
+        implementationClass="com.github.baeyung.poslang.statelang.StateParserDefinition"/>
+
     <fileType
         name="Phtm File"
         language="PhtmLang"

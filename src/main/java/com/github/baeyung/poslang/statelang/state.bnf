@@ -24,13 +24,13 @@ exitElement ::= LT EXIT_KEYWORD exitAttrs SLASH_GT
 
 stateElement ::= LT STATE_KEYWORD stateAttrs GT stateBody LT_SLASH STATE_KEYWORD GT
 
-stateBody ::= (dataElement | eventElement)*
+stateBody ::= (dataElement | eventElement | includeElement)*
 
-dataElement ::= LT DATA_KEYWORD dataAttrs (SLASH_GT | GT LT_SLASH DATA_KEYWORD GT)
+dataElement ::= LT DATA_KEYWORD dataAttrs SLASH_GT
 
-eventElement ::= LT EVENT_KEYWORD eventAttrs (SLASH_GT | GT LT_SLASH EVENT_KEYWORD GT)
+eventElement ::= LT EVENT_KEYWORD eventAttrs SLASH_GT
 
-statefileAttrs ::= loaderAttr*
+statefileAttrs ::= loaderAttribute*
 
 stateAttrs ::= stateAttr*
 
@@ -42,13 +42,18 @@ includeAttrs ::= includeAttr*
 
 exitAttrs ::= exitAttr*
 
-loaderAttr ::= LOADER_ATTR EQ STRING
+loaderAttribute ::= LOADER_ATTR EQ STRING
 
 stateAttr ::= NAME_ATTR EQ STRING
             | FRAME_ATTR EQ STRING
             | HELPREF_ATTR EQ STRING
             | LIKE_ATTR EQ STRING
             | SOUND_ATTR EQ STRING
+            | PAGE_ATTR EQ STRING
+            | PROMPT_ATTR EQ STRING
+            | PICTURE_ATTR EQ STRING
+            | KEYBOARD_ATTR EQ STRING
+            | commentAttribute
 
 dataAttr ::= NAME_ATTR EQ STRING
            | CALCULATE_ATTR EQ STRING
@@ -62,7 +67,15 @@ eventAttr ::= NAME_ATTR EQ STRING
             | NEXT_ATTR EQ STRING
             | CALLSUBSTATE_ATTR EQ STRING
             | GOTSUBSTATE_ATTR EQ STRING
+            | PERMISSION_ATTR EQ STRING
+            | PERMISSION_FAIL_ATTR EQ STRING
+            | PPI_ATTR EQ STRING
+            | SUBSTATE_NEXT_ATTR EQ STRING
+            | PNP_ATTR EQ STRING
+            | commentAttribute
 
 exitAttr ::= NAME_ATTR EQ STRING
            | MAINSTATE_ATTR EQ STRING
            | ROOTSTART_ATTR EQ STRING
+
+commentAttribute ::= COMMENT_ATTR EQ STRING

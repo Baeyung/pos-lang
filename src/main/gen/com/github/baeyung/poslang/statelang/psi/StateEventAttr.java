@@ -7,4 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public interface StateEventAttr extends PsiElement {
 
+  @Nullable
+  StateCommentAttribute getCommentAttribute();
+
 }

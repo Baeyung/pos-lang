@@ -36,6 +36,18 @@ public class StateParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // COMMENT_ATTR EQ STRING
+  public static boolean commentAttribute(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "commentAttribute")) return false;
+    if (!nextTokenIs(b, COMMENT_ATTR)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeTokens(b, 0, COMMENT_ATTR, EQ, STRING);
+    exit_section_(b, m, COMMENT_ATTRIBUTE, r);
+    return r;
+  }
+
+  /* ********************************************************** */
   // NAME_ATTR EQ STRING
   //            | CALCULATE_ATTR EQ STRING
   //            | VALUE_ATTR EQ STRING
@@ -65,7 +77,7 @@ public class StateParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // LT DATA_KEYWORD dataAttrs (SLASH_GT | GT LT_SLASH DATA_KEYWORD GT)
+  // LT DATA_KEYWORD dataAttrs SLASH_GT
   public static boolean dataElement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "dataElement")) return false;
     if (!nextTokenIs(b, LT)) return false;
@@ -73,19 +85,8 @@ public class StateParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b);
     r = consumeTokens(b, 0, LT, DATA_KEYWORD);
     r = r && dataAttrs(b, l + 1);
-    r = r && dataElement_3(b, l + 1);
+    r = r && consumeToken(b, SLASH_GT);
     exit_section_(b, m, DATA_ELEMENT, r);
-    return r;
-  }
-
-  // SLASH_GT | GT LT_SLASH DATA_KEYWORD GT
-  private static boolean dataElement_3(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "dataElement_3")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, SLASH_GT);
-    if (!r) r = parseTokens(b, 0, GT, LT_SLASH, DATA_KEYWORD, GT);
-    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -94,6 +95,12 @@ public class StateParser implements PsiParser, LightPsiParser {
   //             | NEXT_ATTR EQ STRING
   //             | CALLSUBSTATE_ATTR EQ STRING
   //             | GOTSUBSTATE_ATTR EQ STRING
+  //             | PERMISSION_ATTR EQ STRING
+  //             | PERMISSION_FAIL_ATTR EQ STRING
+  //             | PPI_ATTR EQ STRING
+  //             | SUBSTATE_NEXT_ATTR EQ STRING
+  //             | PNP_ATTR EQ STRING
+  //             | commentAttribute
   public static boolean eventAttr(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "eventAttr")) return false;
     boolean r;
@@ -102,6 +109,12 @@ public class StateParser implements PsiParser, LightPsiParser {
     if (!r) r = parseTokens(b, 0, NEXT_ATTR, EQ, STRING);
     if (!r) r = parseTokens(b, 0, CALLSUBSTATE_ATTR, EQ, STRING);
     if (!r) r = parseTokens(b, 0, GOTSUBSTATE_ATTR, EQ, STRING);
+    if (!r) r = parseTokens(b, 0, PERMISSION_ATTR, EQ, STRING);
+    if (!r) r = parseTokens(b, 0, PERMISSION_FAIL_ATTR, EQ, STRING);
+    if (!r) r = parseTokens(b, 0, PPI_ATTR, EQ, STRING);
+    if (!r) r = parseTokens(b, 0, SUBSTATE_NEXT_ATTR, EQ, STRING);
+    if (!r) r = parseTokens(b, 0, PNP_ATTR, EQ, STRING);
+    if (!r) r = commentAttribute(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
@@ -121,7 +134,7 @@ public class StateParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // LT EVENT_KEYWORD eventAttrs (SLASH_GT | GT LT_SLASH EVENT_KEYWORD GT)
+  // LT EVENT_KEYWORD eventAttrs SLASH_GT
   public static boolean eventElement(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "eventElement")) return false;
     if (!nextTokenIs(b, LT)) return false;
@@ -129,19 +142,8 @@ public class StateParser implements PsiParser, LightPsiParser {
     Marker m = enter_section_(b);
     r = consumeTokens(b, 0, LT, EVENT_KEYWORD);
     r = r && eventAttrs(b, l + 1);
-    r = r && eventElement_3(b, l + 1);
+    r = r && consumeToken(b, SLASH_GT);
     exit_section_(b, m, EVENT_ELEMENT, r);
-    return r;
-  }
-
-  // SLASH_GT | GT LT_SLASH EVENT_KEYWORD GT
-  private static boolean eventElement_3(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "eventElement_3")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, SLASH_GT);
-    if (!r) r = parseTokens(b, 0, GT, LT_SLASH, EVENT_KEYWORD, GT);
-    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -233,13 +235,13 @@ public class StateParser implements PsiParser, LightPsiParser {
 
   /* ********************************************************** */
   // LOADER_ATTR EQ STRING
-  public static boolean loaderAttr(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "loaderAttr")) return false;
+  public static boolean loaderAttribute(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "loaderAttribute")) return false;
     if (!nextTokenIs(b, LOADER_ATTR)) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeTokens(b, 0, LOADER_ATTR, EQ, STRING);
-    exit_section_(b, m, LOADER_ATTR, r);
+    exit_section_(b, m, LOADER_ATTRIBUTE, r);
     return r;
   }
 
@@ -249,6 +251,11 @@ public class StateParser implements PsiParser, LightPsiParser {
   //             | HELPREF_ATTR EQ STRING
   //             | LIKE_ATTR EQ STRING
   //             | SOUND_ATTR EQ STRING
+  //             | PAGE_ATTR EQ STRING
+  //             | PROMPT_ATTR EQ STRING
+  //             | PICTURE_ATTR EQ STRING
+  //             | KEYBOARD_ATTR EQ STRING
+  //             | commentAttribute
   public static boolean stateAttr(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "stateAttr")) return false;
     boolean r;
@@ -258,6 +265,11 @@ public class StateParser implements PsiParser, LightPsiParser {
     if (!r) r = parseTokens(b, 0, HELPREF_ATTR, EQ, STRING);
     if (!r) r = parseTokens(b, 0, LIKE_ATTR, EQ, STRING);
     if (!r) r = parseTokens(b, 0, SOUND_ATTR, EQ, STRING);
+    if (!r) r = parseTokens(b, 0, PAGE_ATTR, EQ, STRING);
+    if (!r) r = parseTokens(b, 0, PROMPT_ATTR, EQ, STRING);
+    if (!r) r = parseTokens(b, 0, PICTURE_ATTR, EQ, STRING);
+    if (!r) r = parseTokens(b, 0, KEYBOARD_ATTR, EQ, STRING);
+    if (!r) r = commentAttribute(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
@@ -277,7 +289,7 @@ public class StateParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // (dataElement | eventElement)*
+  // (dataElement | eventElement | includeElement)*
   public static boolean stateBody(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "stateBody")) return false;
     Marker m = enter_section_(b, l, _NONE_, STATE_BODY, "<state body>");
@@ -290,12 +302,13 @@ public class StateParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // dataElement | eventElement
+  // dataElement | eventElement | includeElement
   private static boolean stateBody_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "stateBody_0")) return false;
     boolean r;
     r = dataElement(b, l + 1);
     if (!r) r = eventElement(b, l + 1);
+    if (!r) r = includeElement(b, l + 1);
     return r;
   }
 
@@ -316,13 +329,13 @@ public class StateParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // loaderAttr*
+  // loaderAttribute*
   public static boolean statefileAttrs(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "statefileAttrs")) return false;
     Marker m = enter_section_(b, l, _NONE_, STATEFILE_ATTRS, "<statefile attrs>");
     while (true) {
       int c = current_position_(b);
-      if (!loaderAttr(b, l + 1)) break;
+      if (!loaderAttribute(b, l + 1)) break;
       if (!empty_element_parsed_guard_(b, "statefileAttrs", c)) break;
     }
     exit_section_(b, l, m, true, false, null);

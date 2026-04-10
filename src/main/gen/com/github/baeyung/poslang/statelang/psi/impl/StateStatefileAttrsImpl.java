@@ -29,8 +29,8 @@ public class StateStatefileAttrsImpl extends ASTWrapperPsiElement implements Sta
 
   @Override
   @NotNull
-  public List<StateLoaderAttr> getLoaderAttrList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, StateLoaderAttr.class);
+  public List<StateLoaderAttribute> getLoaderAttributeList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, StateLoaderAttribute.class);
   }
 
 }

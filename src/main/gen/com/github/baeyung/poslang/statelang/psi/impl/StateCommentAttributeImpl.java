@@ -11,14 +11,14 @@ import static com.github.baeyung.poslang.statelang.psi.StateTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.baeyung.poslang.statelang.psi.*;
 
-public class StateLoaderAttrImpl extends ASTWrapperPsiElement implements StateLoaderAttr {
+public class StateCommentAttributeImpl extends ASTWrapperPsiElement implements StateCommentAttribute {
 
-  public StateLoaderAttrImpl(@NotNull ASTNode node) {
+  public StateCommentAttributeImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull StateVisitor visitor) {
-    visitor.visitLoaderAttr(this);
+    visitor.visitCommentAttribute(this);
   }
 
   @Override

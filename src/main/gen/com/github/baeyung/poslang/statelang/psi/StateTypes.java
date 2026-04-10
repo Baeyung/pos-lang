@@ -10,6 +10,7 @@ import com.github.baeyung.poslang.statelang.psi.impl.*;
 
 public interface StateTypes {
 
+  IElementType COMMENT_ATTRIBUTE = new StateElementType("COMMENT_ATTRIBUTE");
   IElementType DATA_ATTR = new StateElementType("DATA_ATTR");
   IElementType DATA_ATTRS = new StateElementType("DATA_ATTRS");
   IElementType DATA_ELEMENT = new StateElementType("DATA_ELEMENT");
@@ -22,7 +23,7 @@ public interface StateTypes {
   IElementType INCLUDE_ATTR = new StateElementType("INCLUDE_ATTR");
   IElementType INCLUDE_ATTRS = new StateElementType("INCLUDE_ATTRS");
   IElementType INCLUDE_ELEMENT = new StateElementType("INCLUDE_ELEMENT");
-  IElementType LOADER_ATTR = new StateElementType("LOADER_ATTR");
+  IElementType LOADER_ATTRIBUTE = new StateElementType("LOADER_ATTRIBUTE");
   IElementType STATEFILE_ATTRS = new StateElementType("STATEFILE_ATTRS");
   IElementType STATEFILE_BODY = new StateElementType("STATEFILE_BODY");
   IElementType STATEFILE_ELEMENT = new StateElementType("STATEFILE_ELEMENT");
@@ -33,6 +34,7 @@ public interface StateTypes {
 
   IElementType CALCULATE_ATTR = new StateTokenType("CALCULATE_ATTR");
   IElementType CALLSUBSTATE_ATTR = new StateTokenType("CALLSUBSTATE_ATTR");
+  IElementType COMMENT_ATTR = new StateTokenType("COMMENT_ATTR");
   IElementType DATA_KEYWORD = new StateTokenType("DATA_KEYWORD");
   IElementType EQ = new StateTokenType("EQ");
   IElementType EVENT_KEYWORD = new StateTokenType("EVENT_KEYWORD");
@@ -44,6 +46,7 @@ public interface StateTypes {
   IElementType GT = new StateTokenType("GT");
   IElementType HELPREF_ATTR = new StateTokenType("HELPREF_ATTR");
   IElementType INCLUDE_KEYWORD = new StateTokenType("INCLUDE_KEYWORD");
+  IElementType KEYBOARD_ATTR = new StateTokenType("KEYBOARD_ATTR");
   IElementType LIKE_ATTR = new StateTokenType("LIKE_ATTR");
   IElementType LOADER_ATTR = new StateTokenType("LOADER_ATTR");
   IElementType LT = new StateTokenType("LT");
@@ -51,18 +54,29 @@ public interface StateTypes {
   IElementType MAINSTATE_ATTR = new StateTokenType("MAINSTATE_ATTR");
   IElementType NAME_ATTR = new StateTokenType("NAME_ATTR");
   IElementType NEXT_ATTR = new StateTokenType("NEXT_ATTR");
+  IElementType PAGE_ATTR = new StateTokenType("PAGE_ATTR");
+  IElementType PERMISSION_ATTR = new StateTokenType("PERMISSION_ATTR");
+  IElementType PERMISSION_FAIL_ATTR = new StateTokenType("PERMISSION_FAIL_ATTR");
+  IElementType PICTURE_ATTR = new StateTokenType("PICTURE_ATTR");
+  IElementType PNP_ATTR = new StateTokenType("PNP_ATTR");
+  IElementType PPI_ATTR = new StateTokenType("PPI_ATTR");
+  IElementType PROMPT_ATTR = new StateTokenType("PROMPT_ATTR");
   IElementType ROOTSTART_ATTR = new StateTokenType("ROOTSTART_ATTR");
   IElementType SLASH_GT = new StateTokenType("SLASH_GT");
   IElementType SOUND_ATTR = new StateTokenType("SOUND_ATTR");
   IElementType STATEFILE_KEYWORD = new StateTokenType("STATEFILE_KEYWORD");
   IElementType STATE_KEYWORD = new StateTokenType("STATE_KEYWORD");
   IElementType STRING = new StateTokenType("STRING");
+  IElementType SUBSTATE_NEXT_ATTR = new StateTokenType("SUBSTATE_NEXT_ATTR");
   IElementType VALUE_ATTR = new StateTokenType("VALUE_ATTR");
 
   class Factory {
     public static PsiElement createElement(ASTNode node) {
       IElementType type = node.getElementType();
-      if (type == DATA_ATTR) {
+      if (type == COMMENT_ATTRIBUTE) {
+        return new StateCommentAttributeImpl(node);
+      }
+      else if (type == DATA_ATTR) {
         return new StateDataAttrImpl(node);
       }
       else if (type == DATA_ATTRS) {
@@ -98,8 +112,8 @@ public interface StateTypes {
       else if (type == INCLUDE_ELEMENT) {
         return new StateIncludeElementImpl(node);
       }
-      else if (type == LOADER_ATTR) {
-        return new StateLoaderAttrImpl(node);
+      else if (type == LOADER_ATTRIBUTE) {
+        return new StateLoaderAttributeImpl(node);
       }
       else if (type == STATEFILE_ATTRS) {
         return new StateStatefileAttrsImpl(node);

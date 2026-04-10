@@ -13,4 +13,7 @@ public interface StateStateBody extends PsiElement {
   @NotNull
   List<StateEventElement> getEventElementList();
 
+  @NotNull
+  List<StateIncludeElement> getIncludeElementList();
+
 }

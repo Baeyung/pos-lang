@@ -9,7 +9,7 @@ import com.github.baeyung.poslang.statelang.psi.StateTypes;
 import com.intellij.psi.TokenType;
 
 
-class StatefileLexer implements FlexLexer {
+class StateLexer implements FlexLexer {
 
   /** This character denotes the end of file */
   public static final int YYEOF = -1;
@@ -65,14 +65,15 @@ class StatefileLexer implements FlexLexer {
   private static final int [] ZZ_CMAP_BLOCKS = zzUnpackcmap_blocks();
 
   private static final String ZZ_CMAP_BLOCKS_PACKED_0 =
-    "\11\0\1\1\4\2\22\0\1\1\1\0\1\3\14\0"+
-    "\1\4\14\0\1\5\1\6\1\7\23\0\1\10\1\11"+
-    "\10\0\1\12\4\0\1\13\1\0\1\14\1\15\1\16"+
-    "\1\17\1\0\1\20\1\21\1\0\1\22\1\23\1\24"+
-    "\1\25\1\26\1\27\1\0\1\30\1\31\1\32\1\33"+
-    "\1\34\1\0\1\35\14\0\1\2\32\0\1\1\u01df\0"+
-    "\1\1\177\0\13\1\35\0\2\2\5\0\1\1\57\0"+
-    "\1\1\240\0\1\1\377\0\u0100\36";
+    "\11\0\1\1\4\2\22\0\1\1\1\3\1\4\12\0"+
+    "\1\5\1\0\1\6\14\0\1\7\1\10\1\11\7\0"+
+    "\1\12\7\0\1\13\3\0\1\14\1\15\10\0\1\16"+
+    "\4\0\1\17\1\20\1\21\1\22\1\23\1\24\1\25"+
+    "\1\26\1\27\1\0\1\30\1\31\1\32\1\33\1\34"+
+    "\1\35\1\0\1\36\1\37\1\40\1\41\1\42\1\0"+
+    "\1\43\1\44\13\0\1\2\32\0\1\1\u01df\0\1\1"+
+    "\177\0\13\1\35\0\2\2\5\0\1\1\57\0\1\1"+
+    "\240\0\1\1\377\0\u0100\45";
 
   private static int [] zzUnpackcmap_blocks() {
     int [] result = new int[1536];
@@ -99,15 +100,18 @@ class StatefileLexer implements FlexLexer {
   private static final int [] ZZ_ACTION = zzUnpackAction();
 
   private static final String ZZ_ACTION_PACKED_0 =
-    "\1\0\1\1\1\2\2\1\1\3\1\4\1\5\14\1"+
-    "\1\0\1\6\1\0\1\7\1\10\42\0\1\11\2\0"+
-    "\1\12\1\13\3\0\1\14\2\0\1\15\5\0\1\16"+
-    "\1\0\1\17\5\0\1\20\1\21\1\22\4\0\1\23"+
-    "\4\0\1\24\1\25\1\26\7\0\1\27\1\30\1\31"+
-    "\1\32";
+    "\1\0\1\1\1\2\2\1\1\3\1\4\1\5\16\1"+
+    "\1\0\1\6\1\0\1\7\1\0\1\10\56\0\1\11"+
+    "\1\12\12\0\1\13\2\0\1\14\1\15\4\0\1\16"+
+    "\2\0\1\17\1\20\1\21\14\0\1\22\1\0\1\23"+
+    "\11\0\1\24\1\25\1\0\1\26\10\0\1\27\3\0"+
+    "\1\30\3\0\1\2\2\0\1\31\1\32\1\33\1\34"+
+    "\3\0\1\35\5\0\1\36\5\0\1\37\1\0\1\40"+
+    "\1\0\1\41\1\42\2\0\1\43\4\0\1\44\1\0"+
+    "\1\45\1\0\1\46";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[110];
+    int [] result = new int[185];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -132,23 +136,33 @@ class StatefileLexer implements FlexLexer {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\37\0\76\0\135\0\174\0\233\0\37\0\37"+
-    "\0\272\0\331\0\370\0\u0117\0\u0136\0\u0155\0\u0174\0\u0193"+
-    "\0\u01b2\0\u01d1\0\u01f0\0\u020f\0\135\0\37\0\u022e\0\37"+
-    "\0\37\0\u024d\0\u026c\0\u028b\0\u02aa\0\u02c9\0\u02e8\0\u0307"+
-    "\0\u0326\0\u0345\0\u0364\0\u0383\0\u03a2\0\u03c1\0\u03e0\0\u03ff"+
-    "\0\u041e\0\u043d\0\u045c\0\u047b\0\u049a\0\u04b9\0\u04d8\0\u04f7"+
-    "\0\u0516\0\u0535\0\u0554\0\u0573\0\u0592\0\u05b1\0\u05d0\0\u05ef"+
-    "\0\u060e\0\u062d\0\u064c\0\37\0\u066b\0\u068a\0\37\0\37"+
-    "\0\u06a9\0\u06c8\0\u06e7\0\37\0\u0706\0\u0725\0\37\0\u0744"+
-    "\0\u0763\0\u0782\0\u07a1\0\u07c0\0\37\0\u07df\0\37\0\u07fe"+
-    "\0\u081d\0\u083c\0\u085b\0\u087a\0\37\0\u0899\0\37\0\u08b8"+
-    "\0\u08d7\0\u08f6\0\u0915\0\37\0\u0934\0\u0953\0\u0972\0\u0991"+
-    "\0\37\0\37\0\37\0\u09b0\0\u09cf\0\u09ee\0\u0a0d\0\u0a2c"+
-    "\0\u0a4b\0\u0a6a\0\37\0\37\0\37\0\37";
+    "\0\0\0\46\0\114\0\162\0\230\0\276\0\46\0\46"+
+    "\0\344\0\u010a\0\u0130\0\u0156\0\u017c\0\u01a2\0\u01c8\0\u01ee"+
+    "\0\u0214\0\u023a\0\u0260\0\u0286\0\u02ac\0\u02d2\0\162\0\46"+
+    "\0\u02f8\0\46\0\u031e\0\46\0\u0344\0\u036a\0\u0390\0\u03b6"+
+    "\0\u03dc\0\u0402\0\u0428\0\u044e\0\u0474\0\u049a\0\u04c0\0\u04e6"+
+    "\0\u050c\0\u0532\0\u0558\0\u057e\0\u05a4\0\u05ca\0\u05f0\0\u0616"+
+    "\0\u063c\0\u0662\0\u0688\0\u06ae\0\u06d4\0\u06fa\0\u0720\0\u0746"+
+    "\0\u076c\0\u0792\0\u07b8\0\u07de\0\u0804\0\u082a\0\u0850\0\u0876"+
+    "\0\u089c\0\u08c2\0\u08e8\0\u090e\0\u0934\0\u095a\0\u0980\0\u09a6"+
+    "\0\u09cc\0\u09f2\0\46\0\46\0\u0a18\0\u0a3e\0\u0a64\0\u0a8a"+
+    "\0\u0ab0\0\u0ad6\0\u0afc\0\u0b22\0\u0b48\0\u0b6e\0\46\0\u0b94"+
+    "\0\u0bba\0\46\0\46\0\u0be0\0\u0c06\0\u0c2c\0\u0c52\0\46"+
+    "\0\u0c78\0\u0c9e\0\46\0\46\0\46\0\u0cc4\0\u0cea\0\u0d10"+
+    "\0\u0d36\0\u0d5c\0\u0d82\0\u0da8\0\u0dce\0\u0df4\0\u0e1a\0\u0e40"+
+    "\0\u0e66\0\46\0\u0e8c\0\46\0\u0eb2\0\u0ed8\0\u0efe\0\u0f24"+
+    "\0\u0f4a\0\u0f70\0\u0f96\0\u0fbc\0\u0fe2\0\46\0\u1008\0\u102e"+
+    "\0\46\0\u1054\0\u107a\0\u10a0\0\u10c6\0\u10ec\0\u1112\0\u1138"+
+    "\0\u115e\0\46\0\u1184\0\u11aa\0\u11d0\0\46\0\u11f6\0\u121c"+
+    "\0\u1242\0\u0afc\0\u1268\0\u128e\0\46\0\46\0\46\0\46"+
+    "\0\u12b4\0\u12da\0\u1300\0\46\0\u1326\0\u134c\0\u1372\0\u1398"+
+    "\0\u13be\0\46\0\u13e4\0\u140a\0\u1430\0\u1456\0\u147c\0\46"+
+    "\0\u14a2\0\46\0\u14c8\0\46\0\46\0\u14ee\0\u1514\0\u153a"+
+    "\0\u1560\0\u1586\0\u15ac\0\u15d2\0\46\0\u15f8\0\46\0\u161e"+
+    "\0\46";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[110];
+    int [] result = new int[185];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -171,36 +185,55 @@ class StatefileLexer implements FlexLexer {
   private static final int [] ZZ_TRANS = zzUnpacktrans();
 
   private static final String ZZ_TRANS_PACKED_0 =
-    "\1\2\2\3\1\4\1\5\1\6\1\7\1\10\4\2"+
-    "\1\11\1\12\1\13\1\14\1\15\1\16\1\2\1\17"+
-    "\1\20\1\21\2\2\1\22\1\23\2\2\1\24\1\2"+
-    "\41\0\2\3\34\0\3\25\1\26\6\25\1\27\24\25"+
-    "\7\0\1\30\33\0\1\31\45\0\1\32\36\0\1\33"+
-    "\57\0\1\34\1\35\22\0\1\36\6\0\1\37\24\0"+
-    "\1\40\45\0\1\41\32\0\1\42\4\0\1\43\23\0"+
-    "\1\44\36\0\1\45\51\0\1\46\36\0\1\47\3\0"+
-    "\1\50\17\0\1\51\23\0\2\25\1\0\33\25\24\0"+
-    "\1\52\45\0\1\53\22\0\1\54\34\0\1\55\4\0"+
-    "\1\56\40\0\1\57\26\0\1\60\46\0\1\61\27\0"+
-    "\1\62\44\0\1\63\27\0\1\64\44\0\1\65\41\0"+
-    "\1\66\40\0\1\67\43\0\1\70\16\0\1\71\46\0"+
-    "\1\72\27\0\1\73\35\0\1\74\50\0\1\75\34\0"+
-    "\1\76\45\0\1\77\22\0\1\100\44\0\1\101\41\0"+
-    "\1\102\32\0\1\103\31\0\1\104\35\0\1\105\46\0"+
-    "\1\106\27\0\1\107\52\0\1\110\31\0\1\111\43\0"+
-    "\1\112\37\0\1\113\36\0\1\114\35\0\1\115\37\0"+
-    "\1\116\21\0\1\117\30\0\1\120\61\0\1\121\21\0"+
-    "\1\122\31\0\1\123\36\0\1\124\42\0\1\125\37\0"+
-    "\1\126\36\0\1\127\43\0\1\130\30\0\1\131\37\0"+
-    "\1\132\35\0\1\133\51\0\1\134\40\0\1\135\36\0"+
-    "\1\136\23\0\1\137\32\0\1\140\41\0\1\141\37\0"+
-    "\1\142\35\0\1\143\33\0\1\144\36\0\1\145\44\0"+
-    "\1\146\47\0\1\147\36\0\1\150\34\0\1\151\31\0"+
-    "\1\152\31\0\1\153\36\0\1\154\52\0\1\155\22\0"+
-    "\1\156\20\0";
+    "\1\2\2\3\1\2\1\4\1\2\1\5\1\6\1\7"+
+    "\1\10\7\2\1\11\1\12\1\13\1\14\1\2\1\15"+
+    "\1\16\1\17\1\20\1\21\1\22\1\2\1\23\1\24"+
+    "\1\25\2\2\1\26\2\2\50\0\2\3\43\0\4\27"+
+    "\1\30\11\27\1\31\27\27\11\0\1\32\37\0\1\33"+
+    "\2\0\1\34\56\0\1\35\14\0\1\36\30\0\1\37"+
+    "\70\0\1\40\1\41\31\0\1\42\6\0\1\43\32\0"+
+    "\1\44\55\0\1\45\35\0\1\46\51\0\1\47\4\0"+
+    "\1\50\30\0\1\51\45\0\1\52\3\0\1\53\41\0"+
+    "\1\54\3\0\1\55\3\0\1\56\3\0\1\57\1\0"+
+    "\1\60\1\61\43\0\1\62\45\0\1\63\3\0\1\64"+
+    "\1\65\23\0\1\66\26\0\2\27\1\0\42\27\6\0"+
+    "\1\67\71\0\1\70\46\0\1\71\53\0\1\72\30\0"+
+    "\1\73\43\0\1\74\5\0\1\75\47\0\1\76\33\0"+
+    "\1\77\57\0\1\100\35\0\1\101\70\0\1\102\31\0"+
+    "\1\103\34\0\1\104\55\0\1\105\50\0\1\106\56\0"+
+    "\1\107\27\0\1\110\56\0\1\111\30\0\1\112\61\0"+
+    "\1\113\37\0\1\114\52\0\1\115\45\0\1\116\52\0"+
+    "\1\117\23\0\1\120\46\0\1\121\56\0\1\122\21\0"+
+    "\1\123\61\0\1\124\7\0\1\125\46\0\1\126\32\0"+
+    "\1\127\61\0\1\130\43\0\1\131\54\0\1\132\30\0"+
+    "\1\133\54\0\1\134\50\0\1\135\41\0\1\136\34\0"+
+    "\1\137\50\0\1\140\44\0\1\141\56\0\1\142\35\0"+
+    "\1\143\62\0\1\144\30\0\1\145\54\0\1\146\53\0"+
+    "\1\147\37\0\1\150\53\0\1\151\40\0\1\152\52\0"+
+    "\1\153\44\0\1\154\47\0\1\155\4\0\5\123\1\156"+
+    "\40\123\41\0\1\157\21\0\1\160\21\0\1\160\31\0"+
+    "\1\161\62\0\1\162\46\0\1\163\27\0\1\164\36\0"+
+    "\1\165\72\0\1\166\40\0\1\167\34\0\1\170\37\0"+
+    "\1\171\57\0\1\172\57\0\1\173\41\0\1\174\25\0"+
+    "\1\175\52\0\1\176\46\0\1\177\62\0\1\200\30\0"+
+    "\1\201\22\0\5\123\1\202\40\123\31\0\1\203\55\0"+
+    "\1\204\37\0\1\205\34\0\1\206\46\0\1\207\44\0"+
+    "\1\210\42\0\1\211\64\0\1\212\47\0\1\213\44\0"+
+    "\1\214\44\0\1\215\47\0\1\216\45\0\1\217\31\0"+
+    "\1\220\40\0\1\221\26\0\5\123\1\202\3\123\1\222"+
+    "\34\123\17\0\1\223\46\0\1\224\65\0\1\225\30\0"+
+    "\1\226\46\0\1\227\44\0\1\230\60\0\1\231\26\0"+
+    "\1\232\65\0\1\233\31\0\1\234\41\0\1\235\55\0"+
+    "\1\236\56\0\1\237\45\0\1\240\44\0\1\241\30\0"+
+    "\1\242\63\0\1\243\34\0\1\244\54\0\1\245\40\0"+
+    "\1\246\37\0\1\247\45\0\1\250\62\0\1\251\30\0"+
+    "\1\252\56\0\1\253\51\0\1\254\30\0\1\255\35\0"+
+    "\1\256\51\0\1\257\61\0\1\260\35\0\1\261\62\0"+
+    "\1\262\17\0\1\263\76\0\1\264\25\0\1\265\41\0"+
+    "\1\266\66\0\1\267\34\0\1\270\47\0\1\271\14\0";
 
   private static int [] zzUnpacktrans() {
-    int [] result = new int[2697];
+    int [] result = new int[5700];
     int offset = 0;
     offset = zzUnpacktrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -238,13 +271,16 @@ class StatefileLexer implements FlexLexer {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\1\0\1\11\4\1\2\11\14\1\1\0\1\11\1\0"+
-    "\2\11\42\0\1\11\2\0\2\11\3\0\1\11\2\0"+
-    "\1\11\5\0\1\11\1\0\1\11\5\0\1\11\1\1"+
-    "\1\11\4\0\1\11\4\0\3\11\7\0\4\11";
+    "\1\0\1\11\4\1\2\11\16\1\1\0\1\11\1\0"+
+    "\1\11\1\0\1\11\56\0\2\11\12\0\1\11\2\0"+
+    "\2\11\4\0\1\11\2\0\3\11\14\0\1\11\1\0"+
+    "\1\11\11\0\1\11\1\1\1\0\1\11\10\0\1\11"+
+    "\3\0\1\11\3\0\1\1\2\0\4\11\3\0\1\11"+
+    "\5\0\1\11\5\0\1\11\1\0\1\11\1\0\2\11"+
+    "\2\0\1\1\4\0\1\11\1\0\1\11\1\0\1\11";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[110];
+    int [] result = new int[185];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -317,7 +353,7 @@ class StatefileLexer implements FlexLexer {
    *
    * @param   in  the java.io.Reader to read input from.
    */
-  StatefileLexer(java.io.Reader in) {
+  StateLexer(java.io.Reader in) {
     this.zzReader = in;
   }
 
@@ -557,132 +593,192 @@ class StatefileLexer implements FlexLexer {
             { return TokenType.BAD_CHARACTER;
             }
           // fall through
-          case 27: break;
+          case 39: break;
           case 2:
             { return TokenType.WHITE_SPACE;
             }
           // fall through
-          case 28: break;
+          case 40: break;
           case 3:
             { return StateTypes.LT;
             }
           // fall through
-          case 29: break;
+          case 41: break;
           case 4:
             { return StateTypes.EQ;
             }
           // fall through
-          case 30: break;
+          case 42: break;
           case 5:
             { return StateTypes.GT;
             }
           // fall through
-          case 31: break;
+          case 43: break;
           case 6:
             { return StateTypes.STRING;
             }
           // fall through
-          case 32: break;
+          case 44: break;
           case 7:
             { return StateTypes.SLASH_GT;
             }
           // fall through
-          case 33: break;
+          case 45: break;
           case 8:
             { return StateTypes.LT_SLASH;
             }
           // fall through
-          case 34: break;
-          case 9:
-            { return StateTypes.DATA_KEYWORD;
-            }
-          // fall through
-          case 35: break;
-          case 10:
-            { return StateTypes.EXIT_KEYWORD;
-            }
-          // fall through
-          case 36: break;
-          case 11:
-            { return StateTypes.FILE_ATTR;
-            }
-          // fall through
-          case 37: break;
-          case 12:
-            { return StateTypes.LIKE_ATTR;
-            }
-          // fall through
-          case 38: break;
-          case 13:
-            { return StateTypes.NAME_ATTR;
-            }
-          // fall through
-          case 39: break;
-          case 14:
-            { return StateTypes.EVENT_KEYWORD;
-            }
-          // fall through
-          case 40: break;
-          case 15:
-            { return StateTypes.FRAME_ATTR;
-            }
-          // fall through
-          case 41: break;
-          case 16:
-            { return StateTypes.SOUND_ATTR;
-            }
-          // fall through
-          case 42: break;
-          case 17:
-            { return StateTypes.STATE_KEYWORD;
-            }
-          // fall through
-          case 43: break;
-          case 18:
-            { return StateTypes.VALUE_ATTR;
-            }
-          // fall through
-          case 44: break;
-          case 19:
-            { return StateTypes.LOADER_ATTR;
-            }
-          // fall through
-          case 45: break;
-          case 20:
-            { return StateTypes.EXCLUDE_ATTR;
-            }
-          // fall through
           case 46: break;
-          case 21:
-            { return StateTypes.HELPREF_ATTR;
+          case 9:
+            { return StateTypes.PNP_ATTR;
             }
           // fall through
           case 47: break;
-          case 22:
-            { return StateTypes.INCLUDE_KEYWORD;
+          case 10:
+            { return StateTypes.PPI_ATTR;
             }
           // fall through
           case 48: break;
-          case 23:
-            { return StateTypes.CALCULATE_ATTR;
+          case 11:
+            { return StateTypes.DATA_KEYWORD;
             }
           // fall through
           case 49: break;
-          case 24:
-            { return StateTypes.MAINSTATE_ATTR;
+          case 12:
+            { return StateTypes.EXIT_KEYWORD;
             }
           // fall through
           case 50: break;
-          case 25:
-            { return StateTypes.ROOTSTART_ATTR;
+          case 13:
+            { return StateTypes.FILE_ATTR;
             }
           // fall through
           case 51: break;
-          case 26:
-            { return StateTypes.STATEFILE_KEYWORD;
+          case 14:
+            { return StateTypes.LIKE_ATTR;
             }
           // fall through
           case 52: break;
+          case 15:
+            { return StateTypes.NAME_ATTR;
+            }
+          // fall through
+          case 53: break;
+          case 16:
+            { return StateTypes.NEXT_ATTR;
+            }
+          // fall through
+          case 54: break;
+          case 17:
+            { return StateTypes.PAGE_ATTR;
+            }
+          // fall through
+          case 55: break;
+          case 18:
+            { return StateTypes.EVENT_KEYWORD;
+            }
+          // fall through
+          case 56: break;
+          case 19:
+            { return StateTypes.FRAME_ATTR;
+            }
+          // fall through
+          case 57: break;
+          case 20:
+            { return StateTypes.SOUND_ATTR;
+            }
+          // fall through
+          case 58: break;
+          case 21:
+            { return StateTypes.STATE_KEYWORD;
+            }
+          // fall through
+          case 59: break;
+          case 22:
+            { return StateTypes.VALUE_ATTR;
+            }
+          // fall through
+          case 60: break;
+          case 23:
+            { return StateTypes.LOADER_ATTR;
+            }
+          // fall through
+          case 61: break;
+          case 24:
+            { return StateTypes.PROMPT_ATTR;
+            }
+          // fall through
+          case 62: break;
+          case 25:
+            { return StateTypes.COMMENT_ATTR;
+            }
+          // fall through
+          case 63: break;
+          case 26:
+            { return StateTypes.EXCLUDE_ATTR;
+            }
+          // fall through
+          case 64: break;
+          case 27:
+            { return StateTypes.HELPREF_ATTR;
+            }
+          // fall through
+          case 65: break;
+          case 28:
+            { return StateTypes.INCLUDE_KEYWORD;
+            }
+          // fall through
+          case 66: break;
+          case 29:
+            { return StateTypes.PICTURE_ATTR;
+            }
+          // fall through
+          case 67: break;
+          case 30:
+            { return StateTypes.KEYBOARD_ATTR;
+            }
+          // fall through
+          case 68: break;
+          case 31:
+            { return StateTypes.CALCULATE_ATTR;
+            }
+          // fall through
+          case 69: break;
+          case 32:
+            { return StateTypes.MAINSTATE_ATTR;
+            }
+          // fall through
+          case 70: break;
+          case 33:
+            { return StateTypes.ROOTSTART_ATTR;
+            }
+          // fall through
+          case 71: break;
+          case 34:
+            { return StateTypes.STATEFILE_KEYWORD;
+            }
+          // fall through
+          case 72: break;
+          case 35:
+            { return StateTypes.PERMISSION_ATTR;
+            }
+          // fall through
+          case 73: break;
+          case 36:
+            { return StateTypes.CALLSUBSTATE_ATTR;
+            }
+          // fall through
+          case 74: break;
+          case 37:
+            { return StateTypes.SUBSTATE_NEXT_ATTR;
+            }
+          // fall through
+          case 75: break;
+          case 38:
+            { return StateTypes.PERMISSION_FAIL_ATTR;
+            }
+          // fall through
+          case 76: break;
           default:
             zzScanError(ZZ_NO_MATCH);
           }

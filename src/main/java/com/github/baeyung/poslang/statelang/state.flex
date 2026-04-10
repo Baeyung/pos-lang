@@ -7,7 +7,7 @@ import com.intellij.psi.TokenType;
 
 %%
 
-%class StatefileLexer
+%class StateLexer
 %implements FlexLexer
 %unicode
 %function advance
@@ -15,9 +15,10 @@ import com.intellij.psi.TokenType;
 
 WHITE_SPACE=\s+
 STRING=\"([^\"\\]|\\.)*\"
+HTML_COMMENT="<!--"([^]*"-->")
 
 %%
-
+{HTML_COMMENT} { return TokenType.WHITE_SPACE; }
 {WHITE_SPACE} { return TokenType.WHITE_SPACE; }
 
 "</" { return StateTypes.LT_SLASH; }
@@ -38,6 +39,17 @@ STRING=\"([^\"\\]|\\.)*\"
 
 "loader" { return StateTypes.LOADER_ATTR; }
 "name" { return StateTypes.NAME_ATTR; }
+"next" { return StateTypes.NEXT_ATTR; }
+"page" { return StateTypes.PAGE_ATTR; }
+"prompt" { return StateTypes.PROMPT_ATTR; }
+"picture" { return StateTypes.PICTURE_ATTR; }
+"keyboard" { return StateTypes.KEYBOARD_ATTR; }
+"pnp" { return StateTypes.PNP_ATTR; }
+"callSubstate" { return StateTypes.CALLSUBSTATE_ATTR; }
+"callsubstate" { return StateTypes.CALLSUBSTATE_ATTR; }
+"substateNext" { return StateTypes.SUBSTATE_NEXT_ATTR; }
+"comment" { return StateTypes.COMMENT_ATTR; }
+"ppi" { return StateTypes.PPI_ATTR; }
 "frame" { return StateTypes.FRAME_ATTR; }
 "helpRef" { return StateTypes.HELPREF_ATTR; }
 "like" { return StateTypes.LIKE_ATTR; }
@@ -48,5 +60,7 @@ STRING=\"([^\"\\]|\\.)*\"
 "value" { return StateTypes.VALUE_ATTR; }
 "mainState" { return StateTypes.MAINSTATE_ATTR; }
 "rootStart" { return StateTypes.ROOTSTART_ATTR; }
+"permission" { return StateTypes.PERMISSION_ATTR; }
+"permissionFail" { return StateTypes.PERMISSION_FAIL_ATTR; }
 
 . { return TokenType.BAD_CHARACTER; }

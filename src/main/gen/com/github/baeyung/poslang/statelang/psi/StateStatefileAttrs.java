@@ -8,6 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface StateStatefileAttrs extends PsiElement {
 
   @NotNull
-  List<StateLoaderAttr> getLoaderAttrList();
+  List<StateLoaderAttribute> getLoaderAttributeList();
 
 }

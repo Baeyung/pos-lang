@@ -7,6 +7,10 @@ import com.intellij.psi.PsiElement;
 
 public class StateVisitor extends PsiElementVisitor {
 
+  public void visitCommentAttribute(@NotNull StateCommentAttribute o) {
+    visitPsiElement(o);
+  }
+
   public void visitDataAttr(@NotNull StateDataAttr o) {
     visitPsiElement(o);
   }
@@ -55,7 +59,7 @@ public class StateVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitLoaderAttr(@NotNull StateLoaderAttr o) {
+  public void visitLoaderAttribute(@NotNull StateLoaderAttribute o) {
     visitPsiElement(o);
   }
 

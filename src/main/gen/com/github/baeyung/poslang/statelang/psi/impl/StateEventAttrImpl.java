@@ -27,4 +27,10 @@ public class StateEventAttrImpl extends ASTWrapperPsiElement implements StateEve
     else super.accept(visitor);
   }
 
+  @Override
+  @Nullable
+  public StateCommentAttribute getCommentAttribute() {
+    return findChildByClass(StateCommentAttribute.class);
+  }
+
 }
