@@ -1,11 +1,11 @@
 // This is a generated file. Not intended for manual editing.
 package com.github.baeyung.poslang.statelang.psi;
 
-import com.github.baeyung.poslang.statelang.type.StateElementType;
-import com.github.baeyung.poslang.statelang.type.StateTokenType;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.PsiElement;
 import com.intellij.lang.ASTNode;
+import com.github.baeyung.poslang.statelang.type.StateElementType;
+import com.github.baeyung.poslang.statelang.type.StateTokenType;
 import com.github.baeyung.poslang.statelang.psi.impl.*;
 
 public interface StateTypes {
