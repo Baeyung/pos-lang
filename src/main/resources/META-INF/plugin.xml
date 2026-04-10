@@ -29,7 +29,13 @@
 
     <lang.parserDefinition
         language="StateLang"
-        implementationClass="com.github.baeyung.poslang.statelang.StateParserDefinition"/>
+        implementationClass="com.github.baeyung.poslang.statelang.StateParserDefinition"
+    />
+
+    <lang.syntaxHighlighterFactory
+        language="StateLang"
+        implementationClass="com.github.baeyung.poslang.statelang.StateSyntaxHighlighterFactory"
+    />
 
     <fileType
         name="Phtm File"
