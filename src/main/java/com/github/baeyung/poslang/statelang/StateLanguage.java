@@ -8,6 +8,6 @@ public class StateLanguage extends Language {
     public static final StateLanguage INSTANCE = new StateLanguage();
 
     private StateLanguage() {
-        super(XMLLanguage.INSTANCE, "StateLang");
+        super("StateLang");
     }
 }

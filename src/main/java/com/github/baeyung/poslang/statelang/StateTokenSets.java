@@ -42,8 +42,4 @@ public interface StateTokenSets
     TokenSet STRINGS = TokenSet.create(
             StateTypes.STRING
     );
-
-    TokenSet COMMENTS = TokenSet.create(
-
-    );
 }
