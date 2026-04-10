@@ -7,4 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public interface StateDataAttr extends PsiElement {
 
+  @Nullable
+  StateCommentAttribute getCommentAttribute();
+
 }

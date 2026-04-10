@@ -51,6 +51,7 @@ public class StateParser implements PsiParser, LightPsiParser {
   // NAME_ATTR EQ STRING
   //            | CALCULATE_ATTR EQ STRING
   //            | VALUE_ATTR EQ STRING
+  //            | commentAttribute
   public static boolean dataAttr(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "dataAttr")) return false;
     boolean r;
@@ -58,6 +59,7 @@ public class StateParser implements PsiParser, LightPsiParser {
     r = parseTokens(b, 0, NAME_ATTR, EQ, STRING);
     if (!r) r = parseTokens(b, 0, CALCULATE_ATTR, EQ, STRING);
     if (!r) r = parseTokens(b, 0, VALUE_ATTR, EQ, STRING);
+    if (!r) r = commentAttribute(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
@@ -100,6 +102,7 @@ public class StateParser implements PsiParser, LightPsiParser {
   //             | PPI_ATTR EQ STRING
   //             | SUBSTATE_NEXT_ATTR EQ STRING
   //             | PNP_ATTR EQ STRING
+  //             | AUDIT_ATTR EQ STRING
   //             | commentAttribute
   public static boolean eventAttr(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "eventAttr")) return false;
@@ -114,6 +117,7 @@ public class StateParser implements PsiParser, LightPsiParser {
     if (!r) r = parseTokens(b, 0, PPI_ATTR, EQ, STRING);
     if (!r) r = parseTokens(b, 0, SUBSTATE_NEXT_ATTR, EQ, STRING);
     if (!r) r = parseTokens(b, 0, PNP_ATTR, EQ, STRING);
+    if (!r) r = parseTokens(b, 0, AUDIT_ATTR, EQ, STRING);
     if (!r) r = commentAttribute(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;

@@ -58,6 +58,7 @@ stateAttr ::= NAME_ATTR EQ STRING
 dataAttr ::= NAME_ATTR EQ STRING
            | CALCULATE_ATTR EQ STRING
            | VALUE_ATTR EQ STRING
+           | commentAttribute
 
 includeAttr ::= FILE_ATTR EQ STRING
               | INCLUDE_KEYWORD EQ STRING
@@ -72,6 +73,7 @@ eventAttr ::= NAME_ATTR EQ STRING
             | PPI_ATTR EQ STRING
             | SUBSTATE_NEXT_ATTR EQ STRING
             | PNP_ATTR EQ STRING
+            | AUDIT_ATTR EQ STRING
             | commentAttribute
 
 exitAttr ::= NAME_ATTR EQ STRING

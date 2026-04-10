@@ -32,6 +32,7 @@ public interface StateTypes {
   IElementType STATE_BODY = new StateElementType("STATE_BODY");
   IElementType STATE_ELEMENT = new StateElementType("STATE_ELEMENT");
 
+  IElementType AUDIT_ATTR = new StateTokenType("AUDIT_ATTR");
   IElementType CALCULATE_ATTR = new StateTokenType("CALCULATE_ATTR");
   IElementType CALLSUBSTATE_ATTR = new StateTokenType("CALLSUBSTATE_ATTR");
   IElementType COMMENT_ATTR = new StateTokenType("COMMENT_ATTR");
