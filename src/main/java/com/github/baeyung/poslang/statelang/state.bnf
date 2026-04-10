@@ -1,0 +1,60 @@
+{
+  parserClass="com.github.baeyung.poslang.statelang.parser.StateParser"
+  extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+  psiClassPrefix="State"
+  psiImplClassSuffix="Impl"
+  psiPackage="com.github.baeyung.poslang.statelang.psi"
+  psiImplPackage="com.github.baeyung.poslang.statelang.psi.impl"
+}
+
+
+statefileFile ::= statefileElement
+
+statefileElement ::= LT STATEFILE_KEYWORD statefileAttrs GT statefileBody LT_SLASH STATEFILE_KEYWORD GT
+
+statefileBody ::= (includeElement | exitElement | stateElement | dataElement | eventElement)*
+
+includeElement ::= LT INCLUDE_KEYWORD includeAttrs SLASH_GT
+
+exitElement ::= LT EXIT_KEYWORD exitAttrs SLASH_GT
+
+stateElement ::= LT STATE_KEYWORD stateAttrs GT stateBody LT_SLASH STATE_KEYWORD GT
+
+stateBody ::= (dataElement | eventElement)*
+
+dataElement ::= LT DATA_KEYWORD dataAttrs (SLASH_GT | GT LT_SLASH DATA_KEYWORD GT)
+
+eventElement ::= LT EVENT_KEYWORD eventAttrs (SLASH_GT | GT LT_SLASH EVENT_KEYWORD GT)
+
+statefileAttrs ::= loaderAttr*
+
+stateAttrs ::= stateAttr*
+
+dataAttrs ::= dataAttr*
+
+eventAttrs ::= eventAttr*
+
+includeAttrs ::= includeAttr*
+
+exitAttrs ::= exitAttr*
+
+loaderAttr ::= LOADER_ATTR EQ STRING
+
+stateAttr ::= NAME_ATTR EQ STRING
+            | FRAME_ATTR EQ STRING
+            | HELPREF_ATTR EQ STRING
+            | LIKE_ATTR EQ STRING
+            | SOUND_ATTR EQ STRING
+
+dataAttr ::= NAME_ATTR EQ STRING
+           | CALCULATE_ATTR EQ STRING
+           | VALUE_ATTR EQ STRING
+
+includeAttr ::= FILE_ATTR EQ STRING
+              | INCLUDE_KEYWORD EQ STRING
+              | EXCLUDE_ATTR EQ STRING
+
+eventAttr ::= NAME_ATTR EQ STRING
+            | NEXT_ATTR EQ STRING
+            | CALLSUBSTATE_ATTR EQ STRING
+            | GOTSUBSTATE_ATTR EQ STRING
