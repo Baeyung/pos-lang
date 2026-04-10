@@ -11,26 +11,20 @@ import static com.github.baeyung.poslang.statelang.psi.StateTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.baeyung.poslang.statelang.psi.*;
 
-public class StateExitAttrsImpl extends ASTWrapperPsiElement implements StateExitAttrs {
+public class StateExitAttrImpl extends ASTWrapperPsiElement implements StateExitAttr {
 
-  public StateExitAttrsImpl(@NotNull ASTNode node) {
+  public StateExitAttrImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull StateVisitor visitor) {
-    visitor.visitExitAttrs(this);
+    visitor.visitExitAttr(this);
   }
 
   @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof StateVisitor) accept((StateVisitor)visitor);
     else super.accept(visitor);
-  }
-
-  @Override
-  @NotNull
-  public List<StateExitAttr> getExitAttrList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, StateExitAttr.class);
   }
 
 }

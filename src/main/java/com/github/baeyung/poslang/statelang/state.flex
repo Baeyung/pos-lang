@@ -2,7 +2,7 @@ package com.github.baeyung.poslang.statelang;
 
 import com.intellij.lexer.FlexLexer;
 import com.intellij.psi.tree.IElementType;
-import org.intellij.sdk.language.psi.SimpleTypes;
+import com.github.baeyung.poslang.statelang.psi.StateTypes;
 import com.intellij.psi.TokenType;
 
 %%
@@ -14,42 +14,39 @@ import com.intellij.psi.TokenType;
 %type IElementType
 
 WHITE_SPACE=\s+
-IDENTIFIER=[a-zA-Z_][a-zA-Z0-9_]*
 STRING=\"([^\"\\]|\\.)*\"
 
 %%
 
 {WHITE_SPACE} { return TokenType.WHITE_SPACE; }
 
-"</" { return StatefileTypes.LT_SLASH; }
-"<"  { return StatefileTypes.LT; }
-"/>" { return StatefileTypes.SLASH_GT; }
-">"  { return StatefileTypes.GT; }
+"</" { return StateTypes.LT_SLASH; }
+"<"  { return StateTypes.LT; }
+"/>" { return StateTypes.SLASH_GT; }
+">"  { return StateTypes.GT; }
 
-"=" { return StatefileTypes.EQ; }
+"=" { return StateTypes.EQ; }
 
-{STRING} { return StatefileTypes.STRING; }
+{STRING} { return StateTypes.STRING; }
 
-"statefile" { return StatefileTypes.STATEFILE_KEYWORD; }
-"state"     { return StatefileTypes.STATE_KEYWORD; }
-"event"     { return StatefileTypes.EVENT_KEYWORD; }
-"include"   { return StatefileTypes.INCLUDE_KEYWORD; }
-"data"      { return StatefileTypes.DATA_KEYWORD; }
-"exit"      { return StatefileTypes.EXIT_KEYWORD; }
+"statefile" { return StateTypes.STATEFILE_KEYWORD; }
+"state"     { return StateTypes.STATE_KEYWORD; }
+"event"     { return StateTypes.EVENT_KEYWORD; }
+"include"   { return StateTypes.INCLUDE_KEYWORD; }
+"data"      { return StateTypes.DATA_KEYWORD; }
+"exit"      { return StateTypes.EXIT_KEYWORD; }
 
-"loader" { return StatefileTypes.LOADER_ATTR; }
-"name" { return StatefileTypes.NAME_ATTR; }
-"frame" { return StatefileTypes.FRAME_ATTR; }
-"helpRef" { return StatefileTypes.HELPREF_ATTR; }
-"like" { return StatefileTypes.LIKE_ATTR; }
-"sound" { return StatefileTypes.SOUND_ATTR; }
-"file" { return StatefileTypes.FILE_ATTR; }
-"exclude" { return StatefileTypes.EXCLUDE_ATTR; }
-"calculate" { return StatefileTypes.CALCULATE_ATTR; }
-"value" { return StatefileTypes.VALUE_ATTR; }
-"mainState" { return StatefileTypes.MAINSTATE_ATTR; }
-"rootStart" { return StatefileTypes.ROOTSTART_ATTR; }
-
-{IDENTIFIER} { return StatefileTypes.IDENTIFIER; }
+"loader" { return StateTypes.LOADER_ATTR; }
+"name" { return StateTypes.NAME_ATTR; }
+"frame" { return StateTypes.FRAME_ATTR; }
+"helpRef" { return StateTypes.HELPREF_ATTR; }
+"like" { return StateTypes.LIKE_ATTR; }
+"sound" { return StateTypes.SOUND_ATTR; }
+"file" { return StateTypes.FILE_ATTR; }
+"exclude" { return StateTypes.EXCLUDE_ATTR; }
+"calculate" { return StateTypes.CALCULATE_ATTR; }
+"value" { return StateTypes.VALUE_ATTR; }
+"mainState" { return StateTypes.MAINSTATE_ATTR; }
+"rootStart" { return StateTypes.ROOTSTART_ATTR; }
 
 . { return TokenType.BAD_CHARACTER; }

@@ -16,6 +16,7 @@ public interface StateTypes {
   IElementType EVENT_ATTR = new StateElementType("EVENT_ATTR");
   IElementType EVENT_ATTRS = new StateElementType("EVENT_ATTRS");
   IElementType EVENT_ELEMENT = new StateElementType("EVENT_ELEMENT");
+  IElementType EXIT_ATTR = new StateElementType("EXIT_ATTR");
   IElementType EXIT_ATTRS = new StateElementType("EXIT_ATTRS");
   IElementType EXIT_ELEMENT = new StateElementType("EXIT_ELEMENT");
   IElementType INCLUDE_ATTR = new StateElementType("INCLUDE_ATTR");
@@ -36,7 +37,6 @@ public interface StateTypes {
   IElementType EQ = new StateTokenType("EQ");
   IElementType EVENT_KEYWORD = new StateTokenType("EVENT_KEYWORD");
   IElementType EXCLUDE_ATTR = new StateTokenType("EXCLUDE_ATTR");
-  IElementType EXITATTR = new StateTokenType("exitAttr");
   IElementType EXIT_KEYWORD = new StateTokenType("EXIT_KEYWORD");
   IElementType FILE_ATTR = new StateTokenType("FILE_ATTR");
   IElementType FRAME_ATTR = new StateTokenType("FRAME_ATTR");
@@ -45,10 +45,13 @@ public interface StateTypes {
   IElementType HELPREF_ATTR = new StateTokenType("HELPREF_ATTR");
   IElementType INCLUDE_KEYWORD = new StateTokenType("INCLUDE_KEYWORD");
   IElementType LIKE_ATTR = new StateTokenType("LIKE_ATTR");
+  IElementType LOADER_ATTR = new StateTokenType("LOADER_ATTR");
   IElementType LT = new StateTokenType("LT");
   IElementType LT_SLASH = new StateTokenType("LT_SLASH");
+  IElementType MAINSTATE_ATTR = new StateTokenType("MAINSTATE_ATTR");
   IElementType NAME_ATTR = new StateTokenType("NAME_ATTR");
   IElementType NEXT_ATTR = new StateTokenType("NEXT_ATTR");
+  IElementType ROOTSTART_ATTR = new StateTokenType("ROOTSTART_ATTR");
   IElementType SLASH_GT = new StateTokenType("SLASH_GT");
   IElementType SOUND_ATTR = new StateTokenType("SOUND_ATTR");
   IElementType STATEFILE_KEYWORD = new StateTokenType("STATEFILE_KEYWORD");
@@ -76,6 +79,9 @@ public interface StateTypes {
       }
       else if (type == EVENT_ELEMENT) {
         return new StateEventElementImpl(node);
+      }
+      else if (type == EXIT_ATTR) {
+        return new StateExitAttrImpl(node);
       }
       else if (type == EXIT_ATTRS) {
         return new StateExitAttrsImpl(node);

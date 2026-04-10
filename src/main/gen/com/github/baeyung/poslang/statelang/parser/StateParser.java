@@ -146,13 +146,28 @@ public class StateParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // NAME_ATTR EQ STRING
+  //            | MAINSTATE_ATTR EQ STRING
+  //            | ROOTSTART_ATTR EQ STRING
+  public static boolean exitAttr(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "exitAttr")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, EXIT_ATTR, "<exit attr>");
+    r = parseTokens(b, 0, NAME_ATTR, EQ, STRING);
+    if (!r) r = parseTokens(b, 0, MAINSTATE_ATTR, EQ, STRING);
+    if (!r) r = parseTokens(b, 0, ROOTSTART_ATTR, EQ, STRING);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  /* ********************************************************** */
   // exitAttr*
   public static boolean exitAttrs(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "exitAttrs")) return false;
     Marker m = enter_section_(b, l, _NONE_, EXIT_ATTRS, "<exit attrs>");
     while (true) {
       int c = current_position_(b);
-      if (!consumeToken(b, EXITATTR)) break;
+      if (!exitAttr(b, l + 1)) break;
       if (!empty_element_parsed_guard_(b, "exitAttrs", c)) break;
     }
     exit_section_(b, l, m, true, false, null);

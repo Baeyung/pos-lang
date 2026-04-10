@@ -5,9 +5,6 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface StateExitAttrs extends PsiElement {
-
-  @NotNull
-  List<StateExitAttr> getExitAttrList();
+public interface StateExitAttr extends PsiElement {
 
 }
