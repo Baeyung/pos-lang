@@ -17,7 +17,6 @@
   <depends>com.intellij.modules.json</depends>
   <depends>org.jetbrains.plugins.yaml</depends>
   <depends>com.intellij.modules.xml</depends>
-  <depends>com.intellij.properties</depends>
   <resource-bundle>messages.MyMessageBundle</resource-bundle>
 
   <extensions defaultExtensionNs="com.intellij">
