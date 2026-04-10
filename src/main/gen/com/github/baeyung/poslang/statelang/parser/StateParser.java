@@ -3,7 +3,7 @@ package com.github.baeyung.poslang.statelang.parser;
 
 import com.intellij.lang.PsiBuilder;
 import com.intellij.lang.PsiBuilder.Marker;
-import static generated.GeneratedTypes.*;
+import static com.github.baeyung.poslang.statelang.psi.StateTypes.*;
 import static com.intellij.lang.parser.GeneratedParserUtilBase.*;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.lang.ASTNode;

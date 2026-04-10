@@ -5,6 +5,10 @@
   psiImplClassSuffix="Impl"
   psiPackage="com.github.baeyung.poslang.statelang.psi"
   psiImplPackage="com.github.baeyung.poslang.statelang.psi.impl"
+
+  elementTypeHolderClass="com.github.baeyung.poslang.statelang.psi.StateTypes"
+  elementTypeClass="com.github.baeyung.poslang.statelang.psi.StateElementType"
+  tokenTypeClass="com.github.baeyung.poslang.statelang.psi.StateTokenType"
 }
 
 
