@@ -39,6 +39,8 @@ bin/
 
 ### VS Code ###
 .vscode/
+idea-flex.skeleton
+jflex-1.9.2.jar
 
 ### Mac OS ###
 .DS_Store
