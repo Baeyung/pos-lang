@@ -6,7 +6,19 @@ import com.intellij.psi.tree.TokenSet;
 public interface StateTokenSets
 {
     TokenSet ATTRIBUTES = TokenSet.create(
+            StateTypes.LOADER_ATTR,
             StateTypes.NAME_ATTR,
+            StateTypes.NEXT_ATTR,
+            StateTypes.AUDIT_ATTR,
+            StateTypes.PAGE_ATTR,
+            StateTypes.PROMPT_ATTR,
+            StateTypes.PICTURE_ATTR,
+            StateTypes.KEYBOARD_ATTR,
+            StateTypes.PNP_ATTR,
+            StateTypes.CALLSUBSTATE_ATTR,
+            StateTypes.SUBSTATE_NEXT_ATTR,
+            StateTypes.COMMENT_ATTR,
+            StateTypes.PPI_ATTR,
             StateTypes.FRAME_ATTR,
             StateTypes.HELPREF_ATTR,
             StateTypes.LIKE_ATTR,
@@ -17,10 +29,8 @@ public interface StateTokenSets
             StateTypes.VALUE_ATTR,
             StateTypes.MAINSTATE_ATTR,
             StateTypes.ROOTSTART_ATTR,
-            StateTypes.NEXT_ATTR,
-            StateTypes.CALLSUBSTATE_ATTR,
-            StateTypes.GOTSUBSTATE_ATTR,
-            StateTypes.LOADER_ATTR
+            StateTypes.PERMISSION_ATTR,
+            StateTypes.PERMISSION_FAIL_ATTR
     );
 
     TokenSet KEYWORDS = TokenSet.create(
@@ -42,4 +52,6 @@ public interface StateTokenSets
     TokenSet STRINGS = TokenSet.create(
             StateTypes.STRING
     );
+
+    TokenSet OPERATORS = TokenSet.create(StateTypes.EQ);
 }

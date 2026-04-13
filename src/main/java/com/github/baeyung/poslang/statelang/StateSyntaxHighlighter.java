@@ -1,6 +1,5 @@
 package com.github.baeyung.poslang.statelang;
 
-import com.github.baeyung.poslang.statelang.psi.StateTypes;
 import com.intellij.lexer.Lexer;
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors;
 import com.intellij.openapi.editor.HighlighterColors;
@@ -57,59 +56,27 @@ public class StateSyntaxHighlighter extends SyntaxHighlighterBase
     public TextAttributesKey @NotNull [] getTokenHighlights(IElementType tokenType)
     {
 
-        if (tokenType.equals(StateTypes.STATEFILE_KEYWORD) ||
-            tokenType.equals(StateTypes.STATE_KEYWORD) ||
-            tokenType.equals(StateTypes.EVENT_KEYWORD) ||
-            tokenType.equals(StateTypes.INCLUDE_KEYWORD) ||
-            tokenType.equals(StateTypes.DATA_KEYWORD) ||
-            tokenType.equals(StateTypes.EXIT_KEYWORD))
+        if (StateTokenSets.KEYWORDS.contains(tokenType))
         {
             return KEYWORD_KEYS;
         }
 
-        if (tokenType.equals(StateTypes.LOADER_ATTR) ||
-            tokenType.equals(StateTypes.NAME_ATTR) ||
-            tokenType.equals(StateTypes.NEXT_ATTR) ||
-            tokenType.equals(StateTypes.AUDIT_ATTR) ||
-            tokenType.equals(StateTypes.PAGE_ATTR) ||
-            tokenType.equals(StateTypes.PROMPT_ATTR) ||
-            tokenType.equals(StateTypes.PICTURE_ATTR) ||
-            tokenType.equals(StateTypes.KEYBOARD_ATTR) ||
-            tokenType.equals(StateTypes.PNP_ATTR) ||
-            tokenType.equals(StateTypes.CALLSUBSTATE_ATTR) ||
-            tokenType.equals(StateTypes.SUBSTATE_NEXT_ATTR) ||
-            tokenType.equals(StateTypes.COMMENT_ATTR) ||
-            tokenType.equals(StateTypes.PPI_ATTR) ||
-            tokenType.equals(StateTypes.FRAME_ATTR) ||
-            tokenType.equals(StateTypes.HELPREF_ATTR) ||
-            tokenType.equals(StateTypes.LIKE_ATTR) ||
-            tokenType.equals(StateTypes.SOUND_ATTR) ||
-            tokenType.equals(StateTypes.FILE_ATTR) ||
-            tokenType.equals(StateTypes.EXCLUDE_ATTR) ||
-            tokenType.equals(StateTypes.CALCULATE_ATTR) ||
-            tokenType.equals(StateTypes.VALUE_ATTR) ||
-            tokenType.equals(StateTypes.MAINSTATE_ATTR) ||
-            tokenType.equals(StateTypes.ROOTSTART_ATTR) ||
-            tokenType.equals(StateTypes.PERMISSION_ATTR) ||
-            tokenType.equals(StateTypes.PERMISSION_FAIL_ATTR))
+        if (StateTokenSets.ATTRIBUTES.contains(tokenType))
         {
             return ATTRIBUTE_KEYS;
         }
 
-        if (tokenType.equals(StateTypes.STRING))
+        if (StateTokenSets.STRINGS.contains(tokenType))
         {
             return VALUE_KEYS;
         }
 
-        if (tokenType.equals(StateTypes.LT) ||
-            tokenType.equals(StateTypes.GT) ||
-            tokenType.equals(StateTypes.LT_SLASH) ||
-            tokenType.equals(StateTypes.SLASH_GT))
+        if (StateTokenSets.BRACKETS.contains(tokenType))
         {
             return BRACKET_KEYS;
         }
 
-        if (tokenType.equals(StateTypes.EQ))
+        if (StateTokenSets.OPERATORS.contains(tokenType))
         {
             return OPERATOR_KEYS;
         }
