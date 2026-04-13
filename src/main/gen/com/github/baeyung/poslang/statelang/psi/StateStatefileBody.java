@@ -17,6 +17,9 @@ public interface StateStatefileBody extends PsiElement {
   List<StateExitElement> getExitElementList();
 
   @NotNull
+  List<StateHtmlCommentElement> getHtmlCommentElementList();
+
+  @NotNull
   List<StateIncludeElement> getIncludeElementList();
 
   @NotNull

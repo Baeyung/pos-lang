@@ -195,6 +195,18 @@ public class StateParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // HTML_COMMENT
+  public static boolean htmlCommentElement(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "htmlCommentElement")) return false;
+    if (!nextTokenIs(b, HTML_COMMENT)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, HTML_COMMENT);
+    exit_section_(b, m, HTML_COMMENT_ELEMENT, r);
+    return r;
+  }
+
+  /* ********************************************************** */
   // FILE_ATTR EQ STRING
   //               | INCLUDE_KEYWORD EQ STRING
   //               | EXCLUDE_ATTR EQ STRING
@@ -293,7 +305,7 @@ public class StateParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // (dataElement | eventElement | includeElement)*
+  // (dataElement | eventElement | includeElement | htmlCommentElement)*
   public static boolean stateBody(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "stateBody")) return false;
     Marker m = enter_section_(b, l, _NONE_, STATE_BODY, "<state body>");
@@ -306,13 +318,14 @@ public class StateParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // dataElement | eventElement | includeElement
+  // dataElement | eventElement | includeElement | htmlCommentElement
   private static boolean stateBody_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "stateBody_0")) return false;
     boolean r;
     r = dataElement(b, l + 1);
     if (!r) r = eventElement(b, l + 1);
     if (!r) r = includeElement(b, l + 1);
+    if (!r) r = htmlCommentElement(b, l + 1);
     return r;
   }
 
@@ -347,7 +360,7 @@ public class StateParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // (includeElement | exitElement | stateElement | dataElement | eventElement)*
+  // (includeElement | exitElement | stateElement | dataElement | eventElement | htmlCommentElement)*
   public static boolean statefileBody(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "statefileBody")) return false;
     Marker m = enter_section_(b, l, _NONE_, STATEFILE_BODY, "<statefile body>");
@@ -360,7 +373,7 @@ public class StateParser implements PsiParser, LightPsiParser {
     return true;
   }
 
-  // includeElement | exitElement | stateElement | dataElement | eventElement
+  // includeElement | exitElement | stateElement | dataElement | eventElement | htmlCommentElement
   private static boolean statefileBody_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "statefileBody_0")) return false;
     boolean r;
@@ -369,6 +382,7 @@ public class StateParser implements PsiParser, LightPsiParser {
     if (!r) r = stateElement(b, l + 1);
     if (!r) r = dataElement(b, l + 1);
     if (!r) r = eventElement(b, l + 1);
+    if (!r) r = htmlCommentElement(b, l + 1);
     return r;
   }
 

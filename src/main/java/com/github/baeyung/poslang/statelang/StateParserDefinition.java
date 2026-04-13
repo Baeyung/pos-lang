@@ -30,7 +30,7 @@ final class StateParserDefinition implements ParserDefinition
     @Override
     public TokenSet getCommentTokens()
     {
-        return TokenSet.WHITE_SPACE;
+        return StateTokenSets.COMMENTS;
     }
 
     @NotNull

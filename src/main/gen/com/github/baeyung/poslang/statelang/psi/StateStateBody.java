@@ -14,6 +14,9 @@ public interface StateStateBody extends PsiElement {
   List<StateEventElement> getEventElementList();
 
   @NotNull
+  List<StateHtmlCommentElement> getHtmlCommentElementList();
+
+  @NotNull
   List<StateIncludeElement> getIncludeElementList();
 
 }

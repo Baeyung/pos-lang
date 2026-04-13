@@ -41,6 +41,12 @@ public class StateStateBodyImpl extends ASTWrapperPsiElement implements StateSta
 
   @Override
   @NotNull
+  public List<StateHtmlCommentElement> getHtmlCommentElementList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, StateHtmlCommentElement.class);
+  }
+
+  @Override
+  @NotNull
   public List<StateIncludeElement> getIncludeElementList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, StateIncludeElement.class);
   }

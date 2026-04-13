@@ -47,6 +47,10 @@ public class StateVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitHtmlCommentElement(@NotNull StateHtmlCommentElement o) {
+    visitPsiElement(o);
+  }
+
   public void visitIncludeAttr(@NotNull StateIncludeAttr o) {
     visitPsiElement(o);
   }

@@ -16,7 +16,7 @@ statefileFile ::= statefileElement
 
 statefileElement ::= LT STATEFILE_KEYWORD statefileAttrs GT statefileBody LT_SLASH STATEFILE_KEYWORD GT
 
-statefileBody ::= (includeElement | exitElement | stateElement | dataElement | eventElement)*
+statefileBody ::= (includeElement | exitElement | stateElement | dataElement | eventElement | htmlCommentElement)*
 
 includeElement ::= LT INCLUDE_KEYWORD includeAttrs SLASH_GT
 
@@ -24,7 +24,7 @@ exitElement ::= LT EXIT_KEYWORD exitAttrs SLASH_GT
 
 stateElement ::= LT STATE_KEYWORD stateAttrs GT stateBody LT_SLASH STATE_KEYWORD GT
 
-stateBody ::= (dataElement | eventElement | includeElement)*
+stateBody ::= (dataElement | eventElement | includeElement | htmlCommentElement)*
 
 dataElement ::= LT DATA_KEYWORD dataAttrs SLASH_GT
 
@@ -81,3 +81,5 @@ exitAttr ::= NAME_ATTR EQ STRING
            | ROOTSTART_ATTR EQ STRING
 
 commentAttribute ::= COMMENT_ATTR EQ STRING
+
+htmlCommentElement ::= HTML_COMMENT

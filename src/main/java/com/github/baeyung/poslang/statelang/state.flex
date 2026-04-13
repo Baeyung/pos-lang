@@ -18,7 +18,7 @@ STRING=\"([^\"\\]|\\.)*\"
 HTML_COMMENT="<!--"([^-]|("-"[^-])|("--"[^/>]))*"-->"
 
 %%
-{HTML_COMMENT} { return TokenType.WHITE_SPACE; }
+{HTML_COMMENT} { return StateTypes.HTML_COMMENT; }
 {WHITE_SPACE} { return TokenType.WHITE_SPACE; }
 
 "</" { return StateTypes.LT_SLASH; }

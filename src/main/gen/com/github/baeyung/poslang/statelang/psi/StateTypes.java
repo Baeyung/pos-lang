@@ -20,6 +20,7 @@ public interface StateTypes {
   IElementType EXIT_ATTR = new StateElementType("EXIT_ATTR");
   IElementType EXIT_ATTRS = new StateElementType("EXIT_ATTRS");
   IElementType EXIT_ELEMENT = new StateElementType("EXIT_ELEMENT");
+  IElementType HTML_COMMENT_ELEMENT = new StateElementType("HTML_COMMENT_ELEMENT");
   IElementType INCLUDE_ATTR = new StateElementType("INCLUDE_ATTR");
   IElementType INCLUDE_ATTRS = new StateElementType("INCLUDE_ATTRS");
   IElementType INCLUDE_ELEMENT = new StateElementType("INCLUDE_ELEMENT");
@@ -46,6 +47,7 @@ public interface StateTypes {
   IElementType GOTSUBSTATE_ATTR = new StateTokenType("GOTSUBSTATE_ATTR");
   IElementType GT = new StateTokenType("GT");
   IElementType HELPREF_ATTR = new StateTokenType("HELPREF_ATTR");
+  IElementType HTML_COMMENT = new StateTokenType("HTML_COMMENT");
   IElementType INCLUDE_KEYWORD = new StateTokenType("INCLUDE_KEYWORD");
   IElementType KEYBOARD_ATTR = new StateTokenType("KEYBOARD_ATTR");
   IElementType LIKE_ATTR = new StateTokenType("LIKE_ATTR");
@@ -103,6 +105,9 @@ public interface StateTypes {
       }
       else if (type == EXIT_ELEMENT) {
         return new StateExitElementImpl(node);
+      }
+      else if (type == HTML_COMMENT_ELEMENT) {
+        return new StateHtmlCommentElementImpl(node);
       }
       else if (type == INCLUDE_ATTR) {
         return new StateIncludeAttrImpl(node);

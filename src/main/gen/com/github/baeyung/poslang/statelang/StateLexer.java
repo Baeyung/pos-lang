@@ -105,10 +105,10 @@ class StateLexer implements FlexLexer {
     "\1\12\7\0\1\13\5\0\1\14\2\0\1\15\1\16"+
     "\4\0\1\17\2\0\1\20\1\21\13\0\1\22\4\0"+
     "\1\23\1\0\1\24\11\0\1\25\1\26\2\0\1\27"+
-    "\12\0\1\30\3\0\1\31\4\0\1\2\4\0\1\32"+
-    "\1\33\1\34\1\35\3\0\1\36\7\0\1\37\7\0"+
-    "\1\40\1\0\1\41\1\0\1\42\1\43\1\0\1\44"+
-    "\1\0\1\44\4\0\1\45\1\0\1\46\1\0\1\47";
+    "\12\0\1\30\3\0\1\31\4\0\1\32\4\0\1\33"+
+    "\1\34\1\35\1\36\3\0\1\37\7\0\1\40\7\0"+
+    "\1\41\1\0\1\42\1\0\1\43\1\44\1\0\1\45"+
+    "\1\0\1\45\4\0\1\46\1\0\1\47\1\0\1\50";
 
   private static int [] zzUnpackAction() {
     int [] result = new int[209];
@@ -605,197 +605,202 @@ class StateLexer implements FlexLexer {
             { return TokenType.BAD_CHARACTER;
             }
           // fall through
-          case 40: break;
+          case 41: break;
           case 2:
             { return TokenType.WHITE_SPACE;
             }
           // fall through
-          case 41: break;
+          case 42: break;
           case 3:
             { return StateTypes.LT;
             }
           // fall through
-          case 42: break;
+          case 43: break;
           case 4:
             { return StateTypes.EQ;
             }
           // fall through
-          case 43: break;
+          case 44: break;
           case 5:
             { return StateTypes.GT;
             }
           // fall through
-          case 44: break;
+          case 45: break;
           case 6:
             { return StateTypes.STRING;
             }
           // fall through
-          case 45: break;
+          case 46: break;
           case 7:
             { return StateTypes.SLASH_GT;
             }
           // fall through
-          case 46: break;
+          case 47: break;
           case 8:
             { return StateTypes.LT_SLASH;
             }
           // fall through
-          case 47: break;
+          case 48: break;
           case 9:
             { return StateTypes.PNP_ATTR;
             }
           // fall through
-          case 48: break;
+          case 49: break;
           case 10:
             { return StateTypes.PPI_ATTR;
             }
           // fall through
-          case 49: break;
+          case 50: break;
           case 11:
             { return StateTypes.NEXT_ATTR;
             }
           // fall through
-          case 50: break;
+          case 51: break;
           case 12:
             { return StateTypes.DATA_KEYWORD;
             }
           // fall through
-          case 51: break;
+          case 52: break;
           case 13:
             { return StateTypes.EXIT_KEYWORD;
             }
           // fall through
-          case 52: break;
+          case 53: break;
           case 14:
             { return StateTypes.FILE_ATTR;
             }
           // fall through
-          case 53: break;
+          case 54: break;
           case 15:
             { return StateTypes.LIKE_ATTR;
             }
           // fall through
-          case 54: break;
+          case 55: break;
           case 16:
             { return StateTypes.NAME_ATTR;
             }
           // fall through
-          case 55: break;
+          case 56: break;
           case 17:
             { return StateTypes.PAGE_ATTR;
             }
           // fall through
-          case 56: break;
+          case 57: break;
           case 18:
             { return StateTypes.AUDIT_ATTR;
             }
           // fall through
-          case 57: break;
+          case 58: break;
           case 19:
             { return StateTypes.EVENT_KEYWORD;
             }
           // fall through
-          case 58: break;
+          case 59: break;
           case 20:
             { return StateTypes.FRAME_ATTR;
             }
           // fall through
-          case 59: break;
+          case 60: break;
           case 21:
             { return StateTypes.SOUND_ATTR;
             }
           // fall through
-          case 60: break;
+          case 61: break;
           case 22:
             { return StateTypes.STATE_KEYWORD;
             }
           // fall through
-          case 61: break;
+          case 62: break;
           case 23:
             { return StateTypes.VALUE_ATTR;
             }
           // fall through
-          case 62: break;
+          case 63: break;
           case 24:
             { return StateTypes.LOADER_ATTR;
             }
           // fall through
-          case 63: break;
+          case 64: break;
           case 25:
             { return StateTypes.PROMPT_ATTR;
             }
           // fall through
-          case 64: break;
-          case 26:
-            { return StateTypes.COMMENT_ATTR;
-            }
-          // fall through
           case 65: break;
-          case 27:
-            { return StateTypes.EXCLUDE_ATTR;
+          case 26:
+            { return StateTypes.HTML_COMMENT;
             }
           // fall through
           case 66: break;
-          case 28:
-            { return StateTypes.HELPREF_ATTR;
+          case 27:
+            { return StateTypes.COMMENT_ATTR;
             }
           // fall through
           case 67: break;
-          case 29:
-            { return StateTypes.INCLUDE_KEYWORD;
+          case 28:
+            { return StateTypes.EXCLUDE_ATTR;
             }
           // fall through
           case 68: break;
-          case 30:
-            { return StateTypes.PICTURE_ATTR;
+          case 29:
+            { return StateTypes.HELPREF_ATTR;
             }
           // fall through
           case 69: break;
-          case 31:
-            { return StateTypes.KEYBOARD_ATTR;
+          case 30:
+            { return StateTypes.INCLUDE_KEYWORD;
             }
           // fall through
           case 70: break;
-          case 32:
-            { return StateTypes.CALCULATE_ATTR;
+          case 31:
+            { return StateTypes.PICTURE_ATTR;
             }
           // fall through
           case 71: break;
-          case 33:
-            { return StateTypes.MAINSTATE_ATTR;
+          case 32:
+            { return StateTypes.KEYBOARD_ATTR;
             }
           // fall through
           case 72: break;
-          case 34:
-            { return StateTypes.ROOTSTART_ATTR;
+          case 33:
+            { return StateTypes.CALCULATE_ATTR;
             }
           // fall through
           case 73: break;
-          case 35:
-            { return StateTypes.STATEFILE_KEYWORD;
+          case 34:
+            { return StateTypes.MAINSTATE_ATTR;
             }
           // fall through
           case 74: break;
-          case 36:
-            { return StateTypes.PERMISSION_ATTR;
+          case 35:
+            { return StateTypes.ROOTSTART_ATTR;
             }
           // fall through
           case 75: break;
-          case 37:
-            { return StateTypes.CALLSUBSTATE_ATTR;
+          case 36:
+            { return StateTypes.STATEFILE_KEYWORD;
             }
           // fall through
           case 76: break;
-          case 38:
-            { return StateTypes.SUBSTATE_NEXT_ATTR;
+          case 37:
+            { return StateTypes.PERMISSION_ATTR;
             }
           // fall through
           case 77: break;
-          case 39:
-            { return StateTypes.PERMISSION_FAIL_ATTR;
+          case 38:
+            { return StateTypes.CALLSUBSTATE_ATTR;
             }
           // fall through
           case 78: break;
+          case 39:
+            { return StateTypes.SUBSTATE_NEXT_ATTR;
+            }
+          // fall through
+          case 79: break;
+          case 40:
+            { return StateTypes.PERMISSION_FAIL_ATTR;
+            }
+          // fall through
+          case 80: break;
           default:
             zzScanError(ZZ_NO_MATCH);
           }

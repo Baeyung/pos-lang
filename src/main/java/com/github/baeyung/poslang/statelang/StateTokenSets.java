@@ -54,4 +54,5 @@ public interface StateTokenSets
     );
 
     TokenSet OPERATORS = TokenSet.create(StateTypes.EQ);
+    TokenSet COMMENTS = TokenSet.create(StateTypes.HTML_COMMENT);
 }

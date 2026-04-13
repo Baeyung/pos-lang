@@ -1,17 +1,18 @@
 package com.github.baeyung.poslang.statelang;
 
-import com.github.baeyung.poslang.statelang.psi.StateTypes;
+import java.util.Map;
+
+import javax.swing.Icon;
+
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
 import com.intellij.icons.AllIcons;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
 import com.intellij.openapi.fileTypes.SyntaxHighlighter;
 import com.intellij.openapi.options.colors.AttributesDescriptor;
 import com.intellij.openapi.options.colors.ColorDescriptor;
 import com.intellij.openapi.options.colors.ColorSettingsPage;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
-
-import javax.swing.*;
-import java.util.Map;
 
 public final class StateColorSettingsPage implements ColorSettingsPage
 {
