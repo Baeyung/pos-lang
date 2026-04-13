@@ -8,16 +8,15 @@
   elementTypeHolderClass="com.github.baeyung.poslang.statelang.psi.StateTypes"
   elementTypeClass="com.github.baeyung.poslang.statelang.type.StateElementType"
   tokenTypeClass="com.github.baeyung.poslang.statelang.type.StateTokenType"
-  tokens = [ COMMENT ]
 }
 
 file ::= element*
 
-element ::= tag
+element ::= tag | comment
 
 tag ::= startTag content* endTag | selfClosingTag
 
-content ::= tag
+content ::= tag | comment
 
 startTag ::= OB TAG_NAME attribute* CB
 
@@ -26,3 +25,5 @@ endTag ::= OB_SLASH TAG_NAME CB
 selfClosingTag ::= OB TAG_NAME attribute* SLASH_CB
 
 attribute ::= IDENTIFIER EQ STRING
+
+comment ::= COMMENT
