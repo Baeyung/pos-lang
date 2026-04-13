@@ -27,40 +27,6 @@
         extensions="state"
     />
 
-    <lang.parserDefinition
-        language="StateLang"
-        implementationClass="com.github.baeyung.poslang.statelang.StateParserDefinition"
-    />
-
-    <lang.syntaxHighlighterFactory
-        language="StateLang"
-        implementationClass="com.github.baeyung.poslang.statelang.StateSyntaxHighlighterFactory"
-    />
-
-    <colorSettingsPage
-        implementation="com.github.baeyung.poslang.statelang.StateColorSettingsPage"
-    />
-
-    <completion.contributor
-        language="StateLang"
-        implementationClass="com.github.baeyung.poslang.statelang.StateCompletionContributor"
-    />
-
-    <lang.foldingBuilder
-        language="StateLang"
-        implementationClass="com.github.baeyung.poslang.statelang.StateCodeFoldingBuilder"
-    />
-
-    <lang.psiStructureViewFactory
-        language="StateLang"
-        implementationClass="com.github.baeyung.poslang.statelang.StateStructureViewFactory"
-    />
-
-    <annotator
-        language="StateLang"
-        implementationClass="com.github.baeyung.poslang.statelang.StateAnnotator"
-    />
-
     <fileType
         name="Phtm File"
         language="PhtmLang"

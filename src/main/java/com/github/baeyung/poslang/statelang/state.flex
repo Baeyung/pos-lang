@@ -1,4 +1,4 @@
-package com.github.baeyung.poslang.statelang;
+package com.github.baeyung.poslang.statelang.lexer;
 
 import com.intellij.lexer.FlexLexer;
 import com.intellij.psi.tree.IElementType;
@@ -7,67 +7,82 @@ import com.intellij.psi.TokenType;
 
 %%
 
+%public
 %class StateLexer
 %implements FlexLexer
 %unicode
 %function advance
 %type IElementType
 
-WHITE_SPACE=\s+
-STRING=\"([^\"\\]|\\.)*\"
-HTML_COMMENT="<!--"([^-]|("-"[^-])|("--"[^/>]))*"-->"
+%state AFTER_OB
+%state AFTER_OB_SLASH
+
+/* -----------------------
+   PATTERNS
+------------------------ */
+
+WHITE_SPACE = [ \t\r\n]+
+
+TAG_NAME = [a-zA-Z_][a-zA-Z0-9_-]*
+
+IDENTIFIER = [a-zA-Z_][a-zA-Z0-9_-]*
+
+STRING = \"([^\\\"\r\n]|\\.)*\"
+
+COMMENT = "<!--"([^"-"]|"-"[^"-"]|"--"[^">"])*"-->"
+
 
 %%
-{HTML_COMMENT} { return StateTypes.HTML_COMMENT; }
-{WHITE_SPACE} { return TokenType.WHITE_SPACE; }
 
-"</" { return StateTypes.LT_SLASH; }
-"<"  { return StateTypes.LT; }
-"/>" { return StateTypes.SLASH_GT; }
-">"  { return StateTypes.GT; }
+/* =======================
+   DEFAULT STATE
+======================= */
 
-"=" { return StateTypes.EQ; }
+<YYINITIAL> {
 
-{STRING} { return StateTypes.STRING; }
+  /* ---- COMMENTS ---- */
+  {COMMENT} { return StateTypes.COMMENT; }
 
-"statefile" { return StateTypes.STATEFILE_KEYWORD; }
-"state"     { return StateTypes.STATE_KEYWORD; }
-"event"     { return StateTypes.EVENT_KEYWORD; }
-"include"   { return StateTypes.INCLUDE_KEYWORD; }
-"data"      { return StateTypes.DATA_KEYWORD; }
-"exit"      { return StateTypes.EXIT_KEYWORD; }
+  /* ---- STRUCTURAL TOKENS (your naming) ---- */
 
-"loader" { return StateTypes.LOADER_ATTR; }
-"name" { return StateTypes.NAME_ATTR; }
-"next" { return StateTypes.NEXT_ATTR; }
-"Next" { return StateTypes.NEXT_ATTR; }
-"audit" { return StateTypes.AUDIT_ATTR; }
-"page" { return StateTypes.PAGE_ATTR; }
-"prompt" { return StateTypes.PROMPT_ATTR; }
-"picture" { return StateTypes.PICTURE_ATTR; }
-"keyboard" { return StateTypes.KEYBOARD_ATTR; }
-"pnp" { return StateTypes.PNP_ATTR; }
-"callSubstate" { return StateTypes.CALLSUBSTATE_ATTR; }
-"callSubState" { return StateTypes.CALLSUBSTATE_ATTR; }
-"callsubstate" { return StateTypes.CALLSUBSTATE_ATTR; }
-"substateNext" { return StateTypes.SUBSTATE_NEXT_ATTR; }
-"substatenext" { return StateTypes.SUBSTATE_NEXT_ATTR; }
-"subStateNext" { return StateTypes.SUBSTATE_NEXT_ATTR; }
-"comment" { return StateTypes.COMMENT_ATTR; }
-"ppi" { return StateTypes.PPI_ATTR; }
-"frame" { return StateTypes.FRAME_ATTR; }
-"helpRef" { return StateTypes.HELPREF_ATTR; }
-"like" { return StateTypes.LIKE_ATTR; }
-"sound" { return StateTypes.SOUND_ATTR; }
-"file" { return StateTypes.FILE_ATTR; }
-"exclude" { return StateTypes.EXCLUDE_ATTR; }
-"calculate" { return StateTypes.CALCULATE_ATTR; }
-"value" { return StateTypes.VALUE_ATTR; }
-"mainState" { return StateTypes.MAINSTATE_ATTR; }
-"rootStart" { return StateTypes.ROOTSTART_ATTR; }
-"permission" { return StateTypes.PERMISSION_ATTR; }
-"Permission" { return StateTypes.PERMISSION_ATTR; }
-"permissionFail" { return StateTypes.PERMISSION_FAIL_ATTR; }
-"permissionfail" { return StateTypes.PERMISSION_FAIL_ATTR; }
+  "<" { yybegin(AFTER_OB); return StateTypes.OB; }
 
-. { return TokenType.BAD_CHARACTER; }
+  "</" { yybegin(AFTER_OB_SLASH); return StateTypes.OB_SLASH; }
+
+  "/>" { return StateTypes.SLASH_CB; }
+
+  ">" { return StateTypes.CB; }
+
+  "=" { return StateTypes.EQ; }
+
+  /* ---- DATA TOKENS ---- */
+
+  {STRING} { return StateTypes.STRING; }
+
+  {IDENTIFIER} { return StateTypes.IDENTIFIER; }
+
+  {WHITE_SPACE} { return TokenType.WHITE_SPACE; }
+}
+
+/* =======================
+   AFTER "<"
+   EXPECT TAG_NAME
+======================= */
+
+<AFTER_OB> {
+
+  {TAG_NAME} { yybegin(YYINITIAL); return StateTypes.TAG_NAME; }
+
+  {WHITE_SPACE} { return TokenType.WHITE_SPACE; }
+}
+
+/* =======================
+   AFTER "</"
+   EXPECT TAG_NAME
+======================= */
+
+<AFTER_OB_SLASH> {
+  {TAG_NAME} { yybegin(YYINITIAL); return StateTypes.TAG_NAME; }
+
+  {WHITE_SPACE} { return TokenType.WHITE_SPACE; }
+}
