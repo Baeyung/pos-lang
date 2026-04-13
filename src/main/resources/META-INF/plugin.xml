@@ -26,6 +26,10 @@
         implementationClass="com.github.baeyung.poslang.statelang.StateFileType"
         extensions="state"
     />
+    <lang.parserDefinition
+        language="StateLang"
+        implementationClass="com.github.baeyung.poslang.statelang.lexer.StateParserDefinition"
+    />
 
     <fileType
         name="Phtm File"
