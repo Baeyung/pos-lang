@@ -12,11 +12,11 @@
 
 file ::= element*
 
-element ::= tag | comment
+element ::= tag | commentTag
 
 tag ::= startTag content* endTag | selfClosingTag
 
-content ::= tag | comment
+content ::= tag | commentTag
 
 startTag ::= OB TAG_NAME attribute* CB
 
@@ -26,4 +26,4 @@ selfClosingTag ::= OB TAG_NAME attribute* SLASH_CB
 
 attribute ::= IDENTIFIER EQ STRING
 
-comment ::= COMMENT
+commentTag ::= COMMENT
