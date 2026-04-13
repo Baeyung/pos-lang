@@ -1,13 +1,13 @@
 package com.github.baeyung.poslang.phtmlang;
 
 import com.intellij.lang.Language;
-import com.intellij.lang.html.HTMLLanguage;
+import com.intellij.lang.xml.XMLLanguage;
 
 public class PhtmLanguage extends Language {
 
     public static final PhtmLanguage INSTANCE = new PhtmLanguage();
 
     private PhtmLanguage() {
-        super(HTMLLanguage.INSTANCE, "PhtmLang");
+        super(XMLLanguage.INSTANCE, "PhtmLang");
     }
 }

@@ -37,6 +37,10 @@
         implementationClass="com.github.baeyung.poslang.statelang.StateSyntaxHighlighterFactory"
     />
 
+    <colorSettingsPage
+        implementation="com.github.baeyung.poslang.statelang.StateColorSettingsPage"
+    />
+
     <fileType
         name="Phtm File"
         language="PhtmLang"
