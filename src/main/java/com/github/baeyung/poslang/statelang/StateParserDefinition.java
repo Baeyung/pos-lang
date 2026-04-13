@@ -37,7 +37,7 @@ final class StateParserDefinition implements ParserDefinition
     @Override
     public TokenSet getStringLiteralElements()
     {
-        return TokenSet.EMPTY;
+        return StateTokenSets.STRINGS;
     }
 
     @NotNull
