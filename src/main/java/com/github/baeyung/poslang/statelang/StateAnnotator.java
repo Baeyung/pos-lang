@@ -12,6 +12,9 @@ import com.intellij.lang.annotation.HighlightSeverity;
 import com.intellij.psi.PsiElement;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Provides error and warning annotations for StateLang files.
  * Features:
@@ -129,7 +132,7 @@ public class StateAnnotator implements Annotator {
         String[] stateNames = nextValue.split(",");
 
         // Get all available state names
-        java.util.Set<String> availableStates = new java.util.HashSet<>();
+        Set<String> availableStates = new HashSet<>();
         PsiElement stateFile = context.getContainingFile().getFirstChild();
         if (stateFile instanceof StateStatefileElement) {
             StateStatefileBody body = ((StateStatefileElement) stateFile).getStatefileBody();

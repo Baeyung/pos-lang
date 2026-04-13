@@ -1,6 +1,5 @@
 package com.github.baeyung.poslang.statelang;
 
-import com.github.baeyung.poslang.statelang.psi.StateTypes;
 import com.intellij.psi.PsiElement;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -24,13 +23,9 @@ public class StatePsiUtil {
             PsiElement attrNameToken = child.getFirstChild();
             
             if (attrNameToken != null) {
-                if (targetAttrName.equalsIgnoreCase(attrNameToken.getText())) {
-                    
-                    for (PsiElement subChild : child.getChildren()) {
-                        if (subChild.getNode().getElementType() == StateTypes.STRING) {
-                            return getStringText(subChild);
-                        }
-                    }
+                if (targetAttrName.equalsIgnoreCase(attrNameToken.getFirstChild().getText())) {
+
+                    return getStringText(child.getChildren()[0].getLastChild());
                 }
             }
         }
