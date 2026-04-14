@@ -1,7 +1,6 @@
 {
   parserClass="com.github.baeyung.poslang.statelang.parser.StateParser"
   extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
-  psiClassPrefix="State"
   psiImplClassSuffix="Impl"
   psiPackage="com.github.baeyung.poslang.statelang.psi"
   psiImplPackage="com.github.baeyung.poslang.statelang.psi.impl"
@@ -9,77 +8,31 @@
   elementTypeHolderClass="com.github.baeyung.poslang.statelang.psi.StateTypes"
   elementTypeClass="com.github.baeyung.poslang.statelang.type.StateElementType"
   tokenTypeClass="com.github.baeyung.poslang.statelang.type.StateTokenType"
+  psiImplUtilClass="com.github.baeyung.poslang.statelang.utils.psi.StatePsiImplUtil"
 }
 
+file ::= element*
 
-statefileFile ::= statefileElement
+element ::= tag | commentTag
 
-statefileElement ::= LT STATEFILE_KEYWORD statefileAttrs GT statefileBody LT_SLASH STATEFILE_KEYWORD GT
+tag ::= startTag content* endTag | selfClosingTag
 
-statefileBody ::= (includeElement | exitElement | stateElement | dataElement | eventElement | htmlCommentElement)*
+content ::= tag | commentTag
 
-includeElement ::= LT INCLUDE_KEYWORD includeAttrs SLASH_GT
+startTag ::= OB TAG_NAME attribute* CB {
+    methods=[ getTagName ]
+}
 
-exitElement ::= LT EXIT_KEYWORD exitAttrs SLASH_GT
+endTag ::= OB_SLASH TAG_NAME CB {
+    methods=[ getTagName ]
+}
 
-stateElement ::= LT STATE_KEYWORD stateAttrs GT stateBody LT_SLASH STATE_KEYWORD GT
+selfClosingTag ::= OB TAG_NAME attribute* SLASH_CB {
+   methods=[ getTagName ]
+}
 
-stateBody ::= (dataElement | eventElement | includeElement | htmlCommentElement)*
+attribute ::= IDENTIFIER EQ STRING {
+    methods=[ getKey getValue ]
+}
 
-dataElement ::= LT DATA_KEYWORD dataAttrs SLASH_GT
-
-eventElement ::= LT EVENT_KEYWORD eventAttrs SLASH_GT
-
-statefileAttrs ::= loaderAttribute*
-
-stateAttrs ::= stateAttr*
-
-dataAttrs ::= dataAttr*
-
-eventAttrs ::= eventAttr*
-
-includeAttrs ::= includeAttr*
-
-exitAttrs ::= exitAttr*
-
-loaderAttribute ::= LOADER_ATTR EQ STRING
-
-stateAttr ::= NAME_ATTR EQ STRING
-            | FRAME_ATTR EQ STRING
-            | HELPREF_ATTR EQ STRING
-            | LIKE_ATTR EQ STRING
-            | SOUND_ATTR EQ STRING
-            | PAGE_ATTR EQ STRING
-            | PROMPT_ATTR EQ STRING
-            | PICTURE_ATTR EQ STRING
-            | KEYBOARD_ATTR EQ STRING
-            | commentAttribute
-
-dataAttr ::= NAME_ATTR EQ STRING
-           | CALCULATE_ATTR EQ STRING
-           | VALUE_ATTR EQ STRING
-           | commentAttribute
-
-includeAttr ::= FILE_ATTR EQ STRING
-              | INCLUDE_KEYWORD EQ STRING
-              | EXCLUDE_ATTR EQ STRING
-
-eventAttr ::= NAME_ATTR EQ STRING
-            | NEXT_ATTR EQ STRING
-            | CALLSUBSTATE_ATTR EQ STRING
-            | GOTSUBSTATE_ATTR EQ STRING
-            | PERMISSION_ATTR EQ STRING
-            | PERMISSION_FAIL_ATTR EQ STRING
-            | PPI_ATTR EQ STRING
-            | SUBSTATE_NEXT_ATTR EQ STRING
-            | PNP_ATTR EQ STRING
-            | AUDIT_ATTR EQ STRING
-            | commentAttribute
-
-exitAttr ::= NAME_ATTR EQ STRING
-           | MAINSTATE_ATTR EQ STRING
-           | ROOTSTART_ATTR EQ STRING
-
-commentAttribute ::= COMMENT_ATTR EQ STRING
-
-htmlCommentElement ::= HTML_COMMENT
+commentTag ::= COMMENT

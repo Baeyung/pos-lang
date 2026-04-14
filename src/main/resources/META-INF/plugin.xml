@@ -26,39 +26,18 @@
         implementationClass="com.github.baeyung.poslang.statelang.StateFileType"
         extensions="state"
     />
-
-    <lang.parserDefinition
-        language="StateLang"
-        implementationClass="com.github.baeyung.poslang.statelang.StateParserDefinition"
-    />
-
     <lang.syntaxHighlighterFactory
         language="StateLang"
-        implementationClass="com.github.baeyung.poslang.statelang.StateSyntaxHighlighterFactory"
+        implementationClass="com.github.baeyung.poslang.statelang.highlighting.StateSyntaxHighlighterFactory"
     />
 
     <colorSettingsPage
-        implementation="com.github.baeyung.poslang.statelang.StateColorSettingsPage"
+        implementation="com.github.baeyung.poslang.statelang.highlighting.StateColorSettingsPage"
     />
 
-    <completion.contributor
+    <lang.parserDefinition
         language="StateLang"
-        implementationClass="com.github.baeyung.poslang.statelang.StateCompletionContributor"
-    />
-
-    <lang.foldingBuilder
-        language="StateLang"
-        implementationClass="com.github.baeyung.poslang.statelang.StateCodeFoldingBuilder"
-    />
-
-    <lang.psiStructureViewFactory
-        language="StateLang"
-        implementationClass="com.github.baeyung.poslang.statelang.StateStructureViewFactory"
-    />
-
-    <annotator
-        language="StateLang"
-        implementationClass="com.github.baeyung.poslang.statelang.StateAnnotator"
+        implementationClass="com.github.baeyung.poslang.statelang.lexer.StateParserDefinition"
     />
 
     <fileType

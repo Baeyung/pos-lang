@@ -32,380 +32,167 @@ public class StateParser implements PsiParser, LightPsiParser {
   }
 
   static boolean parse_root_(IElementType t, PsiBuilder b, int l) {
-    return statefileFile(b, l + 1);
+    return file(b, l + 1);
   }
 
   /* ********************************************************** */
-  // COMMENT_ATTR EQ STRING
-  public static boolean commentAttribute(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "commentAttribute")) return false;
-    if (!nextTokenIs(b, COMMENT_ATTR)) return false;
+  // IDENTIFIER EQ STRING
+  public static boolean attribute(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "attribute")) return false;
+    if (!nextTokenIs(b, IDENTIFIER)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeTokens(b, 0, COMMENT_ATTR, EQ, STRING);
-    exit_section_(b, m, COMMENT_ATTRIBUTE, r);
+    r = consumeTokens(b, 0, IDENTIFIER, EQ, STRING);
+    exit_section_(b, m, ATTRIBUTE, r);
     return r;
   }
 
   /* ********************************************************** */
-  // NAME_ATTR EQ STRING
-  //            | CALCULATE_ATTR EQ STRING
-  //            | VALUE_ATTR EQ STRING
-  //            | commentAttribute
-  public static boolean dataAttr(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "dataAttr")) return false;
+  // COMMENT
+  public static boolean commentTag(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "commentTag")) return false;
+    if (!nextTokenIs(b, COMMENT)) return false;
     boolean r;
-    Marker m = enter_section_(b, l, _NONE_, DATA_ATTR, "<data attr>");
-    r = parseTokens(b, 0, NAME_ATTR, EQ, STRING);
-    if (!r) r = parseTokens(b, 0, CALCULATE_ATTR, EQ, STRING);
-    if (!r) r = parseTokens(b, 0, VALUE_ATTR, EQ, STRING);
-    if (!r) r = commentAttribute(b, l + 1);
+    Marker m = enter_section_(b);
+    r = consumeToken(b, COMMENT);
+    exit_section_(b, m, COMMENT_TAG, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // tag | commentTag
+  public static boolean content(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "content")) return false;
+    if (!nextTokenIs(b, "<content>", COMMENT, OB)) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, CONTENT, "<content>");
+    r = tag(b, l + 1);
+    if (!r) r = commentTag(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
 
   /* ********************************************************** */
-  // dataAttr*
-  public static boolean dataAttrs(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "dataAttrs")) return false;
-    Marker m = enter_section_(b, l, _NONE_, DATA_ATTRS, "<data attrs>");
-    while (true) {
-      int c = current_position_(b);
-      if (!dataAttr(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "dataAttrs", c)) break;
-    }
-    exit_section_(b, l, m, true, false, null);
-    return true;
-  }
-
-  /* ********************************************************** */
-  // LT DATA_KEYWORD dataAttrs SLASH_GT
-  public static boolean dataElement(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "dataElement")) return false;
-    if (!nextTokenIs(b, LT)) return false;
+  // tag | commentTag
+  public static boolean element(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "element")) return false;
+    if (!nextTokenIs(b, "<element>", COMMENT, OB)) return false;
     boolean r;
-    Marker m = enter_section_(b);
-    r = consumeTokens(b, 0, LT, DATA_KEYWORD);
-    r = r && dataAttrs(b, l + 1);
-    r = r && consumeToken(b, SLASH_GT);
-    exit_section_(b, m, DATA_ELEMENT, r);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // NAME_ATTR EQ STRING
-  //             | NEXT_ATTR EQ STRING
-  //             | CALLSUBSTATE_ATTR EQ STRING
-  //             | GOTSUBSTATE_ATTR EQ STRING
-  //             | PERMISSION_ATTR EQ STRING
-  //             | PERMISSION_FAIL_ATTR EQ STRING
-  //             | PPI_ATTR EQ STRING
-  //             | SUBSTATE_NEXT_ATTR EQ STRING
-  //             | PNP_ATTR EQ STRING
-  //             | AUDIT_ATTR EQ STRING
-  //             | commentAttribute
-  public static boolean eventAttr(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "eventAttr")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, EVENT_ATTR, "<event attr>");
-    r = parseTokens(b, 0, NAME_ATTR, EQ, STRING);
-    if (!r) r = parseTokens(b, 0, NEXT_ATTR, EQ, STRING);
-    if (!r) r = parseTokens(b, 0, CALLSUBSTATE_ATTR, EQ, STRING);
-    if (!r) r = parseTokens(b, 0, GOTSUBSTATE_ATTR, EQ, STRING);
-    if (!r) r = parseTokens(b, 0, PERMISSION_ATTR, EQ, STRING);
-    if (!r) r = parseTokens(b, 0, PERMISSION_FAIL_ATTR, EQ, STRING);
-    if (!r) r = parseTokens(b, 0, PPI_ATTR, EQ, STRING);
-    if (!r) r = parseTokens(b, 0, SUBSTATE_NEXT_ATTR, EQ, STRING);
-    if (!r) r = parseTokens(b, 0, PNP_ATTR, EQ, STRING);
-    if (!r) r = parseTokens(b, 0, AUDIT_ATTR, EQ, STRING);
-    if (!r) r = commentAttribute(b, l + 1);
+    Marker m = enter_section_(b, l, _NONE_, ELEMENT, "<element>");
+    r = tag(b, l + 1);
+    if (!r) r = commentTag(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
 
   /* ********************************************************** */
-  // eventAttr*
-  public static boolean eventAttrs(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "eventAttrs")) return false;
-    Marker m = enter_section_(b, l, _NONE_, EVENT_ATTRS, "<event attrs>");
+  // OB_SLASH TAG_NAME CB
+  public static boolean endTag(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "endTag")) return false;
+    if (!nextTokenIs(b, OB_SLASH)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeTokens(b, 0, OB_SLASH, TAG_NAME, CB);
+    exit_section_(b, m, END_TAG, r);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // element*
+  static boolean file(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "file")) return false;
     while (true) {
       int c = current_position_(b);
-      if (!eventAttr(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "eventAttrs", c)) break;
+      if (!element(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "file", c)) break;
     }
-    exit_section_(b, l, m, true, false, null);
     return true;
   }
 
   /* ********************************************************** */
-  // LT EVENT_KEYWORD eventAttrs SLASH_GT
-  public static boolean eventElement(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "eventElement")) return false;
-    if (!nextTokenIs(b, LT)) return false;
+  // OB TAG_NAME attribute* SLASH_CB
+  public static boolean selfClosingTag(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "selfClosingTag")) return false;
+    if (!nextTokenIs(b, OB)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeTokens(b, 0, LT, EVENT_KEYWORD);
-    r = r && eventAttrs(b, l + 1);
-    r = r && consumeToken(b, SLASH_GT);
-    exit_section_(b, m, EVENT_ELEMENT, r);
+    r = consumeTokens(b, 0, OB, TAG_NAME);
+    r = r && selfClosingTag_2(b, l + 1);
+    r = r && consumeToken(b, SLASH_CB);
+    exit_section_(b, m, SELF_CLOSING_TAG, r);
     return r;
   }
 
-  /* ********************************************************** */
-  // NAME_ATTR EQ STRING
-  //            | MAINSTATE_ATTR EQ STRING
-  //            | ROOTSTART_ATTR EQ STRING
-  public static boolean exitAttr(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "exitAttr")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, EXIT_ATTR, "<exit attr>");
-    r = parseTokens(b, 0, NAME_ATTR, EQ, STRING);
-    if (!r) r = parseTokens(b, 0, MAINSTATE_ATTR, EQ, STRING);
-    if (!r) r = parseTokens(b, 0, ROOTSTART_ATTR, EQ, STRING);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // exitAttr*
-  public static boolean exitAttrs(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "exitAttrs")) return false;
-    Marker m = enter_section_(b, l, _NONE_, EXIT_ATTRS, "<exit attrs>");
+  // attribute*
+  private static boolean selfClosingTag_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "selfClosingTag_2")) return false;
     while (true) {
       int c = current_position_(b);
-      if (!exitAttr(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "exitAttrs", c)) break;
+      if (!attribute(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "selfClosingTag_2", c)) break;
     }
-    exit_section_(b, l, m, true, false, null);
     return true;
   }
 
   /* ********************************************************** */
-  // LT EXIT_KEYWORD exitAttrs SLASH_GT
-  public static boolean exitElement(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "exitElement")) return false;
-    if (!nextTokenIs(b, LT)) return false;
+  // OB TAG_NAME attribute* CB
+  public static boolean startTag(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "startTag")) return false;
+    if (!nextTokenIs(b, OB)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeTokens(b, 0, LT, EXIT_KEYWORD);
-    r = r && exitAttrs(b, l + 1);
-    r = r && consumeToken(b, SLASH_GT);
-    exit_section_(b, m, EXIT_ELEMENT, r);
+    r = consumeTokens(b, 0, OB, TAG_NAME);
+    r = r && startTag_2(b, l + 1);
+    r = r && consumeToken(b, CB);
+    exit_section_(b, m, START_TAG, r);
     return r;
   }
 
-  /* ********************************************************** */
-  // HTML_COMMENT
-  public static boolean htmlCommentElement(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "htmlCommentElement")) return false;
-    if (!nextTokenIs(b, HTML_COMMENT)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, HTML_COMMENT);
-    exit_section_(b, m, HTML_COMMENT_ELEMENT, r);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // FILE_ATTR EQ STRING
-  //               | INCLUDE_KEYWORD EQ STRING
-  //               | EXCLUDE_ATTR EQ STRING
-  public static boolean includeAttr(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "includeAttr")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, INCLUDE_ATTR, "<include attr>");
-    r = parseTokens(b, 0, FILE_ATTR, EQ, STRING);
-    if (!r) r = parseTokens(b, 0, INCLUDE_KEYWORD, EQ, STRING);
-    if (!r) r = parseTokens(b, 0, EXCLUDE_ATTR, EQ, STRING);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // includeAttr*
-  public static boolean includeAttrs(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "includeAttrs")) return false;
-    Marker m = enter_section_(b, l, _NONE_, INCLUDE_ATTRS, "<include attrs>");
+  // attribute*
+  private static boolean startTag_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "startTag_2")) return false;
     while (true) {
       int c = current_position_(b);
-      if (!includeAttr(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "includeAttrs", c)) break;
+      if (!attribute(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "startTag_2", c)) break;
     }
-    exit_section_(b, l, m, true, false, null);
     return true;
   }
 
   /* ********************************************************** */
-  // LT INCLUDE_KEYWORD includeAttrs SLASH_GT
-  public static boolean includeElement(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "includeElement")) return false;
-    if (!nextTokenIs(b, LT)) return false;
+  // startTag content* endTag | selfClosingTag
+  public static boolean tag(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "tag")) return false;
+    if (!nextTokenIs(b, OB)) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeTokens(b, 0, LT, INCLUDE_KEYWORD);
-    r = r && includeAttrs(b, l + 1);
-    r = r && consumeToken(b, SLASH_GT);
-    exit_section_(b, m, INCLUDE_ELEMENT, r);
+    r = tag_0(b, l + 1);
+    if (!r) r = selfClosingTag(b, l + 1);
+    exit_section_(b, m, TAG, r);
     return r;
   }
 
-  /* ********************************************************** */
-  // LOADER_ATTR EQ STRING
-  public static boolean loaderAttribute(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "loaderAttribute")) return false;
-    if (!nextTokenIs(b, LOADER_ATTR)) return false;
+  // startTag content* endTag
+  private static boolean tag_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "tag_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeTokens(b, 0, LOADER_ATTR, EQ, STRING);
-    exit_section_(b, m, LOADER_ATTRIBUTE, r);
+    r = startTag(b, l + 1);
+    r = r && tag_0_1(b, l + 1);
+    r = r && endTag(b, l + 1);
+    exit_section_(b, m, null, r);
     return r;
   }
 
-  /* ********************************************************** */
-  // NAME_ATTR EQ STRING
-  //             | FRAME_ATTR EQ STRING
-  //             | HELPREF_ATTR EQ STRING
-  //             | LIKE_ATTR EQ STRING
-  //             | SOUND_ATTR EQ STRING
-  //             | PAGE_ATTR EQ STRING
-  //             | PROMPT_ATTR EQ STRING
-  //             | PICTURE_ATTR EQ STRING
-  //             | KEYBOARD_ATTR EQ STRING
-  //             | commentAttribute
-  public static boolean stateAttr(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "stateAttr")) return false;
-    boolean r;
-    Marker m = enter_section_(b, l, _NONE_, STATE_ATTR, "<state attr>");
-    r = parseTokens(b, 0, NAME_ATTR, EQ, STRING);
-    if (!r) r = parseTokens(b, 0, FRAME_ATTR, EQ, STRING);
-    if (!r) r = parseTokens(b, 0, HELPREF_ATTR, EQ, STRING);
-    if (!r) r = parseTokens(b, 0, LIKE_ATTR, EQ, STRING);
-    if (!r) r = parseTokens(b, 0, SOUND_ATTR, EQ, STRING);
-    if (!r) r = parseTokens(b, 0, PAGE_ATTR, EQ, STRING);
-    if (!r) r = parseTokens(b, 0, PROMPT_ATTR, EQ, STRING);
-    if (!r) r = parseTokens(b, 0, PICTURE_ATTR, EQ, STRING);
-    if (!r) r = parseTokens(b, 0, KEYBOARD_ATTR, EQ, STRING);
-    if (!r) r = commentAttribute(b, l + 1);
-    exit_section_(b, l, m, r, false, null);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // stateAttr*
-  public static boolean stateAttrs(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "stateAttrs")) return false;
-    Marker m = enter_section_(b, l, _NONE_, STATE_ATTRS, "<state attrs>");
+  // content*
+  private static boolean tag_0_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "tag_0_1")) return false;
     while (true) {
       int c = current_position_(b);
-      if (!stateAttr(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "stateAttrs", c)) break;
+      if (!content(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "tag_0_1", c)) break;
     }
-    exit_section_(b, l, m, true, false, null);
     return true;
-  }
-
-  /* ********************************************************** */
-  // (dataElement | eventElement | includeElement | htmlCommentElement)*
-  public static boolean stateBody(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "stateBody")) return false;
-    Marker m = enter_section_(b, l, _NONE_, STATE_BODY, "<state body>");
-    while (true) {
-      int c = current_position_(b);
-      if (!stateBody_0(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "stateBody", c)) break;
-    }
-    exit_section_(b, l, m, true, false, null);
-    return true;
-  }
-
-  // dataElement | eventElement | includeElement | htmlCommentElement
-  private static boolean stateBody_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "stateBody_0")) return false;
-    boolean r;
-    r = dataElement(b, l + 1);
-    if (!r) r = eventElement(b, l + 1);
-    if (!r) r = includeElement(b, l + 1);
-    if (!r) r = htmlCommentElement(b, l + 1);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // LT STATE_KEYWORD stateAttrs GT stateBody LT_SLASH STATE_KEYWORD GT
-  public static boolean stateElement(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "stateElement")) return false;
-    if (!nextTokenIs(b, LT)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeTokens(b, 0, LT, STATE_KEYWORD);
-    r = r && stateAttrs(b, l + 1);
-    r = r && consumeToken(b, GT);
-    r = r && stateBody(b, l + 1);
-    r = r && consumeTokens(b, 0, LT_SLASH, STATE_KEYWORD, GT);
-    exit_section_(b, m, STATE_ELEMENT, r);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // loaderAttribute*
-  public static boolean statefileAttrs(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "statefileAttrs")) return false;
-    Marker m = enter_section_(b, l, _NONE_, STATEFILE_ATTRS, "<statefile attrs>");
-    while (true) {
-      int c = current_position_(b);
-      if (!loaderAttribute(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "statefileAttrs", c)) break;
-    }
-    exit_section_(b, l, m, true, false, null);
-    return true;
-  }
-
-  /* ********************************************************** */
-  // (includeElement | exitElement | stateElement | dataElement | eventElement | htmlCommentElement)*
-  public static boolean statefileBody(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "statefileBody")) return false;
-    Marker m = enter_section_(b, l, _NONE_, STATEFILE_BODY, "<statefile body>");
-    while (true) {
-      int c = current_position_(b);
-      if (!statefileBody_0(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "statefileBody", c)) break;
-    }
-    exit_section_(b, l, m, true, false, null);
-    return true;
-  }
-
-  // includeElement | exitElement | stateElement | dataElement | eventElement | htmlCommentElement
-  private static boolean statefileBody_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "statefileBody_0")) return false;
-    boolean r;
-    r = includeElement(b, l + 1);
-    if (!r) r = exitElement(b, l + 1);
-    if (!r) r = stateElement(b, l + 1);
-    if (!r) r = dataElement(b, l + 1);
-    if (!r) r = eventElement(b, l + 1);
-    if (!r) r = htmlCommentElement(b, l + 1);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // LT STATEFILE_KEYWORD statefileAttrs GT statefileBody LT_SLASH STATEFILE_KEYWORD GT
-  public static boolean statefileElement(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "statefileElement")) return false;
-    if (!nextTokenIs(b, LT)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeTokens(b, 0, LT, STATEFILE_KEYWORD);
-    r = r && statefileAttrs(b, l + 1);
-    r = r && consumeToken(b, GT);
-    r = r && statefileBody(b, l + 1);
-    r = r && consumeTokens(b, 0, LT_SLASH, STATEFILE_KEYWORD, GT);
-    exit_section_(b, m, STATEFILE_ELEMENT, r);
-    return r;
-  }
-
-  /* ********************************************************** */
-  // statefileElement
-  static boolean statefileFile(PsiBuilder b, int l) {
-    return statefileElement(b, l + 1);
   }
 
 }

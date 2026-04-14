@@ -10,137 +10,51 @@ import com.github.baeyung.poslang.statelang.psi.impl.*;
 
 public interface StateTypes {
 
-  IElementType COMMENT_ATTRIBUTE = new StateElementType("COMMENT_ATTRIBUTE");
-  IElementType DATA_ATTR = new StateElementType("DATA_ATTR");
-  IElementType DATA_ATTRS = new StateElementType("DATA_ATTRS");
-  IElementType DATA_ELEMENT = new StateElementType("DATA_ELEMENT");
-  IElementType EVENT_ATTR = new StateElementType("EVENT_ATTR");
-  IElementType EVENT_ATTRS = new StateElementType("EVENT_ATTRS");
-  IElementType EVENT_ELEMENT = new StateElementType("EVENT_ELEMENT");
-  IElementType EXIT_ATTR = new StateElementType("EXIT_ATTR");
-  IElementType EXIT_ATTRS = new StateElementType("EXIT_ATTRS");
-  IElementType EXIT_ELEMENT = new StateElementType("EXIT_ELEMENT");
-  IElementType HTML_COMMENT_ELEMENT = new StateElementType("HTML_COMMENT_ELEMENT");
-  IElementType INCLUDE_ATTR = new StateElementType("INCLUDE_ATTR");
-  IElementType INCLUDE_ATTRS = new StateElementType("INCLUDE_ATTRS");
-  IElementType INCLUDE_ELEMENT = new StateElementType("INCLUDE_ELEMENT");
-  IElementType LOADER_ATTRIBUTE = new StateElementType("LOADER_ATTRIBUTE");
-  IElementType STATEFILE_ATTRS = new StateElementType("STATEFILE_ATTRS");
-  IElementType STATEFILE_BODY = new StateElementType("STATEFILE_BODY");
-  IElementType STATEFILE_ELEMENT = new StateElementType("STATEFILE_ELEMENT");
-  IElementType STATE_ATTR = new StateElementType("STATE_ATTR");
-  IElementType STATE_ATTRS = new StateElementType("STATE_ATTRS");
-  IElementType STATE_BODY = new StateElementType("STATE_BODY");
-  IElementType STATE_ELEMENT = new StateElementType("STATE_ELEMENT");
+  IElementType ATTRIBUTE = new StateElementType("ATTRIBUTE");
+  IElementType COMMENT_TAG = new StateElementType("COMMENT_TAG");
+  IElementType CONTENT = new StateElementType("CONTENT");
+  IElementType ELEMENT = new StateElementType("ELEMENT");
+  IElementType END_TAG = new StateElementType("END_TAG");
+  IElementType SELF_CLOSING_TAG = new StateElementType("SELF_CLOSING_TAG");
+  IElementType START_TAG = new StateElementType("START_TAG");
+  IElementType TAG = new StateElementType("TAG");
 
-  IElementType AUDIT_ATTR = new StateTokenType("AUDIT_ATTR");
-  IElementType CALCULATE_ATTR = new StateTokenType("CALCULATE_ATTR");
-  IElementType CALLSUBSTATE_ATTR = new StateTokenType("CALLSUBSTATE_ATTR");
-  IElementType COMMENT_ATTR = new StateTokenType("COMMENT_ATTR");
-  IElementType DATA_KEYWORD = new StateTokenType("DATA_KEYWORD");
+  IElementType CB = new StateTokenType("CB");
+  IElementType COMMENT = new StateTokenType("COMMENT");
   IElementType EQ = new StateTokenType("EQ");
-  IElementType EVENT_KEYWORD = new StateTokenType("EVENT_KEYWORD");
-  IElementType EXCLUDE_ATTR = new StateTokenType("EXCLUDE_ATTR");
-  IElementType EXIT_KEYWORD = new StateTokenType("EXIT_KEYWORD");
-  IElementType FILE_ATTR = new StateTokenType("FILE_ATTR");
-  IElementType FRAME_ATTR = new StateTokenType("FRAME_ATTR");
-  IElementType GOTSUBSTATE_ATTR = new StateTokenType("GOTSUBSTATE_ATTR");
-  IElementType GT = new StateTokenType("GT");
-  IElementType HELPREF_ATTR = new StateTokenType("HELPREF_ATTR");
-  IElementType HTML_COMMENT = new StateTokenType("HTML_COMMENT");
-  IElementType INCLUDE_KEYWORD = new StateTokenType("INCLUDE_KEYWORD");
-  IElementType KEYBOARD_ATTR = new StateTokenType("KEYBOARD_ATTR");
-  IElementType LIKE_ATTR = new StateTokenType("LIKE_ATTR");
-  IElementType LOADER_ATTR = new StateTokenType("LOADER_ATTR");
-  IElementType LT = new StateTokenType("LT");
-  IElementType LT_SLASH = new StateTokenType("LT_SLASH");
-  IElementType MAINSTATE_ATTR = new StateTokenType("MAINSTATE_ATTR");
-  IElementType NAME_ATTR = new StateTokenType("NAME_ATTR");
-  IElementType NEXT_ATTR = new StateTokenType("NEXT_ATTR");
-  IElementType PAGE_ATTR = new StateTokenType("PAGE_ATTR");
-  IElementType PERMISSION_ATTR = new StateTokenType("PERMISSION_ATTR");
-  IElementType PERMISSION_FAIL_ATTR = new StateTokenType("PERMISSION_FAIL_ATTR");
-  IElementType PICTURE_ATTR = new StateTokenType("PICTURE_ATTR");
-  IElementType PNP_ATTR = new StateTokenType("PNP_ATTR");
-  IElementType PPI_ATTR = new StateTokenType("PPI_ATTR");
-  IElementType PROMPT_ATTR = new StateTokenType("PROMPT_ATTR");
-  IElementType ROOTSTART_ATTR = new StateTokenType("ROOTSTART_ATTR");
-  IElementType SLASH_GT = new StateTokenType("SLASH_GT");
-  IElementType SOUND_ATTR = new StateTokenType("SOUND_ATTR");
-  IElementType STATEFILE_KEYWORD = new StateTokenType("STATEFILE_KEYWORD");
-  IElementType STATE_KEYWORD = new StateTokenType("STATE_KEYWORD");
+  IElementType IDENTIFIER = new StateTokenType("IDENTIFIER");
+  IElementType OB = new StateTokenType("OB");
+  IElementType OB_SLASH = new StateTokenType("OB_SLASH");
+  IElementType SLASH_CB = new StateTokenType("SLASH_CB");
   IElementType STRING = new StateTokenType("STRING");
-  IElementType SUBSTATE_NEXT_ATTR = new StateTokenType("SUBSTATE_NEXT_ATTR");
-  IElementType VALUE_ATTR = new StateTokenType("VALUE_ATTR");
+  IElementType TAG_NAME = new StateTokenType("TAG_NAME");
 
   class Factory {
     public static PsiElement createElement(ASTNode node) {
       IElementType type = node.getElementType();
-      if (type == COMMENT_ATTRIBUTE) {
-        return new StateCommentAttributeImpl(node);
+      if (type == ATTRIBUTE) {
+        return new AttributeImpl(node);
       }
-      else if (type == DATA_ATTR) {
-        return new StateDataAttrImpl(node);
+      else if (type == COMMENT_TAG) {
+        return new CommentTagImpl(node);
       }
-      else if (type == DATA_ATTRS) {
-        return new StateDataAttrsImpl(node);
+      else if (type == CONTENT) {
+        return new ContentImpl(node);
       }
-      else if (type == DATA_ELEMENT) {
-        return new StateDataElementImpl(node);
+      else if (type == ELEMENT) {
+        return new ElementImpl(node);
       }
-      else if (type == EVENT_ATTR) {
-        return new StateEventAttrImpl(node);
+      else if (type == END_TAG) {
+        return new EndTagImpl(node);
       }
-      else if (type == EVENT_ATTRS) {
-        return new StateEventAttrsImpl(node);
+      else if (type == SELF_CLOSING_TAG) {
+        return new SelfClosingTagImpl(node);
       }
-      else if (type == EVENT_ELEMENT) {
-        return new StateEventElementImpl(node);
+      else if (type == START_TAG) {
+        return new StartTagImpl(node);
       }
-      else if (type == EXIT_ATTR) {
-        return new StateExitAttrImpl(node);
-      }
-      else if (type == EXIT_ATTRS) {
-        return new StateExitAttrsImpl(node);
-      }
-      else if (type == EXIT_ELEMENT) {
-        return new StateExitElementImpl(node);
-      }
-      else if (type == HTML_COMMENT_ELEMENT) {
-        return new StateHtmlCommentElementImpl(node);
-      }
-      else if (type == INCLUDE_ATTR) {
-        return new StateIncludeAttrImpl(node);
-      }
-      else if (type == INCLUDE_ATTRS) {
-        return new StateIncludeAttrsImpl(node);
-      }
-      else if (type == INCLUDE_ELEMENT) {
-        return new StateIncludeElementImpl(node);
-      }
-      else if (type == LOADER_ATTRIBUTE) {
-        return new StateLoaderAttributeImpl(node);
-      }
-      else if (type == STATEFILE_ATTRS) {
-        return new StateStatefileAttrsImpl(node);
-      }
-      else if (type == STATEFILE_BODY) {
-        return new StateStatefileBodyImpl(node);
-      }
-      else if (type == STATEFILE_ELEMENT) {
-        return new StateStatefileElementImpl(node);
-      }
-      else if (type == STATE_ATTR) {
-        return new StateStateAttrImpl(node);
-      }
-      else if (type == STATE_ATTRS) {
-        return new StateStateAttrsImpl(node);
-      }
-      else if (type == STATE_BODY) {
-        return new StateStateBodyImpl(node);
-      }
-      else if (type == STATE_ELEMENT) {
-        return new StateStateElementImpl(node);
+      else if (type == TAG) {
+        return new TagImpl(node);
       }
       throw new AssertionError("Unknown element type: " + type);
     }

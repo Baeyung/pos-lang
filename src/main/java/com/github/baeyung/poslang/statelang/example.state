@@ -1,0 +1,61 @@
+<!-- Root level comment -->
+
+<statefile loader="mainLoader.phtm">
+
+    <!-- Include variations -->
+    <include file="common.states" exclude="debug"/>
+
+    <!-- Exit definition -->
+    <exit name="endState" mainState="true" rootStart="yes"/>
+
+    <!-- Global event (allowed in statefileBody) -->
+    <event name="globalEvent" next="initState" audit="true" pnp="yes"/>
+
+    <!-- Global data -->
+    <data name="globalVar" value="123" calculate="false" comment="global data"/>
+
+    <!-- First state -->
+    <state name="initState" frame="mainFrame" helpRef="help1" like="base"
+           sound="start.wav" page="home" prompt="Welcome"
+           picture="img.png" keyboard="default" comment="initial state">
+
+        <!-- State level comment -->
+        <!-- This is inside state -->
+
+        <!-- State data -->
+        <data name="counter" value="0" calculate="true" comment="counter data"/>
+
+        <!-- State event -->
+        <event name="onStart"
+               next="processingState"
+               callSubstate="subFlow"
+               substateNext="resumeHere"
+               permission="admin"
+               permissionFail="deniedState"
+               ppi="ppiValue"
+               audit="true"
+               pnp="yes"
+               comment="event comment"/>
+
+        <!-- Include inside state -->
+        <include file="nested.states"/>
+
+    </state>
+
+    <!-- Second state -->
+    <state name="processingState" frame="procFrame" page="processPage">
+
+        <data name="temp" value="42"/>
+
+        <event name="onProcess" Next="endState"/>
+
+    </state>
+
+    <!-- Third state with minimal attrs -->
+    <state name="endState">
+
+        <event name="finish"/>
+
+    </state>
+
+</statefile>
