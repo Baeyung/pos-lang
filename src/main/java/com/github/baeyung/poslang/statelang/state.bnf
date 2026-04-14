@@ -8,7 +8,7 @@
   elementTypeHolderClass="com.github.baeyung.poslang.statelang.psi.StateTypes"
   elementTypeClass="com.github.baeyung.poslang.statelang.type.StateElementType"
   tokenTypeClass="com.github.baeyung.poslang.statelang.type.StateTokenType"
-  psiImplUtilClass="com.github.baeyung.poslang.statelang.psi.StatePsiImplUtil"
+  psiImplUtilClass="com.github.baeyung.poslang.statelang.utils.psi.StatePsiImplUtil"
 }
 
 file ::= element*
