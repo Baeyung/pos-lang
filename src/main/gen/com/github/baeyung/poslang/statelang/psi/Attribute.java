@@ -7,4 +7,8 @@ import com.intellij.psi.PsiElement;
 
 public interface Attribute extends PsiElement {
 
+  String getKey();
+
+  String getValue();
+
 }

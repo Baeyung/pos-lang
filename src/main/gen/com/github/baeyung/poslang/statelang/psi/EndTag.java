@@ -7,4 +7,6 @@ import com.intellij.psi.PsiElement;
 
 public interface EndTag extends PsiElement {
 
+  String getTagName();
+
 }

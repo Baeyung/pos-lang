@@ -10,6 +10,7 @@ import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.baeyung.poslang.statelang.psi.StateTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.baeyung.poslang.statelang.psi.*;
+import com.github.baeyung.poslang.statelang.utils.psi.StatePsiImplUtil;
 
 public class CommentTagImpl extends ASTWrapperPsiElement implements CommentTag {
 

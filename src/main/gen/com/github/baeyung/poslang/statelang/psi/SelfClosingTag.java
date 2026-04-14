@@ -10,4 +10,6 @@ public interface SelfClosingTag extends PsiElement {
   @NotNull
   List<Attribute> getAttributeList();
 
+  String getTagName();
+
 }

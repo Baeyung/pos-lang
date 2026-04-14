@@ -10,4 +10,6 @@ public interface StartTag extends PsiElement {
   @NotNull
   List<Attribute> getAttributeList();
 
+  String getTagName();
+
 }
