@@ -8,6 +8,7 @@
   elementTypeHolderClass="com.github.baeyung.poslang.statelang.psi.StateTypes"
   elementTypeClass="com.github.baeyung.poslang.statelang.type.StateElementType"
   tokenTypeClass="com.github.baeyung.poslang.statelang.type.StateTokenType"
+  psiImplUtilClass="com.github.baeyung.poslang.statelang.psi.StatePsiImplUtil"
 }
 
 file ::= element*
@@ -18,12 +19,20 @@ tag ::= startTag content* endTag | selfClosingTag
 
 content ::= tag | commentTag
 
-startTag ::= OB TAG_NAME attribute* CB
+startTag ::= OB TAG_NAME attribute* CB {
+    methods=[ getTagName ]
+}
 
-endTag ::= OB_SLASH TAG_NAME CB
+endTag ::= OB_SLASH TAG_NAME CB {
+    methods=[ getTagName ]
+}
 
-selfClosingTag ::= OB TAG_NAME attribute* SLASH_CB
+selfClosingTag ::= OB TAG_NAME attribute* SLASH_CB {
+   methods=[ getTagName ]
+}
 
-attribute ::= IDENTIFIER EQ STRING
+attribute ::= IDENTIFIER EQ STRING {
+    methods=[ getKey getValue ]
+}
 
 commentTag ::= COMMENT
