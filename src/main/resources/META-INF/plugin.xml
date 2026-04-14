@@ -26,6 +26,15 @@
         implementationClass="com.github.baeyung.poslang.statelang.StateFileType"
         extensions="state"
     />
+    <lang.syntaxHighlighterFactory
+        language="StateLang"
+        implementationClass="com.github.baeyung.poslang.statelang.highlighting.StateSyntaxHighlighterFactory"
+    />
+
+    <colorSettingsPage
+        implementation="com.github.baeyung.poslang.statelang.highlighting.StateColorSettingsPage"
+    />
+
     <lang.parserDefinition
         language="StateLang"
         implementationClass="com.github.baeyung.poslang.statelang.lexer.StateParserDefinition"
