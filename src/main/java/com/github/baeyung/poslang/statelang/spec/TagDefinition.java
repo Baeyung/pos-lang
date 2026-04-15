@@ -15,4 +15,14 @@ public class TagDefinition
         this.attributes = attributes;
         this.children = children;
     }
+
+    public Set<String> getAttributes()
+    {
+        return attributes;
+    }
+
+    public Set<String> getChildren()
+    {
+        return children;
+    }
 }

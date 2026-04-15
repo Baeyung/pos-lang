@@ -39,6 +39,11 @@
         implementationClass="com.github.baeyung.poslang.statelang.lexer.StateParserDefinition"
     />
 
+    <annotator
+        language="StateLang"
+        implementationClass="com.github.baeyung.poslang.statelang.spec.StateAnnotator"
+    />
+
     <fileType
         name="Phtm File"
         language="PhtmLang"
