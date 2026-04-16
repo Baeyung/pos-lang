@@ -19,6 +19,7 @@
   <depends>com.intellij.modules.xml</depends>
 
   <extensions defaultExtensionNs="com.intellij">
+    <completion.contributor language="StateLang" implementationClass="com.github.baeyung.poslang.statelang.completion.StateCompletionContributor" />
     <fileType
         name="State File"
         language="StateLang"
