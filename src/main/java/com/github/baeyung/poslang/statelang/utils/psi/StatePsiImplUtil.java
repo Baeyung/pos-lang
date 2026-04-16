@@ -6,6 +6,7 @@ import com.github.baeyung.poslang.statelang.psi.SelfClosingTag;
 import com.github.baeyung.poslang.statelang.psi.StartTag;
 import com.github.baeyung.poslang.statelang.psi.StateTypes;
 import com.intellij.lang.ASTNode;
+import com.intellij.openapi.util.text.StringUtil;
 
 public class StatePsiImplUtil
 {
@@ -15,9 +16,9 @@ public class StatePsiImplUtil
                 .getNode()
                 .findChildByType(StateTypes.IDENTIFIER);
 
-        if (keyNode != null)
+        if (keyNode != null && StringUtil.isNotEmpty(keyNode.getText()))
         {
-            return keyNode.getText();
+            return keyNode.getText().toLowerCase();
         }
         else
         {
@@ -31,9 +32,9 @@ public class StatePsiImplUtil
                 .getNode()
                 .findChildByType(StateTypes.STRING);
 
-        if (valueNode != null)
+        if (valueNode != null && StringUtil.isNotEmpty(valueNode.getText()))
         {
-            return valueNode.getText();
+            return valueNode.getText().toLowerCase();
         }
         else
         {
@@ -47,9 +48,9 @@ public class StatePsiImplUtil
                 .getNode()
                 .findChildByType(StateTypes.TAG_NAME);
 
-        if (nameNode != null)
+        if (nameNode != null && StringUtil.isNotEmpty(nameNode.getText()))
         {
-            return nameNode.getText();
+            return nameNode.getText().toLowerCase();
         }
         else
         {
@@ -63,9 +64,9 @@ public class StatePsiImplUtil
                 .getNode()
                 .findChildByType(StateTypes.TAG_NAME);
 
-        if (nameNode != null)
+        if (nameNode != null && StringUtil.isNotEmpty(nameNode.getText()))
         {
-            return nameNode.getText();
+            return nameNode.getText().toLowerCase();
         }
         else
         {
@@ -79,9 +80,9 @@ public class StatePsiImplUtil
                 .getNode()
                 .findChildByType(StateTypes.TAG_NAME);
 
-        if (nameNode != null)
+        if (nameNode != null && StringUtil.isNotEmpty(nameNode.getText()))
         {
-            return nameNode.getText();
+            return nameNode.getText().toLowerCase();
         }
         else
         {

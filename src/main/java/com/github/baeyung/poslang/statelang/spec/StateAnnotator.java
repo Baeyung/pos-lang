@@ -30,6 +30,7 @@ public class StateAnnotator implements Annotator
         if (element instanceof EndTag endTag) {
             validateEndTag(endTag, holder);
         }
+
         if (element instanceof Attribute attribute) {
             validateAttribute(attribute, holder);
         }
@@ -90,7 +91,7 @@ public class StateAnnotator implements Annotator
 
     private void validateAttribute(Attribute attr, AnnotationHolder holder) {
 
-        String key = attr.getKey().toLowerCase(); // make it part of psiImplUtil
+        String key = attr.getKey();
         String tagName;
         StartTag fullParentTag = PsiTreeUtil.getParentOfType(attr, StartTag.class);
         if (fullParentTag == null)
@@ -104,7 +105,7 @@ public class StateAnnotator implements Annotator
             tagName = fullParentTag.getTagName();
         }
 
-        TagDefinition tagDefinition = StateLanguageSpec.TAG_ATTRIBUTES.get(tagName.toLowerCase()); // make it part of psiImplUtil
+        TagDefinition tagDefinition = StateLanguageSpec.TAG_ATTRIBUTES.get(tagName);
         if (tagDefinition == null) return;
 
         Set<String> allowedAttrs = tagDefinition.getAttributes();
