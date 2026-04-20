@@ -2,91 +2,57 @@ package com.github.baeyung.poslang.statelang.utils.psi;
 
 import com.github.baeyung.poslang.statelang.psi.Attribute;
 import com.github.baeyung.poslang.statelang.psi.EndTag;
-import com.github.baeyung.poslang.statelang.psi.SelfClosingTag;
+import com.github.baeyung.poslang.statelang.psi.EmptyTag;
 import com.github.baeyung.poslang.statelang.psi.StartTag;
-import com.github.baeyung.poslang.statelang.psi.StateTypes;
-import com.intellij.lang.ASTNode;
+import com.github.baeyung.poslang.statelang.psi.TagName;
+import com.github.baeyung.poslang.statelang.psi.AttributeName;
+import com.github.baeyung.poslang.statelang.psi.AttributeValue;
 import com.intellij.openapi.util.text.StringUtil;
 
-public class StatePsiImplUtil
-{
-    public static String getKey(Attribute element)
-    {
-        ASTNode keyNode = element
-                .getNode()
-                .findChildByType(StateTypes.IDENTIFIER);
+public class StatePsiImplUtil {
 
-        if (keyNode != null && StringUtil.isNotEmpty(keyNode.getText()))
-        {
-            return keyNode.getText().toLowerCase();
+    public static String getKey(Attribute element) {
+        AttributeName name = element.getAttributeName();
+        if (name != null && StringUtil.isNotEmpty(name.getText())) {
+            return name.getText().toLowerCase();
         }
-        else
-        {
-            return null;
-        }
+        return null;
     }
 
-    public static String getValue(Attribute element)
-    {
-        ASTNode valueNode = element
-                .getNode()
-                .findChildByType(StateTypes.STRING);
-
-        if (valueNode != null && StringUtil.isNotEmpty(valueNode.getText()))
-        {
-            return valueNode.getText().toLowerCase();
+    public static String getValue(Attribute element) {
+        AttributeValue value = element.getAttributeValue();
+        if (value != null && StringUtil.isNotEmpty(value.getText())) {
+            // Unquote string
+            String text = value.getText();
+            if (text.length() >= 2 && text.startsWith("\"") && text.endsWith("\"")) {
+                text = text.substring(1, text.length() - 1);
+            }
+            return text.toLowerCase();
         }
-        else
-        {
-            return null;
-        }
+        return null;
     }
 
-    public static String getTagName(StartTag element)
-    {
-        ASTNode nameNode = element
-                .getNode()
-                .findChildByType(StateTypes.TAG_NAME);
-
-        if (nameNode != null && StringUtil.isNotEmpty(nameNode.getText()))
-        {
-            return nameNode.getText().toLowerCase();
+    public static String getName(StartTag element) {
+        TagName tagName = element.getTagName();
+        if (tagName != null && StringUtil.isNotEmpty(tagName.getText())) {
+            return tagName.getText().toLowerCase();
         }
-        else
-        {
-            return null;
-        }
+        return null;
     }
 
-    public static String getTagName(EndTag element)
-    {
-        ASTNode nameNode = element
-                .getNode()
-                .findChildByType(StateTypes.TAG_NAME);
-
-        if (nameNode != null && StringUtil.isNotEmpty(nameNode.getText()))
-        {
-            return nameNode.getText().toLowerCase();
+    public static String getName(EndTag element) {
+        TagName tagName = element.getTagName();
+        if (tagName != null && StringUtil.isNotEmpty(tagName.getText())) {
+            return tagName.getText().toLowerCase();
         }
-        else
-        {
-            return null;
-        }
+        return null;
     }
 
-    public static String getTagName(SelfClosingTag element)
-    {
-        ASTNode nameNode = element
-                .getNode()
-                .findChildByType(StateTypes.TAG_NAME);
-
-        if (nameNode != null && StringUtil.isNotEmpty(nameNode.getText()))
-        {
-            return nameNode.getText().toLowerCase();
+    public static String getName(EmptyTag element) {
+        TagName tagName = element.getTagName();
+        if (tagName != null && StringUtil.isNotEmpty(tagName.getText())) {
+            return tagName.getText().toLowerCase();
         }
-        else
-        {
-            return null;
-        }
+        return null;
     }
 }

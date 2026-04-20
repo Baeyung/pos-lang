@@ -15,23 +15,37 @@ file ::= element*
 
 element ::= tag | commentTag
 
-tag ::= startTag content* endTag | selfClosingTag
+tag ::= pairedTag | emptyTag
 
-content ::= tag | commentTag
+pairedTag ::= startTag tagBody endTag
 
-startTag ::= OB TAG_NAME attribute* CB {
-    methods=[ getTagName ]
+tagBody ::= content*
+
+content ::= tag | commentTag | text
+
+text ::= TEXT
+
+tagName ::= TAG_NAME
+
+attributeName ::= IDENTIFIER
+
+attributeValue ::= STRING
+
+attributeList ::= attribute*
+
+startTag ::= OB tagName attributeList? CB {
+    methods=[ getName ]
 }
 
-endTag ::= OB_SLASH TAG_NAME CB {
-    methods=[ getTagName ]
+endTag ::= OB_SLASH tagName CB {
+    methods=[ getName ]
 }
 
-selfClosingTag ::= OB TAG_NAME attribute* SLASH_CB {
-   methods=[ getTagName ]
+emptyTag ::= OB tagName attributeList? SLASH_CB {
+   methods=[ getName ]
 }
 
-attribute ::= IDENTIFIER EQ STRING {
+attribute ::= attributeName EQ attributeValue {
     methods=[ getKey getValue ]
 }
 
