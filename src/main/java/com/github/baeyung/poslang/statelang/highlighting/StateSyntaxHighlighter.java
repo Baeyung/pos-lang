@@ -1,7 +1,6 @@
 package com.github.baeyung.poslang.statelang.highlighting;
 
 import com.github.baeyung.poslang.statelang.lexer.StateLexerAdapter;
-import com.github.baeyung.poslang.statelang.psi.StateTypes;
 import com.intellij.lexer.Lexer;
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
@@ -43,25 +42,25 @@ public class StateSyntaxHighlighter extends SyntaxHighlighterBase {
     @NotNull
     @Override
     public TextAttributesKey @NotNull [] getTokenHighlights(IElementType tokenType) {
-        if (tokenType.equals(StateTypes.OB) || tokenType.equals(StateTypes.OB_SLASH) ||
-            tokenType.equals(StateTypes.CB) || tokenType.equals(StateTypes.SLASH_CB)) {
-            return BRACKETS_KEYS;
-        }
-        if (tokenType.equals(StateTypes.TAG_NAME)) {
-            return TAG_NAME_KEYS;
-        }
-        if (tokenType.equals(StateTypes.IDENTIFIER)) {
-            return IDENTIFIER_KEYS;
-        }
-        if (tokenType.equals(StateTypes.STRING)) {
-            return STRING_KEYS;
-        }
-        if (tokenType.equals(StateTypes.COMMENT)) {
-            return COMMENT_KEYS;
-        }
-        if (tokenType.equals(StateTypes.EQ)) {
-            return OPERATOR_KEYS;
-        }
+//        if (tokenType.equals(StateTypes.OB) || tokenType.equals(StateTypes.OB_SLASH) ||
+//            tokenType.equals(StateTypes.CB) || tokenType.equals(StateTypes.SLASH_CB)) {
+//            return BRACKETS_KEYS;
+//        }
+//        if (tokenType.equals(StateTypes.TAG_NAME)) {
+//            return TAG_NAME_KEYS;
+//        }
+//        if (tokenType.equals(StateTypes.IDENTIFIER)) {
+//            return IDENTIFIER_KEYS;
+//        }
+//        if (tokenType.equals(StateTypes.STRING)) {
+//            return STRING_KEYS;
+//        }
+//        if (tokenType.equals(StateTypes.COMMENT)) {
+//            return COMMENT_KEYS;
+//        }
+//        if (tokenType.equals(StateTypes.EQ)) {
+//            return OPERATOR_KEYS;
+//        }
         return EMPTY_KEYS;
     }
 }

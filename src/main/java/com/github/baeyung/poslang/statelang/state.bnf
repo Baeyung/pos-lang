@@ -4,35 +4,45 @@
   psiImplClassSuffix="Impl"
   psiPackage="com.github.baeyung.poslang.statelang.psi"
   psiImplPackage="com.github.baeyung.poslang.statelang.psi.impl"
-
   elementTypeHolderClass="com.github.baeyung.poslang.statelang.psi.StateTypes"
   elementTypeClass="com.github.baeyung.poslang.statelang.type.StateElementType"
   tokenTypeClass="com.github.baeyung.poslang.statelang.type.StateTokenType"
-  psiImplUtilClass="com.github.baeyung.poslang.statelang.utils.psi.StatePsiImplUtil"
 }
 
-file ::= element*
+file ::= rootElement*
+private rootElement ::= tag | commentTag
 
-element ::= tag | commentTag
+tag ::= pairedTag | selfClosingTag {
+    methods=[ getTagName ]
+}
 
-tag ::= startTag content* endTag | selfClosingTag
+pairedTag ::= startTag tagBody endTag {
+    pin=1
+}
 
+tagBody ::= content*
+
+selfClosingTag ::= OB tagNameEl attributeList? SLASH_CB {
+    pin=2
+}
+
+startTag ::= OB tagNameEl attributeList? CB {
+    pin=2
+}
+
+endTag ::= OB_SLASH tagNameEl CB {
+    pin=2
+}
+
+tagNameEl ::= TAG_NAME
+
+attributeList ::= attribute+
+
+attribute ::= attributeName EQ attributeValue {
+    pin=1
+}
+
+attributeName ::= IDENTIFIER
+attributeValue ::= STRING
 content ::= tag | commentTag
-
-startTag ::= OB TAG_NAME attribute* CB {
-    methods=[ getTagName ]
-}
-
-endTag ::= OB_SLASH TAG_NAME CB {
-    methods=[ getTagName ]
-}
-
-selfClosingTag ::= OB TAG_NAME attribute* SLASH_CB {
-   methods=[ getTagName ]
-}
-
-attribute ::= IDENTIFIER EQ STRING {
-    methods=[ getKey getValue ]
-}
-
 commentTag ::= COMMENT
