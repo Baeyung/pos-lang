@@ -17,12 +17,13 @@ private rootElement ::= tag | commentTag {
 
 private file_recover ::= !(OB | OB_SLASH | COMMENT)
 
-
 tag ::= pairedTag | selfClosingTag {
-    methods=[ getTagName ]
+    pin=1
 }
 
-pairedTag ::= startTag tagBody endTag
+pairedTag ::= startTag tagBody endTag {
+    methods=[ getTagName ]
+}
 
 tagBody ::= content* {
     recoverWhile=tagBody_recover
@@ -31,12 +32,10 @@ tagBody ::= content* {
 private tagBody_recover ::= !(OB_SLASH | OB | COMMENT)
 
 selfClosingTag ::= OB tagNameEl attributeList? SLASH_CB {
-    pin=2
     methods=[ getTagName ]
 }
 
 startTag ::= OB tagNameEl attributeList? CB {
-    pin=2
     methods=[ getTagName ]
 }
 
