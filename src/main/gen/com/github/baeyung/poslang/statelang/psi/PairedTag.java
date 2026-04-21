@@ -16,8 +16,8 @@ public interface PairedTag extends PsiElement {
   @NotNull
   TagBody getTagBody();
 
-  //WARNING: getTagName(...) is skipped
-  //matching getTagName(PairedTag, ...)
-  //methods are not found in StatePsiImplUtil
+  String getStartTagName();
+
+  String getEndTagName();
 
 }

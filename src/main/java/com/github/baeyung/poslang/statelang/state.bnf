@@ -22,7 +22,7 @@ tag ::= pairedTag | selfClosingTag {
 }
 
 pairedTag ::= startTag tagBody endTag {
-    methods=[ getTagName ]
+    methods=[ getStartTagName getEndTagName ]
 }
 
 tagBody ::= content* {

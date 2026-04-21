@@ -52,6 +52,7 @@ public class StatePsiImplUtil
     public static String getTagName(StartTag element)
     {
         ASTNode nameNode = element
+                .getTagNameEl()
                 .getNode()
                 .findChildByType(StateTypes.TAG_NAME);
 
@@ -67,13 +68,18 @@ public class StatePsiImplUtil
         }
     }
 
-    public static String getTagName(Tag tag) {
-        if (tag instanceof PairedTag pairedTag) {
+    public static String getStartTagName(PairedTag pairedTag) {
+        if (pairedTag != null)
+        {
             return getTagName(pairedTag.getStartTag());
         }
 
-        if (tag instanceof SelfClosingTag selfClosingTag) {
-            return getTagName(selfClosingTag);
+        return null;
+    }
+
+    public static String getEndTagName(PairedTag pairedTag) {
+        if (pairedTag != null) {
+            return getTagName(pairedTag.getEndTag());
         }
 
         return null;
@@ -82,6 +88,7 @@ public class StatePsiImplUtil
     public static String getTagName(EndTag element)
     {
         ASTNode nameNode = element
+                .getTagNameEl()
                 .getNode()
                 .findChildByType(StateTypes.TAG_NAME);
 
@@ -100,6 +107,7 @@ public class StatePsiImplUtil
     public static String getTagName(SelfClosingTag element)
     {
         ASTNode nameNode = element
+                .getTagNameEl()
                 .getNode()
                 .findChildByType(StateTypes.TAG_NAME);
 

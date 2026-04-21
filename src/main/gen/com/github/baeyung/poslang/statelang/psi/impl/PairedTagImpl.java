@@ -46,4 +46,14 @@ public class PairedTagImpl extends ASTWrapperPsiElement implements PairedTag {
     return findNotNullChildByClass(TagBody.class);
   }
 
+  @Override
+  public String getStartTagName() {
+    return StatePsiImplUtil.getStartTagName(this);
+  }
+
+  @Override
+  public String getEndTagName() {
+    return StatePsiImplUtil.getEndTagName(this);
+  }
+
 }
