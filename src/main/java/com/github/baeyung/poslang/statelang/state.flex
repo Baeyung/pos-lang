@@ -14,8 +14,14 @@ import com.intellij.psi.TokenType;
 %function advance
 %type IElementType
 
+/* -----------------------
+   STATES
+------------------------ */
 %state AFTER_OB
+%state INSIDE_TAG
 %state AFTER_OB_SLASH
+%state INSIDE_END_TAG
+
 /* -----------------------
    PATTERNS
 ------------------------ */
@@ -26,45 +32,63 @@ STRING = \"([^\\\"\r\n]|\\.)*\"
 COMMENT = "<!--"([^-]|("-"[^-])|("--"[^/>]))*"-->"
 
 %%
+
 /* =======================
-   DEFAULT STATE
+   YYINITIAL (Tag Body State)
+   Expects: Text, Comments, or new Tags
 ======================= */
 <YYINITIAL> {
-  /* ---- COMMENTS ---- */
-  {COMMENT} { return StateTypes.COMMENT; }
-  /* ---- STRUCTURAL TOKENS ---- */
-  "</" { yybegin(AFTER_OB_SLASH); return StateTypes.OB_SLASH; }
-  "<"  { yybegin(AFTER_OB); return StateTypes.OB; }
-  "/>" { return StateTypes.SLASH_CB; }
-  ">"  { return StateTypes.CB; }
-  "="  { return StateTypes.EQ; }
-  /* ---- DATA TOKENS ---- */
-  {STRING} { return StateTypes.STRING; }
-  {IDENTIFIER} { return StateTypes.IDENTIFIER; }
-  {WHITE_SPACE} { return TokenType.WHITE_SPACE; }
-  /* ---- FALLBACK (CRITICAL) ---- */
-  [^] { return TokenType.BAD_CHARACTER; }
+  {COMMENT}      { return StateTypes.COMMENT; }
+  "</"           { yybegin(AFTER_OB_SLASH); return StateTypes.OB_SLASH; }
+  "<"            { yybegin(AFTER_OB); return StateTypes.OB; }
+  {WHITE_SPACE}  { return TokenType.WHITE_SPACE; }
+  [^]            { return TokenType.BAD_CHARACTER; }
 }
+
 /* =======================
    AFTER "<"
-   EXPECT TAG_NAME
+   Expects: Tag Name
 ======================= */
 <AFTER_OB> {
-  {TAG_NAME} { yybegin(YYINITIAL); return StateTypes.TAG_NAME; }
-  {WHITE_SPACE} { return TokenType.WHITE_SPACE; }
-  /* ---- FALLBACK (CRITICAL) ---- */
-  [^] { yybegin(YYINITIAL); return TokenType.BAD_CHARACTER; }
+  {TAG_NAME}     { yybegin(INSIDE_TAG); return StateTypes.TAG_NAME; }
+  {WHITE_SPACE}  { return TokenType.WHITE_SPACE; }
+  [^]            { yybegin(YYINITIAL); return TokenType.BAD_CHARACTER; }
 }
+
+/* =======================
+   INSIDE START TAG
+   Expects: Attributes, Equals, Strings, or closing > />
+======================= */
+<INSIDE_TAG> {
+  {IDENTIFIER}  { return StateTypes.IDENTIFIER; }
+  {STRING}      { return StateTypes.STRING; }
+  "="           { return StateTypes.EQ; }
+  ">"           { yybegin(YYINITIAL); return StateTypes.CB; }
+  "/>"          { yybegin(YYINITIAL); return StateTypes.SLASH_CB; }
+  {WHITE_SPACE} { return TokenType.WHITE_SPACE; }
+  [^]           { yybegin(YYINITIAL); return TokenType.BAD_CHARACTER; }
+}
+
 /* =======================
    AFTER "</"
-   EXPECT TAG_NAME
+   Expects: Tag Name
 ======================= */
 <AFTER_OB_SLASH> {
-  {TAG_NAME} { yybegin(YYINITIAL); return StateTypes.TAG_NAME; }
-  {WHITE_SPACE} { return TokenType.WHITE_SPACE; }
-  /* ---- FALLBACK (CRITICAL) ---- */
-  [^] { yybegin(YYINITIAL); return TokenType.BAD_CHARACTER; }
+  {TAG_NAME}     { yybegin(INSIDE_END_TAG); return StateTypes.TAG_NAME; }
+  {WHITE_SPACE}  { return TokenType.WHITE_SPACE; }
+  [^]            { yybegin(YYINITIAL); return TokenType.BAD_CHARACTER; }
 }
+
+/* =======================
+   INSIDE END TAG
+   Expects: closing >
+======================= */
+<INSIDE_END_TAG> {
+  ">"            { yybegin(YYINITIAL); return StateTypes.CB; }
+  {WHITE_SPACE}  { return TokenType.WHITE_SPACE; }
+  [^]            { yybegin(YYINITIAL); return TokenType.BAD_CHARACTER; }
+}
+
 /* =======================
    EOF
 ======================= */

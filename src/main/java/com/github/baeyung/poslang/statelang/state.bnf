@@ -11,17 +11,24 @@
 }
 
 file ::= rootElement*
-private rootElement ::= tag | commentTag
+private rootElement ::= tag | commentTag {
+    recoverWhile=file_recover
+}
+
+private file_recover ::= !(OB | OB_SLASH | COMMENT)
+
 
 tag ::= pairedTag | selfClosingTag {
     methods=[ getTagName ]
 }
 
-pairedTag ::= startTag tagBody endTag {
-    pin=1
+pairedTag ::= startTag tagBody endTag
+
+tagBody ::= content* {
+    recoverWhile=tagBody_recover
 }
 
-tagBody ::= content*
+private tagBody_recover ::= !(OB_SLASH | OB | COMMENT)
 
 selfClosingTag ::= OB tagNameEl attributeList? SLASH_CB {
     pin=2
