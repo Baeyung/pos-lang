@@ -7,6 +7,7 @@
   elementTypeHolderClass="com.github.baeyung.poslang.statelang.psi.StateTypes"
   elementTypeClass="com.github.baeyung.poslang.statelang.type.StateElementType"
   tokenTypeClass="com.github.baeyung.poslang.statelang.type.StateTokenType"
+  psiImplUtilClass="com.github.baeyung.poslang.statelang.utils.psi.StatePsiImplUtil"
 }
 
 file ::= rootElement*
@@ -24,14 +25,17 @@ tagBody ::= content*
 
 selfClosingTag ::= OB tagNameEl attributeList? SLASH_CB {
     pin=2
+    methods=[ getTagName ]
 }
 
 startTag ::= OB tagNameEl attributeList? CB {
     pin=2
+    methods=[ getTagName ]
 }
 
 endTag ::= OB_SLASH tagNameEl CB {
     pin=2
+    methods=[ getTagName ]
 }
 
 tagNameEl ::= TAG_NAME
@@ -40,6 +44,7 @@ attributeList ::= attribute+
 
 attribute ::= attributeName EQ attributeValue {
     pin=1
+    methods=[ getKey getValue ]
 }
 
 attributeName ::= IDENTIFIER
