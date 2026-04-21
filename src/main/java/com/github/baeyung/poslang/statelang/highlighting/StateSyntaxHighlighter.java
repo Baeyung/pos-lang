@@ -1,6 +1,7 @@
 package com.github.baeyung.poslang.statelang.highlighting;
 
 import com.github.baeyung.poslang.statelang.lexer.StateLexerAdapter;
+import com.github.baeyung.poslang.statelang.lexer.StateTokenSets;
 import com.intellij.lexer.Lexer;
 import com.intellij.openapi.editor.DefaultLanguageHighlighterColors;
 import com.intellij.openapi.editor.colors.TextAttributesKey;
@@ -10,7 +11,8 @@ import org.jetbrains.annotations.NotNull;
 
 import static com.intellij.openapi.editor.colors.TextAttributesKey.createTextAttributesKey;
 
-public class StateSyntaxHighlighter extends SyntaxHighlighterBase {
+public class StateSyntaxHighlighter extends SyntaxHighlighterBase
+{
 
     public static final TextAttributesKey BRACKETS =
             createTextAttributesKey("STATE_BRACKETS", DefaultLanguageHighlighterColors.BRACKETS);
@@ -28,39 +30,52 @@ public class StateSyntaxHighlighter extends SyntaxHighlighterBase {
     private static final TextAttributesKey[] BRACKETS_KEYS = new TextAttributesKey[]{BRACKETS};
     private static final TextAttributesKey[] TAG_NAME_KEYS = new TextAttributesKey[]{TAG_NAME};
     private static final TextAttributesKey[] IDENTIFIER_KEYS = new TextAttributesKey[]{IDENTIFIER};
-    private static final TextAttributesKey[] STRING_KEYS = new TextAttributesKey[]{STRING};
+    private static final TextAttributesKey[] VALUES = new TextAttributesKey[]{STRING};
     private static final TextAttributesKey[] COMMENT_KEYS = new TextAttributesKey[]{COMMENT};
     private static final TextAttributesKey[] OPERATOR_KEYS = new TextAttributesKey[]{OPERATOR};
     private static final TextAttributesKey[] EMPTY_KEYS = new TextAttributesKey[0];
 
     @NotNull
     @Override
-    public Lexer getHighlightingLexer() {
+    public Lexer getHighlightingLexer()
+    {
         return new StateLexerAdapter();
     }
 
     @NotNull
     @Override
-    public TextAttributesKey @NotNull [] getTokenHighlights(IElementType tokenType) {
-//        if (tokenType.equals(StateTypes.OB) || tokenType.equals(StateTypes.OB_SLASH) ||
-//            tokenType.equals(StateTypes.CB) || tokenType.equals(StateTypes.SLASH_CB)) {
-//            return BRACKETS_KEYS;
-//        }
-//        if (tokenType.equals(StateTypes.TAG_NAME)) {
-//            return TAG_NAME_KEYS;
-//        }
-//        if (tokenType.equals(StateTypes.IDENTIFIER)) {
-//            return IDENTIFIER_KEYS;
-//        }
-//        if (tokenType.equals(StateTypes.STRING)) {
-//            return STRING_KEYS;
-//        }
-//        if (tokenType.equals(StateTypes.COMMENT)) {
-//            return COMMENT_KEYS;
-//        }
-//        if (tokenType.equals(StateTypes.EQ)) {
-//            return OPERATOR_KEYS;
-//        }
+    public TextAttributesKey @NotNull [] getTokenHighlights(IElementType tokenType)
+    {
+        if (StateTokenSets.BRACKETS.contains(tokenType))
+        {
+            return BRACKETS_KEYS;
+        }
+
+        if (StateTokenSets.TAG_NAME.contains(tokenType))
+        {
+            return TAG_NAME_KEYS;
+        }
+
+        if (StateTokenSets.IDENTIFIER.contains(tokenType))
+        {
+            return IDENTIFIER_KEYS;
+        }
+
+        if (StateTokenSets.VALUE.contains(tokenType))
+        {
+            return VALUES;
+        }
+
+        if (StateTokenSets.COMMENTS.contains(tokenType))
+        {
+            return COMMENT_KEYS;
+        }
+
+        if (StateTokenSets.OPERATORS.contains(tokenType))
+        {
+            return OPERATOR_KEYS;
+        }
+
         return EMPTY_KEYS;
     }
 }
