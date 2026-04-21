@@ -1,13 +1,12 @@
 package com.github.baeyung.poslang.statelang.utils.psi;
 
 import com.github.baeyung.poslang.statelang.psi.Attribute;
+import com.github.baeyung.poslang.statelang.psi.AttributeValue;
 import com.github.baeyung.poslang.statelang.psi.EndTag;
 import com.github.baeyung.poslang.statelang.psi.PairedTag;
 import com.github.baeyung.poslang.statelang.psi.SelfClosingTag;
 import com.github.baeyung.poslang.statelang.psi.StartTag;
 import com.github.baeyung.poslang.statelang.psi.StateTypes;
-import com.github.baeyung.poslang.statelang.psi.Tag;
-import com.github.baeyung.poslang.statelang.psi.TagNameEl;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.text.StringUtil;
 
@@ -16,6 +15,7 @@ public class StatePsiImplUtil
     public static String getKey(Attribute element)
     {
         ASTNode keyNode = element
+                .getAttributeName()
                 .getNode()
                 .findChildByType(StateTypes.IDENTIFIER);
 
@@ -33,20 +33,21 @@ public class StatePsiImplUtil
 
     public static String getValue(Attribute element)
     {
-        ASTNode valueNode = element
-                .getNode()
-                .findChildByType(StateTypes.STRING);
+        AttributeValue attributeValue = element.getAttributeValue();
+        if (attributeValue != null)
+        {
+            ASTNode valueNode = attributeValue
+                    .getNode()
+                    .findChildByType(StateTypes.STRING);
 
-        if (valueNode != null && StringUtil.isNotEmpty(valueNode.getText()))
-        {
-            return valueNode
-                    .getText()
-                    .toLowerCase();
+            if (valueNode != null && StringUtil.isNotEmpty(valueNode.getText()))
+            {
+                return valueNode
+                        .getText()
+                        .toLowerCase();
+            }
         }
-        else
-        {
-            return null;
-        }
+        return null;
     }
 
     public static String getTagName(StartTag element)
@@ -68,7 +69,8 @@ public class StatePsiImplUtil
         }
     }
 
-    public static String getStartTagName(PairedTag pairedTag) {
+    public static String getStartTagName(PairedTag pairedTag)
+    {
         if (pairedTag != null)
         {
             return getTagName(pairedTag.getStartTag());
@@ -77,8 +79,10 @@ public class StatePsiImplUtil
         return null;
     }
 
-    public static String getEndTagName(PairedTag pairedTag) {
-        if (pairedTag != null) {
+    public static String getEndTagName(PairedTag pairedTag)
+    {
+        if (pairedTag != null)
+        {
             return getTagName(pairedTag.getEndTag());
         }
 
