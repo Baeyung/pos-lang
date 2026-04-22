@@ -26,7 +26,9 @@ public class StateAnnotator implements Annotator
 
             if (pairedTag != null)
             {
-                if (pairedTag.getStartTagName().equals(pairedTag.getEndTagName()))
+                if (pairedTag
+                        .getStartTagName()
+                        .equals(pairedTag.getEndTagName()))
                 {
                     validatePairedTags(pairedTag, holder);
                 }
@@ -54,25 +56,26 @@ public class StateAnnotator implements Annotator
         String tagName = pairedTag.getStartTagName();
         if (!StateLanguageSpec.ALLOWED_FULL_TAGS.contains(tagName))
         {
-            holder.newAnnotation(
+            holder
+                    .newAnnotation(
                             HighlightSeverity.ERROR,
                             "Invalid paired tag: <" + tagName + ">"
                     )
-                    .range(pairedTag.getStartTag().getTagNameEl())
+                    .range(pairedTag
+                                   .getStartTag()
+                                   .getTagNameEl())
                     .create();
         }
 
-        AttributeList attributeList = pairedTag.getStartTag().getAttributeList();
+        AttributeList attributeList = pairedTag
+                .getStartTag()
+                .getAttributeList();
         if (attributeList != null)
         {
             validateAttributes(tagName, attributeList, holder);
         }
 
-        TagBody tagBody = pairedTag.getTagBody();
-        if (tagBody != null)
-        {
-            validateChildElements(tagName, tagBody, holder);
-        }
+        validateChildElements(tagName, pairedTag.getTagBody(), holder);
     }
 
     private void validateSelfClosingTags(SelfClosingTag selfClosingTag, AnnotationHolder holder)
@@ -80,7 +83,8 @@ public class StateAnnotator implements Annotator
         String tagName = selfClosingTag.getTagName();
         if (!StateLanguageSpec.ALLOWED_SELF_CLOSING_TAGS.contains(tagName))
         {
-            holder.newAnnotation(
+            holder
+                    .newAnnotation(
                             HighlightSeverity.ERROR,
                             "Invalid self-closing tag: <" + tagName + "/>"
                     )
@@ -105,7 +109,8 @@ public class StateAnnotator implements Annotator
                 String key = attribute.getKey();
                 if (!tagDefinition.getAttributes().contains(key))
                 {
-                    holder.newAnnotation(
+                    holder
+                            .newAnnotation(
                                     HighlightSeverity.ERROR,
                                     "Invalid attribute '" + key + "' for tag <" + tagName + ">"
                             )
@@ -126,11 +131,16 @@ public class StateAnnotator implements Annotator
                 Tag childTag = content.getTag();
                 if (childTag != null)
                 {
-                    String childTagName = childTag.getPairedTag() != null ? childTag.getPairedTag().getStartTagName() :
-                            childTag.getSelfClosingTag() != null ? childTag.getSelfClosingTag().getTagName() : null;
+                    String childTagName = childTag.getPairedTag() != null ?
+                                            childTag.getPairedTag().getStartTagName() :
+                                            childTag.getSelfClosingTag() != null ?
+                                                childTag.getSelfClosingTag().getTagName() :
+                                                null;
+
                     if (childTagName != null && !tagDefinition.getChildren().contains(childTagName))
                     {
-                        holder.newAnnotation(
+                        holder
+                                .newAnnotation(
                                         HighlightSeverity.ERROR,
                                         "Invalid child tag <" + childTagName + "> for tag <" + tagName + ">"
                                 )
