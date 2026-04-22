@@ -1,7 +1,9 @@
 package com.github.baeyung.poslang.statelang.utils.psi;
 
 import com.github.baeyung.poslang.statelang.psi.Attribute;
+import com.github.baeyung.poslang.statelang.psi.AttributeValue;
 import com.github.baeyung.poslang.statelang.psi.EndTag;
+import com.github.baeyung.poslang.statelang.psi.PairedTag;
 import com.github.baeyung.poslang.statelang.psi.SelfClosingTag;
 import com.github.baeyung.poslang.statelang.psi.StartTag;
 import com.github.baeyung.poslang.statelang.psi.StateTypes;
@@ -13,12 +15,15 @@ public class StatePsiImplUtil
     public static String getKey(Attribute element)
     {
         ASTNode keyNode = element
+                .getAttributeName()
                 .getNode()
                 .findChildByType(StateTypes.IDENTIFIER);
 
         if (keyNode != null && StringUtil.isNotEmpty(keyNode.getText()))
         {
-            return keyNode.getText().toLowerCase();
+            return keyNode
+                    .getText()
+                    .toLowerCase();
         }
         else
         {
@@ -28,29 +33,35 @@ public class StatePsiImplUtil
 
     public static String getValue(Attribute element)
     {
-        ASTNode valueNode = element
-                .getNode()
-                .findChildByType(StateTypes.STRING);
+        AttributeValue attributeValue = element.getAttributeValue();
+        if (attributeValue != null)
+        {
+            ASTNode valueNode = attributeValue
+                    .getNode()
+                    .findChildByType(StateTypes.STRING);
 
-        if (valueNode != null && StringUtil.isNotEmpty(valueNode.getText()))
-        {
-            return valueNode.getText().toLowerCase();
+            if (valueNode != null && StringUtil.isNotEmpty(valueNode.getText()))
+            {
+                return valueNode
+                        .getText()
+                        .toLowerCase();
+            }
         }
-        else
-        {
-            return null;
-        }
+        return null;
     }
 
     public static String getTagName(StartTag element)
     {
         ASTNode nameNode = element
+                .getTagNameEl()
                 .getNode()
                 .findChildByType(StateTypes.TAG_NAME);
 
         if (nameNode != null && StringUtil.isNotEmpty(nameNode.getText()))
         {
-            return nameNode.getText().toLowerCase();
+            return nameNode
+                    .getText()
+                    .toLowerCase();
         }
         else
         {
@@ -58,15 +69,38 @@ public class StatePsiImplUtil
         }
     }
 
+    public static String getStartTagName(PairedTag pairedTag)
+    {
+        if (pairedTag != null)
+        {
+            return getTagName(pairedTag.getStartTag());
+        }
+
+        return null;
+    }
+
+    public static String getEndTagName(PairedTag pairedTag)
+    {
+        if (pairedTag != null)
+        {
+            return getTagName(pairedTag.getEndTag());
+        }
+
+        return null;
+    }
+
     public static String getTagName(EndTag element)
     {
         ASTNode nameNode = element
+                .getTagNameEl()
                 .getNode()
                 .findChildByType(StateTypes.TAG_NAME);
 
         if (nameNode != null && StringUtil.isNotEmpty(nameNode.getText()))
         {
-            return nameNode.getText().toLowerCase();
+            return nameNode
+                    .getText()
+                    .toLowerCase();
         }
         else
         {
@@ -77,12 +111,15 @@ public class StatePsiImplUtil
     public static String getTagName(SelfClosingTag element)
     {
         ASTNode nameNode = element
+                .getTagNameEl()
                 .getNode()
                 .findChildByType(StateTypes.TAG_NAME);
 
         if (nameNode != null && StringUtil.isNotEmpty(nameNode.getText()))
         {
-            return nameNode.getText().toLowerCase();
+            return nameNode
+                    .getText()
+                    .toLowerCase();
         }
         else
         {

@@ -29,6 +29,18 @@ public class AttributeImpl extends ASTWrapperPsiElement implements Attribute {
   }
 
   @Override
+  @NotNull
+  public AttributeName getAttributeName() {
+    return findNotNullChildByClass(AttributeName.class);
+  }
+
+  @Override
+  @Nullable
+  public AttributeValue getAttributeValue() {
+    return findChildByClass(AttributeValue.class);
+  }
+
+  @Override
   public String getKey() {
     return StatePsiImplUtil.getKey(this);
   }

@@ -5,14 +5,19 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface SelfClosingTag extends PsiElement {
-
-  @Nullable
-  AttributeList getAttributeList();
+public interface PairedTag extends PsiElement {
 
   @NotNull
-  TagNameEl getTagNameEl();
+  EndTag getEndTag();
 
-  String getTagName();
+  @NotNull
+  StartTag getStartTag();
+
+  @NotNull
+  TagBody getTagBody();
+
+  String getStartTagName();
+
+  String getEndTagName();
 
 }

@@ -29,27 +29,15 @@ public class TagImpl extends ASTWrapperPsiElement implements Tag {
   }
 
   @Override
-  @NotNull
-  public List<Content> getContentList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, Content.class);
-  }
-
-  @Override
   @Nullable
-  public EndTag getEndTag() {
-    return findChildByClass(EndTag.class);
+  public PairedTag getPairedTag() {
+    return findChildByClass(PairedTag.class);
   }
 
   @Override
   @Nullable
   public SelfClosingTag getSelfClosingTag() {
     return findChildByClass(SelfClosingTag.class);
-  }
-
-  @Override
-  @Nullable
-  public StartTag getStartTag() {
-    return findChildByClass(StartTag.class);
   }
 
 }

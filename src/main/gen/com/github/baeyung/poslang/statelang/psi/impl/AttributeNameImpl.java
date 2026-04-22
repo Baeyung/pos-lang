@@ -12,37 +12,20 @@ import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.baeyung.poslang.statelang.psi.*;
 import com.github.baeyung.poslang.statelang.utils.psi.StatePsiImplUtil;
 
-public class SelfClosingTagImpl extends ASTWrapperPsiElement implements SelfClosingTag {
+public class AttributeNameImpl extends ASTWrapperPsiElement implements AttributeName {
 
-  public SelfClosingTagImpl(@NotNull ASTNode node) {
+  public AttributeNameImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull Visitor visitor) {
-    visitor.visitSelfClosingTag(this);
+    visitor.visitAttributeName(this);
   }
 
   @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof Visitor) accept((Visitor)visitor);
     else super.accept(visitor);
-  }
-
-  @Override
-  @Nullable
-  public AttributeList getAttributeList() {
-    return findChildByClass(AttributeList.class);
-  }
-
-  @Override
-  @NotNull
-  public TagNameEl getTagNameEl() {
-    return findNotNullChildByClass(TagNameEl.class);
-  }
-
-  @Override
-  public String getTagName() {
-    return StatePsiImplUtil.getTagName(this);
   }
 
 }

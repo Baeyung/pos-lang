@@ -7,8 +7,11 @@ import com.intellij.psi.PsiElement;
 
 public interface StartTag extends PsiElement {
 
+  @Nullable
+  AttributeList getAttributeList();
+
   @NotNull
-  List<Attribute> getAttributeList();
+  TagNameEl getTagNameEl();
 
   String getTagName();
 

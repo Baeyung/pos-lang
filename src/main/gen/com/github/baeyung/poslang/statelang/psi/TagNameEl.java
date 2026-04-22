@@ -5,14 +5,6 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface SelfClosingTag extends PsiElement {
-
-  @Nullable
-  AttributeList getAttributeList();
-
-  @NotNull
-  TagNameEl getTagNameEl();
-
-  String getTagName();
+public interface TagNameEl extends PsiElement {
 
 }

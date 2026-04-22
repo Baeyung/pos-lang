@@ -20,7 +20,9 @@ public class StateLexer implements FlexLexer {
   /** lexical states */
   public static final int YYINITIAL = 0;
   public static final int AFTER_OB = 2;
-  public static final int AFTER_OB_SLASH = 4;
+  public static final int INSIDE_TAG = 4;
+  public static final int AFTER_OB_SLASH = 6;
+  public static final int INSIDE_END_TAG = 8;
 
   /**
    * ZZ_LEXSTATE[l] is the state in the DFA for the lexical state l
@@ -29,7 +31,7 @@ public class StateLexer implements FlexLexer {
    * l is of the form l = 2*k, k a non negative integer
    */
   private static final int ZZ_LEXSTATE[] = {
-     0,  0,  1,  1,  1, 1
+     0,  0,  1,  1,  2,  2,  3,  3,  4, 4
   };
 
   /**
@@ -96,12 +98,12 @@ public class StateLexer implements FlexLexer {
   private static final int [] ZZ_ACTION = zzUnpackAction();
 
   private static final String ZZ_ACTION_PACKED_0 =
-    "\2\0\1\1\1\2\2\1\1\3\1\4\1\5\1\6"+
-    "\1\7\1\10\1\0\1\11\1\0\1\12\1\0\1\13"+
-    "\4\0\1\14";
+    "\5\0\1\1\1\2\1\3\1\4\1\5\2\4\1\6"+
+    "\1\7\1\10\1\11\1\0\1\12\1\0\1\13\1\0"+
+    "\1\14\4\0\1\15";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[23];
+    int [] result = new int[27];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -126,12 +128,13 @@ public class StateLexer implements FlexLexer {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\16\0\34\0\52\0\70\0\106\0\124\0\34"+
-    "\0\34\0\142\0\34\0\160\0\70\0\34\0\176\0\34"+
-    "\0\214\0\34\0\232\0\250\0\266\0\304\0\34";
+    "\0\0\0\16\0\34\0\52\0\70\0\106\0\124\0\142"+
+    "\0\106\0\160\0\176\0\214\0\106\0\106\0\232\0\250"+
+    "\0\266\0\106\0\176\0\106\0\304\0\106\0\322\0\340"+
+    "\0\356\0\374\0\106";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[23];
+    int [] result = new int[27];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -154,17 +157,19 @@ public class StateLexer implements FlexLexer {
   private static final int [] ZZ_TRANS = zzUnpacktrans();
 
   private static final String ZZ_TRANS_PACKED_0 =
-    "\1\3\2\4\2\3\1\5\1\3\1\6\1\3\1\7"+
-    "\1\10\1\11\1\12\1\3\1\13\2\4\11\13\1\14"+
-    "\1\13\17\0\2\4\13\0\2\15\1\0\2\15\1\16"+
-    "\7\15\1\17\13\0\1\20\6\0\1\21\2\0\1\22"+
-    "\14\0\1\12\1\0\1\12\3\0\1\12\7\0\1\14"+
-    "\1\0\1\14\3\0\1\14\1\0\2\15\2\0\12\15"+
-    "\6\0\1\23\15\0\1\24\7\0\6\24\1\25\15\24"+
-    "\1\26\16\24\1\0\3\24\1\27\2\24";
+    "\1\6\2\7\6\6\1\10\4\6\1\11\2\7\11\11"+
+    "\1\12\2\11\2\7\2\11\1\13\1\11\1\14\2\11"+
+    "\1\15\1\16\1\17\2\11\2\7\11\11\1\20\2\11"+
+    "\2\7\10\11\1\16\2\11\17\0\2\7\17\0\1\21"+
+    "\2\0\1\22\14\0\1\12\1\0\1\12\3\0\1\12"+
+    "\1\0\2\23\1\0\2\23\1\24\7\23\1\25\13\0"+
+    "\1\26\10\0\1\17\1\0\1\17\3\0\1\17\7\0"+
+    "\1\20\1\0\1\20\3\0\1\20\7\0\1\27\7\0"+
+    "\2\23\2\0\12\23\6\0\1\30\7\0\6\30\1\31"+
+    "\15\30\1\32\16\30\1\0\3\30\1\33\2\30";
 
   private static int [] zzUnpacktrans() {
-    int [] result = new int[210];
+    int [] result = new int[266];
     int offset = 0;
     offset = zzUnpacktrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -202,11 +207,11 @@ public class StateLexer implements FlexLexer {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\2\0\1\11\4\1\2\11\1\1\1\11\1\1\1\0"+
+    "\5\0\1\11\2\1\1\11\3\1\2\11\2\1\1\0"+
     "\1\11\1\0\1\11\1\0\1\11\4\0\1\11";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[23];
+    int [] result = new int[27];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -521,62 +526,67 @@ public class StateLexer implements FlexLexer {
             { return TokenType.BAD_CHARACTER;
             }
           // fall through
-          case 13: break;
+          case 14: break;
           case 2:
             { return TokenType.WHITE_SPACE;
             }
           // fall through
-          case 14: break;
+          case 15: break;
           case 3:
             { yybegin(AFTER_OB); return StateTypes.OB;
             }
           // fall through
-          case 15: break;
-          case 4:
-            { return StateTypes.EQ;
-            }
-          // fall through
           case 16: break;
-          case 5:
-            { return StateTypes.CB;
-            }
-          // fall through
-          case 17: break;
-          case 6:
-            { return StateTypes.IDENTIFIER;
-            }
-          // fall through
-          case 18: break;
-          case 7:
+          case 4:
             { yybegin(YYINITIAL); return TokenType.BAD_CHARACTER;
             }
           // fall through
+          case 17: break;
+          case 5:
+            { yybegin(INSIDE_TAG); return StateTypes.TAG_NAME;
+            }
+          // fall through
+          case 18: break;
+          case 6:
+            { return StateTypes.EQ;
+            }
+          // fall through
           case 19: break;
-          case 8:
-            { yybegin(YYINITIAL); return StateTypes.TAG_NAME;
+          case 7:
+            { yybegin(YYINITIAL); return StateTypes.CB;
             }
           // fall through
           case 20: break;
-          case 9:
-            { return StateTypes.STRING;
+          case 8:
+            { return StateTypes.IDENTIFIER;
             }
           // fall through
           case 21: break;
-          case 10:
-            { return StateTypes.SLASH_CB;
+          case 9:
+            { yybegin(INSIDE_END_TAG); return StateTypes.TAG_NAME;
             }
           // fall through
           case 22: break;
-          case 11:
+          case 10:
             { yybegin(AFTER_OB_SLASH); return StateTypes.OB_SLASH;
             }
           // fall through
           case 23: break;
-          case 12:
-            { return StateTypes.COMMENT;
+          case 11:
+            { return StateTypes.STRING;
             }
           // fall through
           case 24: break;
+          case 12:
+            { yybegin(YYINITIAL); return StateTypes.SLASH_CB;
+            }
+          // fall through
+          case 25: break;
+          case 13:
+            { return StateTypes.COMMENT;
+            }
+          // fall through
+          case 26: break;
           default:
             zzScanError(ZZ_NO_MATCH);
           }

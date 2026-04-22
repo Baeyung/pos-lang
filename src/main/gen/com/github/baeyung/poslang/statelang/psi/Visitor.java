@@ -11,6 +11,18 @@ public class Visitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitAttributeList(@NotNull AttributeList o) {
+    visitPsiElement(o);
+  }
+
+  public void visitAttributeName(@NotNull AttributeName o) {
+    visitPsiElement(o);
+  }
+
+  public void visitAttributeValue(@NotNull AttributeValue o) {
+    visitPsiElement(o);
+  }
+
   public void visitCommentTag(@NotNull CommentTag o) {
     visitPsiElement(o);
   }
@@ -19,11 +31,11 @@ public class Visitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitElement(@NotNull Element o) {
+  public void visitEndTag(@NotNull EndTag o) {
     visitPsiElement(o);
   }
 
-  public void visitEndTag(@NotNull EndTag o) {
+  public void visitPairedTag(@NotNull PairedTag o) {
     visitPsiElement(o);
   }
 
@@ -36,6 +48,14 @@ public class Visitor extends PsiElementVisitor {
   }
 
   public void visitTag(@NotNull Tag o) {
+    visitPsiElement(o);
+  }
+
+  public void visitTagBody(@NotNull TagBody o) {
+    visitPsiElement(o);
+  }
+
+  public void visitTagNameEl(@NotNull TagNameEl o) {
     visitPsiElement(o);
   }
 

@@ -11,13 +11,18 @@ import com.github.baeyung.poslang.statelang.psi.impl.*;
 public interface StateTypes {
 
   IElementType ATTRIBUTE = new StateElementType("ATTRIBUTE");
+  IElementType ATTRIBUTE_LIST = new StateElementType("ATTRIBUTE_LIST");
+  IElementType ATTRIBUTE_NAME = new StateElementType("ATTRIBUTE_NAME");
+  IElementType ATTRIBUTE_VALUE = new StateElementType("ATTRIBUTE_VALUE");
   IElementType COMMENT_TAG = new StateElementType("COMMENT_TAG");
   IElementType CONTENT = new StateElementType("CONTENT");
-  IElementType ELEMENT = new StateElementType("ELEMENT");
   IElementType END_TAG = new StateElementType("END_TAG");
+  IElementType PAIRED_TAG = new StateElementType("PAIRED_TAG");
   IElementType SELF_CLOSING_TAG = new StateElementType("SELF_CLOSING_TAG");
   IElementType START_TAG = new StateElementType("START_TAG");
   IElementType TAG = new StateElementType("TAG");
+  IElementType TAG_BODY = new StateElementType("TAG_BODY");
+  IElementType TAG_NAME_EL = new StateElementType("TAG_NAME_EL");
 
   IElementType CB = new StateTokenType("CB");
   IElementType COMMENT = new StateTokenType("COMMENT");
@@ -35,17 +40,26 @@ public interface StateTypes {
       if (type == ATTRIBUTE) {
         return new AttributeImpl(node);
       }
+      else if (type == ATTRIBUTE_LIST) {
+        return new AttributeListImpl(node);
+      }
+      else if (type == ATTRIBUTE_NAME) {
+        return new AttributeNameImpl(node);
+      }
+      else if (type == ATTRIBUTE_VALUE) {
+        return new AttributeValueImpl(node);
+      }
       else if (type == COMMENT_TAG) {
         return new CommentTagImpl(node);
       }
       else if (type == CONTENT) {
         return new ContentImpl(node);
       }
-      else if (type == ELEMENT) {
-        return new ElementImpl(node);
-      }
       else if (type == END_TAG) {
         return new EndTagImpl(node);
+      }
+      else if (type == PAIRED_TAG) {
+        return new PairedTagImpl(node);
       }
       else if (type == SELF_CLOSING_TAG) {
         return new SelfClosingTagImpl(node);
@@ -55,6 +69,12 @@ public interface StateTypes {
       }
       else if (type == TAG) {
         return new TagImpl(node);
+      }
+      else if (type == TAG_BODY) {
+        return new TagBodyImpl(node);
+      }
+      else if (type == TAG_NAME_EL) {
+        return new TagNameElImpl(node);
       }
       throw new AssertionError("Unknown element type: " + type);
     }

@@ -12,14 +12,14 @@ import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.baeyung.poslang.statelang.psi.*;
 import com.github.baeyung.poslang.statelang.utils.psi.StatePsiImplUtil;
 
-public class SelfClosingTagImpl extends ASTWrapperPsiElement implements SelfClosingTag {
+public class PairedTagImpl extends ASTWrapperPsiElement implements PairedTag {
 
-  public SelfClosingTagImpl(@NotNull ASTNode node) {
+  public PairedTagImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull Visitor visitor) {
-    visitor.visitSelfClosingTag(this);
+    visitor.visitPairedTag(this);
   }
 
   @Override
@@ -29,20 +29,31 @@ public class SelfClosingTagImpl extends ASTWrapperPsiElement implements SelfClos
   }
 
   @Override
-  @Nullable
-  public AttributeList getAttributeList() {
-    return findChildByClass(AttributeList.class);
+  @NotNull
+  public EndTag getEndTag() {
+    return findNotNullChildByClass(EndTag.class);
   }
 
   @Override
   @NotNull
-  public TagNameEl getTagNameEl() {
-    return findNotNullChildByClass(TagNameEl.class);
+  public StartTag getStartTag() {
+    return findNotNullChildByClass(StartTag.class);
   }
 
   @Override
-  public String getTagName() {
-    return StatePsiImplUtil.getTagName(this);
+  @NotNull
+  public TagBody getTagBody() {
+    return findNotNullChildByClass(TagBody.class);
+  }
+
+  @Override
+  public String getStartTagName() {
+    return StatePsiImplUtil.getStartTagName(this);
+  }
+
+  @Override
+  public String getEndTagName() {
+    return StatePsiImplUtil.getEndTagName(this);
   }
 
 }

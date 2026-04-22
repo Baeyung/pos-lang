@@ -7,6 +7,12 @@ import com.intellij.psi.PsiElement;
 
 public interface Attribute extends PsiElement {
 
+  @NotNull
+  AttributeName getAttributeName();
+
+  @Nullable
+  AttributeValue getAttributeValue();
+
   String getKey();
 
   String getValue();

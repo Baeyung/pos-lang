@@ -12,32 +12,20 @@ import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.baeyung.poslang.statelang.psi.*;
 import com.github.baeyung.poslang.statelang.utils.psi.StatePsiImplUtil;
 
-public class ElementImpl extends ASTWrapperPsiElement implements Element {
+public class AttributeValueImpl extends ASTWrapperPsiElement implements AttributeValue {
 
-  public ElementImpl(@NotNull ASTNode node) {
+  public AttributeValueImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull Visitor visitor) {
-    visitor.visitElement(this);
+    visitor.visitAttributeValue(this);
   }
 
   @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof Visitor) accept((Visitor)visitor);
     else super.accept(visitor);
-  }
-
-  @Override
-  @Nullable
-  public CommentTag getCommentTag() {
-    return findChildByClass(CommentTag.class);
-  }
-
-  @Override
-  @Nullable
-  public Tag getTag() {
-    return findChildByClass(Tag.class);
   }
 
 }

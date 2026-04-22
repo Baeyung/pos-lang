@@ -7,16 +7,10 @@ import com.intellij.psi.PsiElement;
 
 public interface Tag extends PsiElement {
 
-  @NotNull
-  List<Content> getContentList();
-
   @Nullable
-  EndTag getEndTag();
+  PairedTag getPairedTag();
 
   @Nullable
   SelfClosingTag getSelfClosingTag();
-
-  @Nullable
-  StartTag getStartTag();
 
 }

@@ -4,35 +4,56 @@
   psiImplClassSuffix="Impl"
   psiPackage="com.github.baeyung.poslang.statelang.psi"
   psiImplPackage="com.github.baeyung.poslang.statelang.psi.impl"
-
   elementTypeHolderClass="com.github.baeyung.poslang.statelang.psi.StateTypes"
   elementTypeClass="com.github.baeyung.poslang.statelang.type.StateElementType"
   tokenTypeClass="com.github.baeyung.poslang.statelang.type.StateTokenType"
   psiImplUtilClass="com.github.baeyung.poslang.statelang.utils.psi.StatePsiImplUtil"
 }
 
-file ::= element*
+file ::= rootElement*
+private rootElement ::= tag | commentTag {
+    recoverWhile=file_recover
+}
 
-element ::= tag | commentTag
+private file_recover ::= !(OB | OB_SLASH | COMMENT)
 
-tag ::= startTag content* endTag | selfClosingTag
+tag ::= pairedTag | selfClosingTag {
+    pin=1
+}
 
-content ::= tag | commentTag
+pairedTag ::= startTag tagBody endTag {
+    methods=[ getStartTagName getEndTagName ]
+}
 
-startTag ::= OB TAG_NAME attribute* CB {
+tagBody ::= content* {
+    recoverWhile=tagBody_recover
+}
+
+private tagBody_recover ::= !(OB_SLASH | OB | COMMENT)
+
+selfClosingTag ::= OB tagNameEl attributeList? SLASH_CB {
     methods=[ getTagName ]
 }
 
-endTag ::= OB_SLASH TAG_NAME CB {
+startTag ::= OB tagNameEl attributeList? CB {
     methods=[ getTagName ]
 }
 
-selfClosingTag ::= OB TAG_NAME attribute* SLASH_CB {
-   methods=[ getTagName ]
+endTag ::= OB_SLASH tagNameEl CB {
+    pin=2
+    methods=[ getTagName ]
 }
 
-attribute ::= IDENTIFIER EQ STRING {
+tagNameEl ::= TAG_NAME
+
+attributeList ::= attribute+
+
+attribute ::= attributeName EQ attributeValue {
+    pin=1
     methods=[ getKey getValue ]
 }
 
+attributeName ::= IDENTIFIER
+attributeValue ::= STRING
+content ::= tag | commentTag
 commentTag ::= COMMENT

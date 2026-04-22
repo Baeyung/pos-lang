@@ -29,9 +29,15 @@ public class StartTagImpl extends ASTWrapperPsiElement implements StartTag {
   }
 
   @Override
+  @Nullable
+  public AttributeList getAttributeList() {
+    return findChildByClass(AttributeList.class);
+  }
+
+  @Override
   @NotNull
-  public List<Attribute> getAttributeList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, Attribute.class);
+  public TagNameEl getTagNameEl() {
+    return findNotNullChildByClass(TagNameEl.class);
   }
 
   @Override

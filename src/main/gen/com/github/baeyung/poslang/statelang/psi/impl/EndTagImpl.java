@@ -29,6 +29,12 @@ public class EndTagImpl extends ASTWrapperPsiElement implements EndTag {
   }
 
   @Override
+  @NotNull
+  public TagNameEl getTagNameEl() {
+    return findNotNullChildByClass(TagNameEl.class);
+  }
+
+  @Override
   public String getTagName() {
     return StatePsiImplUtil.getTagName(this);
   }
