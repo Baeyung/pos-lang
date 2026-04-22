@@ -50,5 +50,9 @@
         implementationClass="com.github.baeyung.poslang.phtmlang.PhtmFileType"
         extensions="phtm"
     />
-  </extensions>
+      <completion.contributor
+        language="StateLang"
+        implementationClass="com.github.baeyung.poslang.statelang.spec.StateCompletionContributor"
+    />
+</extensions>
 </idea-plugin>
