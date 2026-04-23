@@ -52,7 +52,7 @@
     />
       <completion.contributor
         language="StateLang"
-        implementationClass="com.github.baeyung.poslang.statelang.spec.StateCompletionContributor"
+        implementationClass="com.github.baeyung.poslang.statelang.completion.StateCompletionContributor"
     />
 </extensions>
 </idea-plugin>
