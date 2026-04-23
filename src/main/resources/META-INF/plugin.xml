@@ -54,5 +54,9 @@
         language="StateLang"
         implementationClass="com.github.baeyung.poslang.statelang.completion.StateCompletionContributor"
     />
+  <psi.referenceContributor
+        language="StateLang"
+        implementation="com.github.baeyung.poslang.statelang.reference.StateReferenceContributor"
+    />
 </extensions>
 </idea-plugin>

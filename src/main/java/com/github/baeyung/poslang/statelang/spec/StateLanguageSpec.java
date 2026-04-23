@@ -115,7 +115,7 @@ public class StateLanguageSpec
             )
     );
 
-    Set<String> REFERENCEABLE_ATTRIBUTES = Set.of(
+    public static final Set<String> REFERENCEABLE_ATTRIBUTES = Set.of(
             LOADER_ATTR,
             NAME_ATTR,
             INCLUDE_ATTR,
