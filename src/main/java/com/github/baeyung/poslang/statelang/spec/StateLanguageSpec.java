@@ -114,5 +114,28 @@ public class StateLanguageSpec
                     Set.of()
             )
     );
+
+    Set<String> REFERENCEABLE_ATTRIBUTES = Set.of(
+            LOADER_ATTR,
+            NAME_ATTR,
+            INCLUDE_ATTR,
+            EXCLUDE_ATTR,
+            NEXT_ATTR,
+            PAGE_ATTR,
+            PICTURE_ATTR,
+            PNP_ATTR,
+            CALL_SUBSTATE_ATTR,
+            SUBSTATE_NEXT_ATTR,
+            PPI_ATTR,
+            CALCULATE_ATTR,
+            MAIN_STATE_ATTR,
+            ROOT_START_ATTR,
+            PERMISSION_ATTR,
+            PERMISSION_FAIL_ATTR,
+            HELP_REF_ATTR,
+            LIKE_ATTR,
+            GOTO_SUBSTATE_ATTR,
+            FILE_ATTR
+    );
     // endregion
 }
