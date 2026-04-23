@@ -145,7 +145,7 @@ public class StateCompletionContributor extends CompletionContributor
 
         if (selfClosing)
         {
-            document.insertString(tailOffset, "  />");
+            document.insertString(tailOffset, " />");
         }
         else
         {
