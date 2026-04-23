@@ -23,7 +23,11 @@ public class StateCompletionContributor extends CompletionContributor
                 new CompletionProvider<>()
                 {
                     @Override
-                    protected void addCompletions(@NotNull CompletionParameters parameters, @NotNull ProcessingContext context, @NotNull CompletionResultSet result)
+                    protected void addCompletions(
+                            @NotNull CompletionParameters parameters,
+                            @NotNull ProcessingContext context,
+                            @NotNull CompletionResultSet result
+                    )
                     {
                         for (String tag : StateLanguageSpec.ALLOWED_FULL_TAGS)
                         {
@@ -43,7 +47,11 @@ public class StateCompletionContributor extends CompletionContributor
                 new CompletionProvider<>()
                 {
                     @Override
-                    protected void addCompletions(@NotNull CompletionParameters parameters, @NotNull ProcessingContext context, @NotNull CompletionResultSet result)
+                    protected void addCompletions(
+                            @NotNull CompletionParameters parameters,
+                            @NotNull ProcessingContext context,
+                            @NotNull CompletionResultSet result
+                    )
                     {
                         PsiElement position = parameters.getPosition();
 
