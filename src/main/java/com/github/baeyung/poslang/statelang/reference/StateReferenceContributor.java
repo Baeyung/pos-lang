@@ -8,25 +8,35 @@ import com.intellij.psi.*;
 import com.intellij.util.ProcessingContext;
 import org.jetbrains.annotations.NotNull;
 
-public class StateReferenceContributor extends PsiReferenceContributor {
+public class StateReferenceContributor extends PsiReferenceContributor
+{
     @Override
-    public void registerReferenceProviders(@NotNull PsiReferenceRegistrar registrar) {
-        registrar.registerReferenceProvider(PlatformPatterns.psiElement(AttributeValue.class),
-                new PsiReferenceProvider() {
+    public void registerReferenceProviders(@NotNull PsiReferenceRegistrar registrar)
+    {
+        registrar.registerReferenceProvider(
+                PlatformPatterns.psiElement(AttributeValue.class),
+                new PsiReferenceProvider()
+                {
                     @Override
-                    public PsiReference @NotNull [] getReferencesByElement(@NotNull PsiElement element,
-                                                                           @NotNull ProcessingContext context) {
+                    public PsiReference @NotNull [] getReferencesByElement(
+                            @NotNull PsiElement element,
+                            @NotNull ProcessingContext context
+                    )
+                    {
                         AttributeValue attrValue = (AttributeValue) element;
                         PsiElement parent = attrValue.getParent();
-                        if (parent instanceof Attribute) {
+                        if (parent instanceof Attribute)
+                        {
                             Attribute attr = (Attribute) parent;
                             String key = attr.getKey();
-                            if (key != null && StateLanguageSpec.REFERENCEABLE_ATTRIBUTES.contains(key)) {
+                            if (key != null && StateLanguageSpec.REFERENCEABLE_ATTRIBUTES.contains(key))
+                            {
                                 return new PsiReference[]{new StateReference(attrValue)};
                             }
                         }
                         return PsiReference.EMPTY_ARRAY;
                     }
-                });
+                }
+        );
     }
 }

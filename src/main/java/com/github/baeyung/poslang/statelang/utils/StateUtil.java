@@ -20,16 +20,24 @@ public class StateUtil
     /**
      * Searches the entire project for State language files with instances of the Attribute with the given key and value.
      */
-    public static List<Attribute> findAttributes(Project project, String key, String value) {
+    public static List<Attribute> findAttributes(Project project, String key, String value)
+    {
         List<Attribute> result = new ArrayList<>();
         Collection<VirtualFile> virtualFiles =
-            FileTypeIndex.getFiles(StateFileType.INSTANCE, GlobalSearchScope.allScope(project));
-        for (VirtualFile virtualFile : virtualFiles) {
-            StateFile stateFile = (StateFile) PsiManager.getInstance(project).findFile(virtualFile);
-            if (stateFile != null) {
+                FileTypeIndex.getFiles(StateFileType.INSTANCE, GlobalSearchScope.allScope(project));
+        for (VirtualFile virtualFile : virtualFiles)
+        {
+            StateFile stateFile = (StateFile) PsiManager
+                    .getInstance(project)
+                    .findFile(virtualFile);
+
+            if (stateFile != null)
+            {
                 Collection<Attribute> attributes = PsiTreeUtil.findChildrenOfType(stateFile, Attribute.class);
-                for (Attribute attribute : attributes) {
-                    if (key.equals(attribute.getKey()) && value.equals(attribute.getValue())) {
+                for (Attribute attribute : attributes)
+                {
+                    if (key.equals(attribute.getKey()) && value.equals(attribute.getValue()))
+                    {
                         result.add(attribute);
                     }
                 }
@@ -41,16 +49,23 @@ public class StateUtil
     /**
      * Searches the entire project for State language files with instances of the Attribute with the given key.
      */
-    public static List<Attribute> findAttributes(Project project, String key) {
+    public static List<Attribute> findAttributes(Project project, String key)
+    {
         List<Attribute> result = new ArrayList<>();
         Collection<VirtualFile> virtualFiles =
-            FileTypeIndex.getFiles(StateFileType.INSTANCE, GlobalSearchScope.allScope(project));
-        for (VirtualFile virtualFile : virtualFiles) {
-            StateFile stateFile = (StateFile) PsiManager.getInstance(project).findFile(virtualFile);
-            if (stateFile != null) {
+                FileTypeIndex.getFiles(StateFileType.INSTANCE, GlobalSearchScope.allScope(project));
+        for (VirtualFile virtualFile : virtualFiles)
+        {
+            StateFile stateFile = (StateFile) PsiManager
+                    .getInstance(project)
+                    .findFile(virtualFile);
+            if (stateFile != null)
+            {
                 Collection<Attribute> attributes = PsiTreeUtil.findChildrenOfType(stateFile, Attribute.class);
-                for (Attribute attribute : attributes) {
-                    if (key.equals(attribute.getKey())) {
+                for (Attribute attribute : attributes)
+                {
+                    if (key.equals(attribute.getKey()))
+                    {
                         result.add(attribute);
                     }
                 }
