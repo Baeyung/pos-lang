@@ -2,7 +2,6 @@ package com.github.baeyung.poslang.statelang.reference;
 
 import com.github.baeyung.poslang.statelang.psi.Attribute;
 import com.github.baeyung.poslang.statelang.psi.AttributeValue;
-import com.github.baeyung.poslang.statelang.psi.StateTypes;
 import com.github.baeyung.poslang.statelang.spec.StateLanguageSpec;
 import com.github.baeyung.poslang.statelang.utils.StateUtil;
 import com.intellij.openapi.util.TextRange;
@@ -24,8 +23,7 @@ public final class StateReferenceContributor extends PsiReferenceContributor
     {
         registrar.registerReferenceProvider(
                 PlatformPatterns
-                        .psiElement(StateTypes.STRING)
-                        .withParent(AttributeValue.class),
+                        .psiElement(Attribute.class),
                 new PsiReferenceProvider()
                 {
                     @Override

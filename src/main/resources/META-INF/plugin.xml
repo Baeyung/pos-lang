@@ -46,6 +46,12 @@
 
     <psi.referenceContributor
         implementation="com.github.baeyung.poslang.statelang.reference.StateReferenceContributor"
+        language="StateLang"
+    />
+
+    <lang.findUsagesProvider
+        language="StateLang"
+        implementationClass="com.github.baeyung.poslang.statelang.usage.StateFindUsagesProvider"
     />
 
     <fileType
