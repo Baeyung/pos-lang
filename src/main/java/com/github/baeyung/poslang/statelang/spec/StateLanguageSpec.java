@@ -67,7 +67,8 @@ public class StateLanguageSpec
             SUBSTATE_NEXT_ATTR,
             PERMISSION_FAIL_ATTR,
             LIKE_ATTR,
-            GOTO_SUBSTATE_ATTR
+            GOTO_SUBSTATE_ATTR,
+            MAIN_STATE_ATTR
     );
 
     public static final Map<String, TagDefinition> TAG_ATTRIBUTES = Map.of(
