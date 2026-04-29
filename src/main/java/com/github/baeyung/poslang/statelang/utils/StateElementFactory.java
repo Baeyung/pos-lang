@@ -1,24 +1,32 @@
 package com.github.baeyung.poslang.statelang.utils;
 
-import com.github.baeyung.poslang.statelang.StateFile;
 import com.github.baeyung.poslang.statelang.StateFileType;
 import com.github.baeyung.poslang.statelang.psi.Attribute;
 import com.intellij.openapi.project.Project;
-import com.intellij.psi.*;
+import com.intellij.psi.PsiFile;
+import com.intellij.psi.PsiFileFactory;
+import com.intellij.psi.util.PsiTreeUtil;
 
 public class StateElementFactory
 {
-    public static Attribute createProperty(Project project, String name)
+    public static Attribute createNameAttribute(Project project, String name)
     {
-        StateFile file = createFile(project, name);
-        return (Attribute) file.getFirstChild();
+        PsiFile file = createFile(project, "<state name=\"" + escapeAttributeValue(name) + "\"/>");
+        return PsiTreeUtil.findChildOfType(file, Attribute.class);
     }
 
-    public static StateFile createFile(Project project, String text)
+    public static PsiFile createFile(Project project, String text)
     {
-        String name = "dummy.simple";
-        return (StateFile) PsiFileFactory
+        String name = "dummy.state";
+        return PsiFileFactory
                 .getInstance(project).
                 createFileFromText(name, StateFileType.INSTANCE, text);
+    }
+
+    private static String escapeAttributeValue(String value)
+    {
+        return value
+                .replace("\\", "\\\\")
+                .replace("\"", "\\\"");
     }
 }

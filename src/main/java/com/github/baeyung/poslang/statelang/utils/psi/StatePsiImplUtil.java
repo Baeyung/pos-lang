@@ -7,6 +7,7 @@ import com.github.baeyung.poslang.statelang.psi.PairedTag;
 import com.github.baeyung.poslang.statelang.psi.SelfClosingTag;
 import com.github.baeyung.poslang.statelang.psi.StartTag;
 import com.github.baeyung.poslang.statelang.psi.StateTypes;
+import com.github.baeyung.poslang.statelang.spec.StateLanguageSpec;
 import com.github.baeyung.poslang.statelang.utils.StateElementFactory;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.text.StringUtil;
@@ -44,9 +45,7 @@ public class StatePsiImplUtil
 
             if (valueNode != null && StringUtil.isNotEmpty(valueNode.getText()))
             {
-                return valueNode
-                        .getText()
-                        .toLowerCase();
+                return unquote(valueNode.getText());
             }
         }
         return null;
@@ -131,24 +130,42 @@ public class StatePsiImplUtil
 
     public static String getName(Attribute element)
     {
-        return getValue(element);
+        if (StateLanguageSpec.isNameDeclarationAttribute(element.getKey()))
+        {
+            return getValue(element);
+        }
+
+        return null;
     }
 
     public static PsiElement setName(Attribute element, String newName)
     {
+        if (!StateLanguageSpec.isNameDeclarationAttribute(element.getKey()))
+        {
+            return element;
+        }
+
         AttributeValue attributeValue = element.getAttributeValue();
         if (attributeValue != null)
         {
             ASTNode elementValueNode = attributeValue.getNode().findChildByType(StateTypes.STRING);
             if (elementValueNode != null)
             {
-                Attribute property = StateElementFactory.createProperty(element.getProject(), newName);
+                Attribute property = StateElementFactory.createNameAttribute(element.getProject(), newName);
 
-                AttributeValue newPropertyValue = property.getAttributeValue();
-                if (newPropertyValue != null)
+                if (property != null)
                 {
-                    ASTNode newKeyNode = newPropertyValue.getNode().findChildByType(StateTypes.STRING);
-                    elementValueNode.replaceChild(elementValueNode, newKeyNode);
+                    AttributeValue newPropertyValue = property.getAttributeValue();
+                    if (newPropertyValue != null)
+                    {
+                        ASTNode newValueNode = newPropertyValue.getNode().findChildByType(StateTypes.STRING);
+                        if (newValueNode != null)
+                        {
+                            attributeValue
+                                    .getNode()
+                                    .replaceChild(elementValueNode, newValueNode);
+                        }
+                    }
                 }
             }
         }
@@ -157,6 +174,11 @@ public class StatePsiImplUtil
 
     public static PsiElement getNameIdentifier(Attribute element)
     {
+        if (!StateLanguageSpec.isNameDeclarationAttribute(element.getKey()))
+        {
+            return null;
+        }
+
         AttributeValue attributeValue = element.getAttributeValue();
         if (attributeValue != null)
         {
@@ -171,5 +193,15 @@ public class StatePsiImplUtil
         }
 
         return null;
+    }
+
+    private static String unquote(String text)
+    {
+        if (text.length() >= 2 && text.charAt(0) == '"' && text.charAt(text.length() - 1) == '"')
+        {
+            return text.substring(1, text.length() - 1);
+        }
+
+        return text;
     }
 }

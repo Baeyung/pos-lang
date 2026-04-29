@@ -44,6 +44,10 @@
         implementationClass="com.github.baeyung.poslang.statelang.spec.StateAnnotator"
     />
 
+    <psi.referenceContributor
+        implementation="com.github.baeyung.poslang.statelang.reference.StateReferenceContributor"
+    />
+
     <fileType
         name="Phtm File"
         language="PhtmLang"
