@@ -6,6 +6,7 @@ import org.jetbrains.annotations.*;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
+import com.intellij.psi.PsiReference;
 import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.baeyung.poslang.statelang.psi.StateTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
@@ -26,6 +27,18 @@ public class AttributeValueImpl extends ASTWrapperPsiElement implements Attribut
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof Visitor) accept((Visitor)visitor);
     else super.accept(visitor);
+  }
+
+  @Override
+  @Nullable
+  public PsiReference getReference() {
+    return StatePsiImplUtil.getReference(this);
+  }
+
+  @Override
+  @NotNull
+  public PsiReference[] getReferences() {
+    return StatePsiImplUtil.getReferences(this);
   }
 
 }

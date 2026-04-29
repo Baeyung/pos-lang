@@ -21,12 +21,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-final class StateReference extends PsiPolyVariantReferenceBase<PsiElement>
+public final class StateReference extends PsiPolyVariantReferenceBase<PsiElement>
 {
 
     private final String value;
 
-    StateReference(@NotNull PsiElement element, TextRange textRange)
+    public StateReference(@NotNull PsiElement element, TextRange textRange)
     {
         super(element, textRange);
         value = element
