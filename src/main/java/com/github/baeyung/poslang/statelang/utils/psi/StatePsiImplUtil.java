@@ -134,7 +134,7 @@ public class StatePsiImplUtil
         return getValue(element);
     }
 
-    public static PsiElement setValue(Attribute element, String newName)
+    public static PsiElement setName(Attribute element, String newName)
     {
         AttributeValue attributeValue = element.getAttributeValue();
         if (attributeValue != null)
@@ -155,7 +155,7 @@ public class StatePsiImplUtil
         return element;
     }
 
-    public static PsiElement getValueIdentifier(Attribute element)
+    public static PsiElement getNameIdentifier(Attribute element)
     {
         AttributeValue attributeValue = element.getAttributeValue();
         if (attributeValue != null)
