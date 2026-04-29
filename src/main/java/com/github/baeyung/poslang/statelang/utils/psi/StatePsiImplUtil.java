@@ -24,8 +24,7 @@ public class StatePsiImplUtil
         if (keyNode != null && StringUtil.isNotEmpty(keyNode.getText()))
         {
             return keyNode
-                    .getText()
-                    .toLowerCase();
+                    .getText();
         }
         else
         {
@@ -44,9 +43,12 @@ public class StatePsiImplUtil
 
             if (valueNode != null && StringUtil.isNotEmpty(valueNode.getText()))
             {
-                return valueNode
-                        .getText()
-                        .toLowerCase();
+                String text = valueNode.getText();
+                if (text.length() >= 2 && text.startsWith("\"") && text.endsWith("\"")) {
+                    return text.substring(1, text.length() - 1);
+                } else {
+                    return text;
+                }
             }
         }
         return null;
@@ -62,8 +64,7 @@ public class StatePsiImplUtil
         if (nameNode != null && StringUtil.isNotEmpty(nameNode.getText()))
         {
             return nameNode
-                    .getText()
-                    .toLowerCase();
+                    .getText();
         }
         else
         {
@@ -101,8 +102,7 @@ public class StatePsiImplUtil
         if (nameNode != null && StringUtil.isNotEmpty(nameNode.getText()))
         {
             return nameNode
-                    .getText()
-                    .toLowerCase();
+                    .getText();
         }
         else
         {
@@ -120,8 +120,7 @@ public class StatePsiImplUtil
         if (nameNode != null && StringUtil.isNotEmpty(nameNode.getText()))
         {
             return nameNode
-                    .getText()
-                    .toLowerCase();
+                    .getText();
         }
         else
         {

@@ -1,9 +1,9 @@
 package com.github.baeyung.poslang.statelang.reference;
 
+import com.github.baeyung.poslang.statelang.psi.AttributeValue;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.patterns.PlatformPatterns;
 import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiLiteralExpression;
 import com.intellij.psi.PsiReference;
 import com.intellij.psi.PsiReferenceContributor;
 import com.intellij.psi.PsiReferenceProvider;
@@ -18,7 +18,7 @@ final class StateReferenceContributor extends PsiReferenceContributor
     public void registerReferenceProviders(@NotNull PsiReferenceRegistrar registrar)
     {
         registrar.registerReferenceProvider(
-                PlatformPatterns.psiElement(PsiLiteralExpression.class),
+                PlatformPatterns.psiElement(AttributeValue.class),
                 new PsiReferenceProvider()
                 {
                     @Override
@@ -27,14 +27,14 @@ final class StateReferenceContributor extends PsiReferenceContributor
                             @NotNull ProcessingContext context
                     )
                     {
-                        PsiLiteralExpression literalExpression = (PsiLiteralExpression) element;
-                        String value = literalExpression.getValue() instanceof String ?
-                                       (String) literalExpression.getValue() : null;
-                        if (value != null)
+                        AttributeValue attributeValue = (AttributeValue) element;
+                        String text = attributeValue.getText();
+                        // text includes quotes, like "someValue"
+                        if (text != null && text.length() >= 2)
                         {
                             TextRange property = new TextRange(
                                     1,
-                                    value.length() + 1
+                                    text.length() - 1
                             );
                             return new PsiReference[]{new StateReference(element, property)};
                         }
