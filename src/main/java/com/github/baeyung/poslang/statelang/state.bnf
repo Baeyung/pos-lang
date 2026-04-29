@@ -50,7 +50,9 @@ attributeList ::= attribute+
 
 attribute ::= attributeName EQ attributeValue {
     pin=1
-    methods=[ getKey getValue ]
+    mixin="com.github.baeyung.poslang.statelang.type.StateNamedImpl"
+    implements="com.github.baeyung.poslang.statelang.type.StateNamedElement"
+    methods=[ getKey getValue getValueIdentifier getName setValue ]
 }
 
 attributeName ::= IDENTIFIER

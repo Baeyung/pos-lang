@@ -7,8 +7,10 @@ import com.github.baeyung.poslang.statelang.psi.PairedTag;
 import com.github.baeyung.poslang.statelang.psi.SelfClosingTag;
 import com.github.baeyung.poslang.statelang.psi.StartTag;
 import com.github.baeyung.poslang.statelang.psi.StateTypes;
+import com.github.baeyung.poslang.statelang.utils.StateElementFactory;
 import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.text.StringUtil;
+import com.intellij.psi.PsiElement;
 
 public class StatePsiImplUtil
 {
@@ -125,5 +127,49 @@ public class StatePsiImplUtil
         {
             return null;
         }
+    }
+
+    public static String getName(Attribute element)
+    {
+        return getValue(element);
+    }
+
+    public static PsiElement setValue(Attribute element, String newName)
+    {
+        AttributeValue attributeValue = element.getAttributeValue();
+        if (attributeValue != null)
+        {
+            ASTNode elementValueNode = attributeValue.getNode().findChildByType(StateTypes.STRING);
+            if (elementValueNode != null)
+            {
+                Attribute property = StateElementFactory.createProperty(element.getProject(), newName);
+
+                AttributeValue newPropertyValue = property.getAttributeValue();
+                if (newPropertyValue != null)
+                {
+                    ASTNode newKeyNode = newPropertyValue.getNode().findChildByType(StateTypes.STRING);
+                    elementValueNode.replaceChild(elementValueNode, newKeyNode);
+                }
+            }
+        }
+        return element;
+    }
+
+    public static PsiElement getValueIdentifier(Attribute element)
+    {
+        AttributeValue attributeValue = element.getAttributeValue();
+        if (attributeValue != null)
+        {
+            ASTNode valueNode = attributeValue
+                    .getNode()
+                    .findChildByType(StateTypes.STRING);
+
+            if (valueNode != null)
+            {
+                return valueNode.getPsi();
+            }
+        }
+
+        return null;
     }
 }
