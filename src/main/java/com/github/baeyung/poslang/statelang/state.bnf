@@ -50,10 +50,14 @@ attributeList ::= attribute+
 
 attribute ::= attributeName EQ attributeValue {
     pin=1
-    methods=[ getKey getValue ]
+    mixin="com.github.baeyung.poslang.statelang.type.StateNamedElementImpl"
+    implements="com.github.baeyung.poslang.statelang.type.StateNamedElement"
+    methods=[ getKey getValue getNameIdentifier getName setName ]
 }
 
 attributeName ::= IDENTIFIER
-attributeValue ::= STRING
+attributeValue ::= STRING {
+    methods=[ getReference getReferences ]
+}
 content ::= tag | commentTag
 commentTag ::= COMMENT

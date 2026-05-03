@@ -1,5 +1,6 @@
 package com.github.baeyung.poslang.statelang.utils.psi;
 
+import com.github.baeyung.poslang.statelang.reference.StateReference;
 import com.github.baeyung.poslang.statelang.psi.Attribute;
 import com.github.baeyung.poslang.statelang.psi.AttributeValue;
 import com.github.baeyung.poslang.statelang.psi.EndTag;
@@ -7,11 +8,49 @@ import com.github.baeyung.poslang.statelang.psi.PairedTag;
 import com.github.baeyung.poslang.statelang.psi.SelfClosingTag;
 import com.github.baeyung.poslang.statelang.psi.StartTag;
 import com.github.baeyung.poslang.statelang.psi.StateTypes;
+import com.github.baeyung.poslang.statelang.spec.StateLanguageSpec;
+import com.github.baeyung.poslang.statelang.utils.StateElementFactory;
+import com.github.baeyung.poslang.statelang.utils.StateUtil;
 import com.intellij.lang.ASTNode;
+import com.intellij.openapi.util.TextRange;
 import com.intellij.openapi.util.text.StringUtil;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiReference;
+import com.intellij.psi.util.PsiTreeUtil;
 
 public class StatePsiImplUtil
 {
+    public static PsiReference getReference(AttributeValue element)
+    {
+        PsiReference[] references = getReferences(element);
+        return references.length > 0 ? references[0] : null;
+    }
+
+    public static PsiReference[] getReferences(AttributeValue element)
+    {
+        Attribute attribute = PsiTreeUtil.getParentOfType(element, Attribute.class);
+        if (attribute == null)
+        {
+            return PsiReference.EMPTY_ARRAY;
+        }
+
+        String attributeName = attribute.getKey();
+        String tagName = StateUtil.getContainingTagName(attribute);
+        if (!StateLanguageSpec.isStateFileReference(tagName, attributeName) &&
+            !StateLanguageSpec.isNameReferenceAttribute(attributeName))
+        {
+            return PsiReference.EMPTY_ARRAY;
+        }
+
+        TextRange valueRange = getStringValueRange(element);
+        if (valueRange == null)
+        {
+            return PsiReference.EMPTY_ARRAY;
+        }
+
+        return new PsiReference[]{new StateReference(element, valueRange)};
+    }
+
     public static String getKey(Attribute element)
     {
         ASTNode keyNode = element
@@ -42,9 +81,7 @@ public class StatePsiImplUtil
 
             if (valueNode != null && StringUtil.isNotEmpty(valueNode.getText()))
             {
-                return valueNode
-                        .getText()
-                        .toLowerCase();
+                return unquote(valueNode.getText());
             }
         }
         return null;
@@ -125,5 +162,100 @@ public class StatePsiImplUtil
         {
             return null;
         }
+    }
+
+    public static String getName(Attribute element)
+    {
+        if (StateLanguageSpec.isNameDeclarationAttribute(element.getKey()))
+        {
+            return getValue(element);
+        }
+
+        return null;
+    }
+
+    public static PsiElement setName(Attribute element, String newName)
+    {
+        if (!StateLanguageSpec.isNameDeclarationAttribute(element.getKey()))
+        {
+            return element;
+        }
+
+        AttributeValue attributeValue = element.getAttributeValue();
+        if (attributeValue != null)
+        {
+            ASTNode elementValueNode = attributeValue
+                    .getNode()
+                    .findChildByType(StateTypes.STRING);
+            if (elementValueNode != null)
+            {
+                Attribute property = StateElementFactory.createNameAttribute(element.getProject(), newName);
+
+                if (property != null)
+                {
+                    AttributeValue newPropertyValue = property.getAttributeValue();
+                    if (newPropertyValue != null)
+                    {
+                        ASTNode newValueNode = newPropertyValue
+                                .getNode()
+                                .findChildByType(StateTypes.STRING);
+                        if (newValueNode != null)
+                        {
+                            attributeValue
+                                    .getNode()
+                                    .replaceChild(elementValueNode, newValueNode);
+                        }
+                    }
+                }
+            }
+        }
+        return element;
+    }
+
+    public static PsiElement getNameIdentifier(Attribute element)
+    {
+        if (!StateLanguageSpec.isNameDeclarationAttribute(element.getKey()))
+        {
+            return null;
+        }
+
+        AttributeValue attributeValue = element.getAttributeValue();
+        if (attributeValue != null)
+        {
+            ASTNode valueNode = attributeValue
+                    .getNode()
+                    .findChildByType(StateTypes.STRING);
+
+            if (valueNode != null)
+            {
+                return valueNode.getPsi();
+            }
+        }
+
+        return null;
+    }
+
+    private static String unquote(String text)
+    {
+        if (text.length() >= 2 && text.charAt(0) == '"' && text.charAt(text.length() - 1) == '"')
+        {
+            return text.substring(1, text.length() - 1);
+        }
+
+        return text;
+    }
+
+    private static TextRange getStringValueRange(PsiElement element)
+    {
+        String text = element.getText();
+        int startOffset = text.startsWith("\"") ? 1 : 0;
+        int endOffset = text.endsWith("\"") && text.length() > startOffset ? text.length() - 1 : text.length();
+
+        if (endOffset <= startOffset)
+        {
+            return null;
+        }
+
+        return new TextRange(startOffset, endOffset);
     }
 }

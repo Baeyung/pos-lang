@@ -4,11 +4,12 @@ package com.github.baeyung.poslang.statelang.psi;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.PsiElement;
+import com.github.baeyung.poslang.statelang.type.StateNamedElement;
 
 public class Visitor extends PsiElementVisitor {
 
   public void visitAttribute(@NotNull Attribute o) {
-    visitPsiElement(o);
+    visitStateNamedElement(o);
   }
 
   public void visitAttributeList(@NotNull AttributeList o) {
@@ -57,6 +58,10 @@ public class Visitor extends PsiElementVisitor {
 
   public void visitTagNameEl(@NotNull TagNameEl o) {
     visitPsiElement(o);
+  }
+
+  public void visitStateNamedElement(@NotNull StateNamedElement o) {
+    visitElement(o);
   }
 
   public void visitPsiElement(@NotNull PsiElement o) {

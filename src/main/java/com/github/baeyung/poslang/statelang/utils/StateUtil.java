@@ -1,66 +1,175 @@
 package com.github.baeyung.poslang.statelang.utils;
 
-// This file contains the boilerPlate code of example which is not used for now, lets come back to it later
+import com.github.baeyung.poslang.statelang.StateFileType;
+import com.github.baeyung.poslang.statelang.psi.Attribute;
+import com.github.baeyung.poslang.statelang.psi.SelfClosingTag;
+import com.github.baeyung.poslang.statelang.psi.StartTag;
+import com.intellij.openapi.project.Project;
+import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiFile;
+import com.intellij.psi.PsiManager;
+import com.intellij.psi.search.FileTypeIndex;
+import com.intellij.psi.search.GlobalSearchScope;
+import com.intellij.psi.util.PsiTreeUtil;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 public class StateUtil
 {
+    public static List<Attribute> findNameAttributes(Project project, String name)
+    {
+        List<Attribute> result = new ArrayList<>();
+        for (Attribute attribute : findNameAttributes(project))
+        {
+            if (name.equals(attribute.getName()))
+            {
+                result.add(attribute);
+            }
+        }
+        return result;
+    }
 
-//  /**
-//   * Searches the entire project for State language files with instances of the Simple property with the given key.
-//   *
-//   * @param project current project
-//   * @param key     to check
-//   * @return matching properties
-//   */
-//  public static List<SimpleProperty> findProperties(Project project, String key) {
-//    List<SimpleProperty> result = new ArrayList<>();
-//    Collection<VirtualFile> virtualFiles =
-//        FileTypeIndex.getFiles(StateFileType.INSTANCE, GlobalSearchScope.allScope(project));
-//    for (VirtualFile virtualFile : virtualFiles) {
-//        StateFile simpleFile = (StateFile) PsiManager.getInstance(project).findFile(virtualFile);
-//      if (simpleFile != null) {
-//        SimpleProperty[] properties = PsiTreeUtil.getChildrenOfType(simpleFile, SimpleProperty.class);
-//        if (properties != null) {
-//          for (SimpleProperty property : properties) {
-//            if (key.equals(property.getKey())) {
-//              result.add(property);
-//            }
-//          }
-//        }
-//      }
-//    }
-//    return result;
-//  }
-//
-//  public static List<SimpleProperty> findProperties(Project project) {
-//    List<SimpleProperty> result = new ArrayList<>();
-//    Collection<VirtualFile> virtualFiles =
-//        FileTypeIndex.getFiles(SimpleFileType.INSTANCE, GlobalSearchScope.allScope(project));
-//    for (VirtualFile virtualFile : virtualFiles) {
-//        StateFile simpleFile = (StateFile) PsiManager.getInstance(project).findFile(virtualFile);
-//      if (simpleFile != null) {
-//        SimpleProperty[] properties = PsiTreeUtil.getChildrenOfType(simpleFile, SimpleProperty.class);
-//        if (properties != null) {
-//          Collections.addAll(result, properties);
-//        }
-//      }
-//    }
-//    return result;
-//  }
-//
-//  /**
-//   * Attempts to collect any comment elements above the Simple key/value pair.
-//   */
-//  public static @NotNull String findDocumentationComment(StateFile property) {
-//    List<String> result = new LinkedList<>();
-//    PsiElement element = property.getPrevSibling();
-//    while (element instanceof PsiComment || element instanceof PsiWhiteSpace) {
-//      if (element instanceof PsiComment) {
-//        String commentText = element.getText().replaceFirst("[!# ]+", "");
-//        result.add(commentText);
-//      }
-//      element = element.getPrevSibling();
-//    }
-//    return StringUtil.join(Lists.reverse(result), "\n ");
-//  }
+    public static List<Attribute> findNameAttributes(Project project)
+    {
+        List<Attribute> result = new ArrayList<>();
+        for (PsiFile stateFile : findStateFiles(project))
+        {
+            Collection<Attribute> attributes = PsiTreeUtil.findChildrenOfType(stateFile, Attribute.class);
+            for (Attribute attribute : attributes)
+            {
+                if (attribute.getName() != null)
+                {
+                    result.add(attribute);
+                }
+            }
+        }
+        return result;
+    }
 
+    public static List<PsiFile> findStateFiles(Project project, PsiElement context, String referenceText)
+    {
+        List<PsiFile> result = new ArrayList<>();
+        Set<VirtualFile> seen = new HashSet<>();
+        String normalizedReference = normalizePath(referenceText);
+
+        if (normalizedReference.isEmpty())
+        {
+            return result;
+        }
+
+        PsiFile relativeFile = findRelativeStateFile(project, context, normalizedReference);
+        if (relativeFile != null)
+        {
+            VirtualFile virtualFile = relativeFile.getVirtualFile();
+            if (virtualFile != null)
+            {
+                seen.add(virtualFile);
+            }
+            result.add(relativeFile);
+        }
+
+        for (VirtualFile virtualFile : getStateVirtualFiles(project))
+        {
+            if (!matchesStateFile(virtualFile, normalizedReference) || !seen.add(virtualFile))
+            {
+                continue;
+            }
+
+            PsiFile stateFile = PsiManager
+                    .getInstance(project)
+                    .findFile(virtualFile);
+            if (stateFile != null)
+            {
+                result.add(stateFile);
+            }
+        }
+
+        return result;
+    }
+
+    public static String getContainingTagName(Attribute attribute)
+    {
+        PsiElement parent = attribute.getParent();
+        while (parent != null)
+        {
+            if (parent instanceof StartTag startTag)
+            {
+                return startTag.getTagName();
+            }
+
+            if (parent instanceof SelfClosingTag selfClosingTag)
+            {
+                return selfClosingTag.getTagName();
+            }
+
+            parent = parent.getParent();
+        }
+
+        return null;
+    }
+
+    public static List<PsiFile> findStateFiles(Project project)
+    {
+        List<PsiFile> result = new ArrayList<>();
+        for (VirtualFile virtualFile : getStateVirtualFiles(project))
+        {
+            PsiFile stateFile = PsiManager
+                    .getInstance(project)
+                    .findFile(virtualFile);
+            if (stateFile != null)
+            {
+                result.add(stateFile);
+            }
+        }
+
+        return result;
+    }
+
+    private static PsiFile findRelativeStateFile(Project project, PsiElement context, String normalizedReference)
+    {
+        PsiFile containingFile = context.getContainingFile();
+        if (containingFile == null || containingFile.getVirtualFile() == null)
+        {
+            return null;
+        }
+
+        VirtualFile directory = containingFile
+                .getVirtualFile()
+                .getParent();
+        VirtualFile target = directory != null ? directory.findFileByRelativePath(normalizedReference) : null;
+        if (target == null || !StateFileType.INSTANCE.equals(target.getFileType()))
+        {
+            return null;
+        }
+
+        return PsiManager
+                .getInstance(project)
+                .findFile(target);
+    }
+
+    private static Collection<VirtualFile> getStateVirtualFiles(Project project)
+    {
+        return FileTypeIndex.getFiles(StateFileType.INSTANCE, GlobalSearchScope.projectScope(project));
+    }
+
+    private static boolean matchesStateFile(VirtualFile virtualFile, String normalizedReference)
+    {
+        String normalizedName = normalizePath(virtualFile.getName());
+        String normalizedPath = normalizePath(virtualFile.getPath());
+
+        return normalizedName.equals(normalizedReference) ||
+               normalizedPath.endsWith("/" + normalizedReference);
+    }
+
+    private static String normalizePath(String path)
+    {
+        return path
+                .trim()
+                .replace('\\', '/');
+    }
 }

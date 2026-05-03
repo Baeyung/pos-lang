@@ -1,0 +1,33 @@
+<!-- Root level comment -->
+
+<statefile loader="mainLoader.phtm">
+
+    <include file="example.state" exclude="initState"/>
+
+    <event name="globalEvent" next="initState1" audit="true" pnp="ppi_defined_in_phtm_file"/>
+
+
+
+    <state name="initState1" frame="mainFrame" helpRef="help1" like="base"
+           sound="start.wav" page="home" prompt="Welcome"
+           picture="img.png" keyboard="default" comment="initial state">
+
+        <data name="counter" value="0" calculate="true" comment="counter data" next="onstart"/>
+
+        <event name="onStart"
+               next="endState"
+               callSubstate="subFlow"
+               substateNext="resumeHere"
+               permission="admin"
+               permissionFail="deniedState"
+               ppi="ppiValue.java"
+               audit="true"
+               pnp="yes"
+               comment="event comment"/>
+    </state>
+
+    <state name="endState">
+        <event name="finish"/>
+    </state>
+
+</statefile>

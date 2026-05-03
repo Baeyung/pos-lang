@@ -8,11 +8,11 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static com.github.baeyung.poslang.statelang.psi.StateTypes.*;
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
+import com.github.baeyung.poslang.statelang.type.StateNamedElementImpl;
 import com.github.baeyung.poslang.statelang.psi.*;
 import com.github.baeyung.poslang.statelang.utils.psi.StatePsiImplUtil;
 
-public class AttributeImpl extends ASTWrapperPsiElement implements Attribute {
+public class AttributeImpl extends StateNamedElementImpl implements Attribute {
 
   public AttributeImpl(@NotNull ASTNode node) {
     super(node);
@@ -48,6 +48,21 @@ public class AttributeImpl extends ASTWrapperPsiElement implements Attribute {
   @Override
   public String getValue() {
     return StatePsiImplUtil.getValue(this);
+  }
+
+  @Override
+  public PsiElement getNameIdentifier() {
+    return StatePsiImplUtil.getNameIdentifier(this);
+  }
+
+  @Override
+  public String getName() {
+    return StatePsiImplUtil.getName(this);
+  }
+
+  @Override
+  public PsiElement setName(String newName) {
+    return StatePsiImplUtil.setName(this, newName);
   }
 
 }
