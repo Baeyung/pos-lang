@@ -56,19 +56,21 @@ public class StateLanguageSpec
     private static final String FILE_ATTR = "file";
 
     public static final Set<String> STATE_FILE_REFERENCE_ATTRIBUTES = Set.of(
-            INCLUDE_ATTR,
             FILE_ATTR
     );
 
     public static final Set<String> NAME_REFERENCE_ATTRIBUTES = Set.of(
+            INCLUDE_ATTR,
             EXCLUDE_ATTR,
             NEXT_ATTR,
             CALL_SUBSTATE_ATTR,
             SUBSTATE_NEXT_ATTR,
+            MAIN_STATE_ATTR,
+            ROOT_START_ATTR,
+            PERMISSION_ATTR,
             PERMISSION_FAIL_ATTR,
             LIKE_ATTR,
-            GOTO_SUBSTATE_ATTR,
-            MAIN_STATE_ATTR
+            GOTO_SUBSTATE_ATTR
     );
 
     public static final Map<String, TagDefinition> TAG_ATTRIBUTES = Map.of(

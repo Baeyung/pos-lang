@@ -66,10 +66,11 @@ public class StateUtil
         if (relativeFile != null)
         {
             VirtualFile virtualFile = relativeFile.getVirtualFile();
-            if (virtualFile == null || seen.add(virtualFile))
+            if (virtualFile != null)
             {
-                result.add(relativeFile);
+                seen.add(virtualFile);
             }
+            result.add(relativeFile);
         }
 
         for (VirtualFile virtualFile : getStateVirtualFiles(project))

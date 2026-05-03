@@ -8,6 +8,7 @@ import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.TextRange;
+import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
 import com.intellij.psi.PsiElementResolveResult;
@@ -58,9 +59,17 @@ public final class StateReference extends PsiPolyVariantReferenceBase<PsiElement
         }
         else if (StateLanguageSpec.isNameReferenceAttribute(attributeName))
         {
-            for (Attribute nameAttribute : StateUtil.findNameAttributes(project, value))
+            String[] allValues = value.split(",");
+            for (String value : allValues)
             {
-                results.add(new PsiElementResolveResult(nameAttribute));
+                if (StringUtil.isNotEmpty(value))
+                {
+                    value = value.trim();
+                    for (Attribute nameAttribute : StateUtil.findNameAttributes(project, value))
+                    {
+                        results.add(new PsiElementResolveResult(nameAttribute));
+                    }
+                }
             }
         }
 
