@@ -18,6 +18,9 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiReference;
 import com.intellij.psi.util.PsiTreeUtil;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class StatePsiImplUtil
 {
     public static PsiReference getReference(AttributeValue element)
@@ -36,19 +39,35 @@ public class StatePsiImplUtil
 
         String attributeName = attribute.getKey();
         String tagName = StateUtil.getContainingTagName(attribute);
-        if (!StateLanguageSpec.isStateFileReference(tagName, attributeName) &&
-            !StateLanguageSpec.isNameReferenceAttribute(attributeName))
+        if (StateLanguageSpec.isStateFileReference(tagName, attributeName))
+        {
+            TextRange valueRange = getStringValueRange(element);
+            if (valueRange == null)
+            {
+                return PsiReference.EMPTY_ARRAY;
+            }
+
+            return new PsiReference[]{new StateReference(element, valueRange)};
+        }
+
+        if (!StateLanguageSpec.isNameReferenceAttribute(attributeName))
         {
             return PsiReference.EMPTY_ARRAY;
         }
 
-        TextRange valueRange = getStringValueRange(element);
-        if (valueRange == null)
+        List<TextRange> valueRanges = getCommaSeparatedStringValueRanges(element);
+        if (valueRanges.isEmpty())
         {
             return PsiReference.EMPTY_ARRAY;
         }
 
-        return new PsiReference[]{new StateReference(element, valueRange)};
+        List<PsiReference> references = new ArrayList<>();
+        for (TextRange valueRange : valueRanges)
+        {
+            references.add(new StateReference(element, valueRange));
+        }
+
+        return references.toArray(PsiReference.EMPTY_ARRAY);
     }
 
     public static String getKey(Attribute element)
@@ -257,5 +276,49 @@ public class StatePsiImplUtil
         }
 
         return new TextRange(startOffset, endOffset);
+    }
+
+    private static List<TextRange> getCommaSeparatedStringValueRanges(PsiElement element)
+    {
+        List<TextRange> ranges = new ArrayList<>();
+        TextRange valueRange = getStringValueRange(element);
+        if (valueRange == null)
+        {
+            return ranges;
+        }
+
+        String text = element.getText();
+        int segmentStart = valueRange.getStartOffset();
+        int valueEnd = valueRange.getEndOffset();
+
+        for (int i = segmentStart; i <= valueEnd; i++)
+        {
+            if (i != valueEnd && text.charAt(i) != ',')
+            {
+                continue;
+            }
+
+            int trimmedStart = segmentStart;
+            int trimmedEnd = i;
+
+            while (trimmedStart < trimmedEnd && Character.isWhitespace(text.charAt(trimmedStart)))
+            {
+                trimmedStart++;
+            }
+
+            while (trimmedEnd > trimmedStart && Character.isWhitespace(text.charAt(trimmedEnd - 1)))
+            {
+                trimmedEnd--;
+            }
+
+            if (trimmedEnd > trimmedStart)
+            {
+                ranges.add(new TextRange(trimmedStart, trimmedEnd));
+            }
+
+            segmentStart = i + 1;
+        }
+
+        return ranges;
     }
 }

@@ -48,6 +48,9 @@
         language="StateLang"
         implementationClass="com.github.baeyung.poslang.statelang.usage.StateFindUsagesProvider"
     />
+    <referencesSearch
+        implementation="com.github.baeyung.poslang.statelang.reference.StateReferencesSearch"
+    />
 
     <fileType
         name="Phtm File"
