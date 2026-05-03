@@ -147,5 +147,10 @@ public class StateLanguageSpec
     {
         return NAME_REFERENCE_ATTRIBUTES.contains(attributeName);
     }
+
+    public static String getNameAttr()
+    {
+        return NAME_ATTR;
+    }
     // endregion
 }

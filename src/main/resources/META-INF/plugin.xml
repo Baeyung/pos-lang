@@ -44,6 +44,11 @@
         implementationClass="com.github.baeyung.poslang.statelang.spec.StateAnnotator"
     />
 
+    <lang.foldingBuilder
+        language="StateLang"
+        implementationClass="com.github.baeyung.poslang.statelang.folding.StateFoldingBuilder"
+    />
+
     <lang.findUsagesProvider
         language="StateLang"
         implementationClass="com.github.baeyung.poslang.statelang.usage.StateFindUsagesProvider"
